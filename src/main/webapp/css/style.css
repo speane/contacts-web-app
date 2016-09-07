@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #7b7b81;
+    text-align: center;
+}
+
+.center {
+    margin: auto;
+}
+
+section {
+    background-color: #e6e5e7;
+    width: 1000px;
+}
+
+a.search {
+    background-color: #75813d;
+}

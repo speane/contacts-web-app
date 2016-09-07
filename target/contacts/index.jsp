@@ -5,8 +5,11 @@
         <title>Список контактов</title>
     </head>
     <body>
-        <section>
-            <h1>Hello, World!!!</h1>
+        <section class="center">
+            <a class="search" href="#">Поиск контакта</a>
         </section>
     </body>
+
+    <link rel="stylesheet" href="css/grid-system.css">
+    <link rel="stylesheet" href="css/style.css">
 </html>
