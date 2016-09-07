@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6cb32da-24a8-4ca5-b466-debe2bd70a24" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+    <list default="true" id="a6cb32da-24a8-4ca5-b466-debe2bd70a24" name="Default" comment="Added .idea and Contacts.iml to ignored files">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/Contacts_war.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/Contacts_war_exploded.xml" afterPath="" />
@@ -55,8 +54,8 @@
       <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72041166">
-              <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.6843911">
+              <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -820,7 +819,7 @@
       <updated>1473285191636</updated>
       <workItem from="1473285194428" duration="1455000" />
       <workItem from="1473286881825" duration="3986000" />
-      <workItem from="1473292071022" duration="444000" />
+      <workItem from="1473292071022" duration="566000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1473287480873</created>
@@ -834,11 +833,17 @@
       <option name="project" value="LOCAL" />
       <updated>1473292153404</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added .idea and Contacts.iml to ignored files">
+      <created>1473292540550</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1473292540550</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5885000" />
+    <option name="totallyTimeSpent" value="6007000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -886,7 +891,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added button and some style" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added button and some style" />
+    <MESSAGE value="Added .idea and Contacts.iml to ignored files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added .idea and Contacts.iml to ignored files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -987,8 +993,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72041166">
-          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.6843911">
+          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
           <folding />
         </state>
       </provider>
