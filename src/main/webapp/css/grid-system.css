@@ -16,7 +16,6 @@
 [class*='cell-'] {
 	float: left;
 	min-height: 1px;
-	border: solid 3px red;
 }
 
 .cell-1 {
