@@ -28,6 +28,7 @@ public class URIFilter implements Filter {
             servletRequest.getRequestDispatcher(ApplicationResources.FRONT_CONTROLLER_PATH).forward(servletRequest,
                     servletResponse);
         }
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     public void destroy() {
