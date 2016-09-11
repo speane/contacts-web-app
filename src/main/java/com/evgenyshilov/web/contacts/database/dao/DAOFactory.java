@@ -11,14 +11,14 @@ import java.util.HashMap;
 public class DAOFactory {
 
     private static HashMap<Class<?>, Class<? extends GenericDAO>> DAOClassMap;
-    private DataSource dataSource;
+    private static DataSource dataSource;
 
-    public DAOFactory(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public static void init(DataSource dataSource) {
+        DAOFactory.dataSource = dataSource;
         DAOClassMapInit();
     }
 
-    private void DAOClassMapInit() {
+    private static void DAOClassMapInit() {
         DAOClassMap = new HashMap<>();
         DAOClassMap.put(Contact.class, ContactDAO.class);
     }
