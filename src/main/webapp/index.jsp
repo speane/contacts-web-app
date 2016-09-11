@@ -1,3 +1,4 @@
+<%@ page import="java.util.logging.LogManager" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,20 @@
                 <div class="cell-2">Date of birth</div>
                 <div class="cell-4">Address</div>
                 <div class="cell-2">Company</div>
+            </div>
+            <div class="row">
+                <div class="cell-1"><input type="checkbox" name="row-1"></div>
+                <div class="cell-3">Evgeny Shilov</div>
+                <div class="cell-2">25.06.1997</div>
+                <div class="cell-4">Krichev</div>
+                <div class="cell-2">:iTechArt</div>
+            </div>
+            <div class="row">
+                <div class="cell-1"><input type="checkbox" name="row-1" checked></div>
+                <div class="cell-3">Evgeny Shilov</div>
+                <div class="cell-2">25.06.1997</div>
+                <div class="cell-4">Krichev</div>
+                <div class="cell-2">:iTechArt</div>
             </div>
         </form>
     </body>

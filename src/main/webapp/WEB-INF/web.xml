@@ -3,5 +3,22 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
+    <filter>
+        <filter-name>URIFilter</filter-name>
+        <filter-class>com.evgenyshilov.web.contacts.filters.URIFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>URIFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>com.evgenyshilov.web.contacts.FrontController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/controller</url-pattern>
+    </servlet-mapping>
 </web-app>
