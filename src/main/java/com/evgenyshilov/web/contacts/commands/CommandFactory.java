@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class CommandFactory {
 
-    private static HashMap<String, Class<? extends Command>> commands;
+    private static HashMap<String, Class<? extends Command>> commands = new HashMap<>();
 
     public void init(String filePath) throws IOException, ClassNotFoundException {
         HashMap<String, String> stringPairs = new PropertyFileParser().parse(filePath);
@@ -21,9 +21,9 @@ public class CommandFactory {
         }
     }
 
-    public static Command create(String URI) throws IllegalAccessException, InstantiationException {
+    public Command create(String URI) throws IllegalAccessException, InstantiationException {
         Class<? extends Command> commandClass = commands.get(URI);
-        return commandClass.newInstance();
+        return commandClass != null ? commandClass.newInstance() : null;
     }
 
 }
