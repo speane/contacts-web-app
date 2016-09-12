@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +19,7 @@ public abstract class GenericDAO<PK, T> {
         this.connection = connection;
     }
 
-    public abstract ArrayList<T> getAll();
+    public abstract ArrayList<T> getAll() throws SQLException;
     public abstract T get(PK key);
     public abstract void update(PK key, T value);
     public abstract void delete(PK key);

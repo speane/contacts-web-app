@@ -12,4 +12,5 @@ public class ApplicationResources {
     public static final String ERROR_MESSAGE_ATTRIBUTE_NAME = "errormessage";
     public static final int FILE_NOT_FOUND_STATUS_CODE = 404;
     public static final String CONNECTION_POOL_DATA_SOURCE_URL = "java:comp/env/jdbc/TestDB";
+    public static final String ALL_CONTACTS_ATTRIBUTE_NAME = "allcontacts";
 }

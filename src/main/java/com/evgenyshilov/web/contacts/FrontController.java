@@ -68,8 +68,10 @@ public class FrontController extends HttpServlet {
                 viewPageURL = ApplicationResources.ERROR_PAGE_URL;
                 request.setAttribute(ApplicationResources.ERROR_MESSAGE_ATTRIBUTE_NAME,
                         Messages.FILE_NOT_FOUND_MESSAGE);
+                System.out.println("NOT FOUND");
             }
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute(ApplicationResources.ERROR_MESSAGE_ATTRIBUTE_NAME, Messages.SERVER_ERROR_MESSAGE);
             viewPageURL = ApplicationResources.ERROR_PAGE_URL;
         }

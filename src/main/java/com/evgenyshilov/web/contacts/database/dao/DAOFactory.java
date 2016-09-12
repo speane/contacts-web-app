@@ -3,6 +3,9 @@ package com.evgenyshilov.web.contacts.database.dao;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 
 import javax.sql.DataSource;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -24,7 +27,8 @@ public class DAOFactory {
     }
 
     public static GenericDAO getDAO(Class elementClass) throws IllegalAccessException,
-            InstantiationException {
-        return DAOClassMap.get(elementClass).newInstance();
+            InstantiationException, SQLException, NoSuchMethodException, InvocationTargetException {
+        return DAOClassMap.get(elementClass).getConstructor(Connection.class).newInstance(
+                dataSource.getConnection());
     }
 }

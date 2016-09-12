@@ -1,24 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<sql:query var="rs" dataSource="jdbc/TestDB">
-    select contactId, name, company from contact
-</sql:query>
-
+<!DOCTYPE html>
 <html>
 <head>
-    <title>DB Test</title>
+    <title>Список контакто</title>
 </head>
 <body>
 
 <h2>Results</h2>
 
-<c:forEach var="row" items="${rss.rows}">
-    <tr>
-        <td><c:out value="${row.contactId}"/></td>
-        <td><c:out value="${row.name}"/></td>
-        <td><c:out value="${row.company}"/></td>
-    </tr>
+<p>${contact.name}</p>
+<c:forEach var="contact" items="${allcontacts}">
+    <c:out value="${contact.id} ${contact.name} ${contact.company}" />
 </c:forEach>
 
 </body>
