@@ -8,10 +8,18 @@
 
 <h2>Results</h2>
 
-<p>${contact.name}</p>
-<c:forEach var="contact" items="${allcontacts}">
-    <c:out value="${contact.id} ${contact.name} ${contact.company}" />
+<c:if test="${pagination.activePage > pagination.startPage}">
+    <a href="#"><</a>
+</c:if>
+<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.activePage - 1}">
+    <a href="#">${i}</a>
 </c:forEach>
-
+<c:out value="A${pagination.activePage}A" />
+<c:forEach var="i" begin="${pagination.activePage + 1}" end="${pagination.endPage}">
+    <a href="#">${i}</a>
+</c:forEach>
+<c:if test="${pagination.activePage < pagination.endPage}">
+    <a href="#">></a>
+</c:if>
 </body>
 </html>

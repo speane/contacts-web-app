@@ -1,5 +1,5 @@
-<%@ page import="java.util.logging.LogManager" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,6 +22,30 @@
                 <div class="cell-4">Address</div>
                 <div class="cell-2">Company</div>
             </div>
+            <c:forEach var="contact" items="${contacts}" varStatus="loop">
+                <div class="row">
+                    <div class="cell-1">
+                        <input type="checkbox" name="check-${loop.index}">
+                    </div>
+                    <div class="cell-3">${contact.firstName} ${contact.lastName}</div>
+                    <div class="cell-2">${contact.birthday}</div>
+                    <div class="cell-4">Address</div>
+                    <div class="cell-2">${contact.job}</div>
+                </div>
+            </c:forEach>
+            <c:if test="${pagination.activePage > pagination.startPage}">
+                <a href="#"><</a>
+            </c:if>
+            <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.activePage - 1}">
+                <a href="#">${i}</a>
+            </c:forEach>
+            <c:out value="A${pagination.activePage}A" />
+            <c:forEach var="i" begin="${pagination.activePage + 1}" end="${pagination.endPage}">
+                <a href="#">${i}</a>
+            </c:forEach>
+            <c:if test="${pagination.activePage < pagination.endPage}">
+                <a href="#">></a>
+            </c:if>
         </form>
     </body>
 

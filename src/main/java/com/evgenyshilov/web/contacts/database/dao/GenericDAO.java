@@ -20,8 +20,12 @@ public abstract class GenericDAO<PK, T> {
     }
 
     public abstract ArrayList<T> getAll() throws SQLException;
+
     public abstract T get(PK key);
+
     public abstract void update(PK key, T value);
+
     public abstract void delete(PK key);
+
     public abstract void insert(T value);
 }

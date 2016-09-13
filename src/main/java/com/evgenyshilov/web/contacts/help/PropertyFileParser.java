@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.utils;
+package com.evgenyshilov.web.contacts.help;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

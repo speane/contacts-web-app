@@ -13,9 +13,11 @@ import java.util.ArrayList;
  */
 public class ContactDAO extends GenericDAO<Integer, Contact> {
 
-    private static final String ID_FIELD_NAME = "contactID";
-    private static final String NAME_FIELD_NAME = "name";
-    private static final String COMPANY_FIELD_NAME = "company";
+    private static final String ID_FIELD_NAME = "id";
+    private static final String FIRST_NAME_FIELD_NAME = "first_name";
+    private static final String LAST_NAME_FIELD_NAME = "last_name";
+    private static final String JOB_FIELD_NAME = "job";
+    private static final String BIRTHDAY_FIELD_NAME = "birthday";
 
     public ContactDAO(Connection connection) {
         super(connection);
@@ -25,13 +27,18 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     public ArrayList<Contact> getAll() throws SQLException {
         ArrayList<Contact> contacts = new ArrayList<>();
         Statement statement = connection.createStatement();
-        String GET_ALL_CONTACTS_QUERY = "SELECT contactID, name, company FROM contact;";
+        String GET_ALL_CONTACTS_QUERY = "SELECT id, first_name, " +
+                "last_name, job, birthday  FROM contact;";
         ResultSet contactSet = statement.executeQuery(GET_ALL_CONTACTS_QUERY);
         while (contactSet.next()) {
             Contact newContact = new Contact();
+
             newContact.setId(contactSet.getInt(ID_FIELD_NAME));
-            newContact.setName(contactSet.getString(NAME_FIELD_NAME));
-            newContact.setCompany(contactSet.getString(COMPANY_FIELD_NAME));
+            newContact.setFirstName(contactSet.getString(FIRST_NAME_FIELD_NAME));
+            newContact.setLastName(contactSet.getString(LAST_NAME_FIELD_NAME));
+            newContact.setJob(contactSet.getString(JOB_FIELD_NAME));
+            newContact.setBirthday(contactSet.getDate(BIRTHDAY_FIELD_NAME));
+
             contacts.add(newContact);
         }
         contactSet.close();

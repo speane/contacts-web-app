@@ -1,6 +1,6 @@
 package com.evgenyshilov.web.contacts.commands;
 
-import com.evgenyshilov.web.contacts.utils.PropertyFileParser;
+import com.evgenyshilov.web.contacts.help.PropertyFileParser;
 
 import java.io.IOException;
 import java.util.HashMap;
