@@ -1,5 +1,6 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
+import com.evgenyshilov.web.contacts.database.model.Address;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 
 import javax.sql.DataSource;
@@ -24,6 +25,7 @@ public class DAOFactory {
     private static void DAOClassMapInit() {
         DAOClassMap = new HashMap<>();
         DAOClassMap.put(Contact.class, ContactDAO.class);
+        DAOClassMap.put(Address.class, AddressDAO.class);
     }
 
     public static GenericDAO getDAO(Class elementClass) throws IllegalAccessException,

@@ -68,7 +68,6 @@ public class FrontController extends HttpServlet {
                 viewPageURL = ApplicationResources.ERROR_PAGE_URL;
                 request.setAttribute(ApplicationResources.ERROR_MESSAGE_ATTRIBUTE_NAME,
                         Messages.FILE_NOT_FOUND_MESSAGE);
-                System.out.println("NOT FOUND");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,35 +75,6 @@ public class FrontController extends HttpServlet {
             viewPageURL = ApplicationResources.ERROR_PAGE_URL;
         }
         request.getRequestDispatcher(viewPageURL).forward(request, response);
-        /*
-        try {
-
-            Connection conn = ds.getConnection();
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT contactID, name, company FROM contact");
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt("contactID") + resultSet.getString("company") +
-                resultSet.getString("name"));
-            }
-
-            resultSet.close();
-            statement.close();
-            conn.close();
-        } catch (NamingException | SQLException e) {
-            e.printStackTrace();
-        }
-        /*InitialContext initContext= null;
-        try {
-            initContext = new InitialContext();
-            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/TestDB");
-            ContactDAO contactDAO;
-            if ((contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class)) != null) {
-                contactDAO.delete(11);
-            }
-
-        } catch (NamingException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }*/
     }
 
 }

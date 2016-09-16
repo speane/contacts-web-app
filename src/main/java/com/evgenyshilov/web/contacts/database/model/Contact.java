@@ -19,7 +19,7 @@ public class Contact implements Serializable {
     private String website;
     private String email;
     private String job;
-    private int addressID;
+    private Address address;
 
     public int getId() {
         return id;
@@ -109,11 +109,11 @@ public class Contact implements Serializable {
         this.job = job;
     }
 
-    public int getAddressID() {
-        return addressID;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressID(int addressID) {
-        this.addressID = addressID;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

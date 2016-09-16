@@ -6,6 +6,7 @@ package com.evgenyshilov.web.contacts.help.transfer;
 public class PaginationFactory {
 
     public static PaginationDTO createPagination(int totalItems, int itemsPerPage, int activePage) {
+        final int SIDE_PAGES_NUMBER = 5;
         PaginationDTO paginationDTO = new PaginationDTO();
 
         int totalPages = (totalItems != 0)
@@ -13,8 +14,8 @@ public class PaginationFactory {
                 : 1;
         activePage = ((activePage > 0) && (activePage <= totalPages)) ? activePage : 1;
 
-        int startPage = ((activePage - 5) >= 1) ? (activePage - 5) : 1;
-        int endPage = ((activePage + 5) <= totalPages) ? (activePage + 5) : totalPages;
+        int startPage = ((activePage - SIDE_PAGES_NUMBER) >= 1) ? (activePage - SIDE_PAGES_NUMBER) : 1;
+        int endPage = ((activePage + SIDE_PAGES_NUMBER) <= totalPages) ? (activePage + SIDE_PAGES_NUMBER) : totalPages;
 
         paginationDTO.setActivePage(activePage);
         paginationDTO.setStartPage(startPage);

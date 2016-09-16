@@ -10,7 +10,9 @@ public class Address implements Serializable {
     private int id;
     private String country;
     private String city;
-    private String city_address;
+    private String street;
+    private String house;
+    private String flat;
     private String postcode;
 
     public int getId() {
@@ -37,12 +39,28 @@ public class Address implements Serializable {
         this.city = city;
     }
 
-    public String getCity_address() {
-        return city_address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setCity_address(String city_address) {
-        this.city_address = city_address;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public String getFlat() {
+        return flat;
+    }
+
+    public void setFlat(String flat) {
+        this.flat = flat;
     }
 
     public String getPostcode() {

@@ -6,9 +6,35 @@ html * {
     /* border: solid 3px black; */
 }
 
-.center {
+.centered {
     margin: auto;
 }
+
+.center {
+    text-align: center;
+}
+
+ul.pagination {
+    display: inline-block;
+    margin: auto;
+}
+
+ul.pagination li {
+    display: inline;
+}
+
+ul.pagination li a {
+    text-decoration: none;
+    color: black;
+    float: left;
+    padding: 7px;
+}
+
+ul.pagination li a:hover {
+    background-color: brown;
+}
+
+
 
 .clearfix:after {
     content: ".";
@@ -18,8 +44,8 @@ html * {
     clear: both;
 }
 
-.all-contacts {
-    width: 1000px;
+form.contact {
+    width: 1200px;
     border-radius: 10px;
     padding: 30px;
 }
@@ -51,4 +77,8 @@ html * {
     height: 50px;
     border-radius: 30px;
     cursor: pointer;
+}
+
+ul.pagination li a.active {
+    color: red;
 }

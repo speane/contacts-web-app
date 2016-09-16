@@ -22,12 +22,18 @@ public class MainForm implements Command {
         String ALL_CONTACTS_ATTRIBUTE_NAME = "contacts";
         String PAGINATION_ATTRIBUTE_NAME = "pagination";
         String PAGE_NUMBER_PARAMETER_NAME = "page";
-        int CONTACTS_PER_PAGE = 10;
+        int CONTACTS_PER_PAGE = 3;
 
-        ArrayList<Contact> contacts = ((ContactDAO) DAOFactory.getDAO(Contact.class)).getAll();
+
+        /* Get contact from database */
+
+        ContactDAO contactDAO = (ContactDAO)DAOFactory.getDAO(Contact.class);
+        ArrayList<Contact> contacts = contactDAO.getAll();
+        contactDAO.close();
 
         int totalContacts = contacts.size();
-        int activePage = Integer.parseInt(request.getParameter(PAGE_NUMBER_PARAMETER_NAME));
+        String pageString = request.getParameter(PAGE_NUMBER_PARAMETER_NAME);
+        int activePage = (pageString != null) ? Integer.parseInt(pageString) : 1;
 
         PaginationDTO paginationDTO = PaginationFactory.createPagination(totalContacts,
                 CONTACTS_PER_PAGE, activePage);
