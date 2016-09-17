@@ -59,7 +59,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     public Contact get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         Statement statement = connection.createStatement();
         String query = "SELECT id, first_name, last_name, patronymic, birthday, sex, nationality, " +
-                "marital_status, email, job, address_id";
+                "marital_status, email, job, address_id FROM contact WHERE id = " + key + ";";
         ResultSet contactResult = statement.executeQuery(query);
         Contact contact = new Contact();
         if (contactResult.next()) {
@@ -79,10 +79,11 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             addressDAO.close();
 
             contact.setAddress(address);
+
+            return contact;
+        } else {
+            return null;
         }
-
-        return null;
-
     }
 
     @Override

@@ -4,6 +4,8 @@
 <html>
     <head>
         <title>Список контактов</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
         <form class="centered contact" method="post">

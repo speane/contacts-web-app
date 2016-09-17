@@ -1,9 +1,15 @@
 * {
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
+/*html,*/
+/*body {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
+
 html * {
-    /* border: solid 3px black; */
+     /*border: solid 3px black;*/
 }
 
 .centered {
@@ -48,6 +54,25 @@ form.contact {
     width: 1200px;
     border-radius: 10px;
     padding: 30px;
+}
+
+form.contact label {
+    display: block;
+}
+
+form.contact label:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+form.contact label input {
+    /*position: relative;*/
+    /*left: 20%;*/
+    margin-right: 70%;
+    float: right;
 }
 
 .left {

@@ -20,7 +20,7 @@ public class EditForm implements Command {
         String contactIdAttribute = request.getParameter("id");
         Contact contact = getContactFromDAO(Integer.parseInt(contactIdAttribute));
         request.setAttribute("contact", contact);
-
+        System.out.println(contact.getFirstName());
         return "/contact.jsp";
     }
 
