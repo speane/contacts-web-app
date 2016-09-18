@@ -20,7 +20,7 @@
     </title>
 </head>
 <body>
-    <form class="centered contact">
+    <form method="post" action="/update-contact" id="contact-form" class="centered contact">
         <header>
             <h2><c:out value="${title}" /></h2>
         </header>
@@ -92,19 +92,39 @@
                 <input type="text" value="${contact.flat}">
             </label>
             <h3>Контактные телефоны</h3>
-            <div id="phone-edit-modal" class="modal">
-                <div class="modal-content">
-                    <form>
-                        <label>
-                            <input type="text">
-                            <input type="button">
-                        </label>
-                    </form>
-                </div>
-            </div>
             <button type="button" id="add-phone-button">Добавить</button>
             <button type="button" id="remove-phone-button">Удалить</button>
             <button type="button" id="edit-phone-button">Редактировать</button>
+            <div id="phone-edit-modal" class="modal">
+                <div class="modal-content">
+                    <label>
+                        Код страны
+                        <input type="text" id="country-code">
+                    </label>
+                    <label>
+                        Код оператора
+                        <input type="text" id="operator-code">
+                    </label>
+                    <label>
+                        Номер
+                        <input type="text" id="phone-number">
+                    </label>
+                    <label>
+                        Тип телефон
+                        <input type="text" id="phone-type">
+                    </label>
+                    <label>
+                        Комментарий
+                        <input type="text" id="phone-commentary">
+                    </label>
+                    <button type="button" id="save-phone-button">
+                        Сохранить
+                    </button>
+                    <button type="button" id="cancel-phone-edit-button">
+                        Отменить
+                    </button>
+                </div>
+            </div>
             <div class="row">
                 <div class="cell-1">
                     Выбрать
@@ -119,29 +139,31 @@
                     Комментарий
                 </div>
             </div>
-            <c:forEach var="phone" items="${contact.phones}">
-                <div class="row">
-                    <div class="cell-1">
-                        <label>
-                            <input type="checkbox" name="check-phone-${phone.id}">
-                        </label>
+            <div id="phone-list">
+                <c:forEach var="phone" items="${contact.phones}">
+                    <div class="row">
+                        <div class="cell-1">
+                            <label>
+                                <input type="checkbox" name="check-phone-${phone.id}">
+                            </label>
+                        </div>
+                        <div class="cell-3">
+                            <c:out value="+${phone.countryCode}(${phone.operatorCode})${phone.number}" />
+                        </div>
+                        <div class="cell-2">
+                            <c:if test="${phone.type == 'm'}">
+                                Мобильный
+                            </c:if>
+                            <c:if test="${phone.type == 'h'}">
+                                Домашний
+                            </c:if>
+                        </div>
+                        <div class="cell-6">
+                            <c:out value="${phone.commentary}" />
+                        </div>
                     </div>
-                    <div class="cell-3">
-                        <c:out value="+${phone.countryCode}(${phone.operatorCode})${phone.number}" />
-                    </div>
-                    <div class="cell-2">
-                        <c:if test="${phone.type == 'm'}">
-                            Мобильный
-                        </c:if>
-                        <c:if test="${phone.type == 'h'}">
-                            Домашний
-                        </c:if>
-                    </div>
-                    <div class="cell-6">
-                        <c:out value="${phone.commentary}" />
-                    </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
+            </div>
             <h3>Присоединения</h3>
             <button class="right action-button">ADD</button>
             <button class="right action-button">RMV</button>
@@ -179,6 +201,7 @@
                 </div>
             </c:forEach>
         </section>
+        <button id="submit-form-button">JSDF</button>
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
