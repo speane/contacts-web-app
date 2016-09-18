@@ -1,11 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="contacts" scope="request" type="java.util.List"/>
+<jsp:useBean id="pagination" scope="request" type="com.evgenyshilov.web.contacts.help.transfer.PaginationDTO"/>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Список контактов</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="css/grid-system.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <form class="centered contact" method="post">
@@ -27,16 +31,32 @@
             <c:forEach var="contact" items="${contacts}" varStatus="loop">
                 <div class="row">
                     <div class="cell-1">
-                        <input type="checkbox" name="check-${loop.index}">
+                        <label>
+                            <input type="checkbox" name="check-${loop.index}">
+                        </label>
                     </div>
-                    <div class="cell-3"><a href="/edit-contact?id=${contact.id}">${contact.firstName} ${contact.lastName}</a></div>
-                    <div class="cell-2">${contact.birthday}</div>
+                    <div class="cell-3">
+                        <a href="<c:url value="/edit-contact?id=${contact.id}"/>">
+                            <c:out value="${contact.firstName} ${contact.lastName}" />
+                        </a>
+                    </div>
+                    <div class="cell-2">
+                        <c:out value="${contact.birthday}" />
+                    </div>
                     <c:set var="address" value="${contact.address}" />
                     <div class="cell-4">
-                        <c:if test="${address.city != null}">г.</c:if>${address.city}
-                        <c:if test="${address.street != null}">ул.</c:if>${address.street}
-                        <c:if test="${address.house != null}">д.</c:if>${address.house}
-                        <c:if test="${address.flat != null}">кв.</c:if>${address.flat}
+                        <c:if test="${contact.address.city != null}">
+                            г.
+                        </c:if><c:out value="${contact.address.city}" />
+                        <c:if test="${contact.address.street != null}">
+                            ул.
+                        </c:if><c:out value="${contact.address.street}" />
+                        <c:if test="${contact.address.house != null}">
+                            д.
+                        </c:if><c:out value="${contact.address.house}" />
+                        <c:if test="${contact.address.flat != null}">
+                            кв.
+                        </c:if><c:out value="${contact.address.flat}" />
                     </div>
                     <div class="cell-2">${contact.job}</div>
                 </div>
@@ -44,23 +64,40 @@
             <div class="center">
                 <ul class="pagination">
                     <c:if test="${pagination.activePage > pagination.startPage}">
-                        <li><a href="/contact-list?page=${pagination.activePage - 1}">Назад</a></li>
+                        <li>
+                            <a href="<c:url value="/contact-list?page=${pagination.activePage - 1}"/>">
+                                Назад
+                            </a>
+                        </li>
                     </c:if>
                     <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.activePage - 1}">
-                        <li><a href="/contact-list?page=${i}">${i}</a></li>
+                        <li>
+                            <a href="<c:url value="/contact-list?page=${i}"/>">
+                                <c:out value="${i}" />
+                            </a>
+                        </li>
                     </c:forEach>
-                    <li><a class="active" href="/contact-list?page=${pagination.activePage}">${pagination.activePage}</a></li>
+                    <li>
+                        <a class="active" href="<c:url value="/contact-list?page=${pagination.activePage}"/>">
+                            <c:out value="${pagination.activePage}" />
+                        </a>
+                    </li>
                     <c:forEach var="i" begin="${pagination.activePage + 1}" end="${pagination.endPage}">
-                        <li><a href="/contact-list?page=${i}">${i}</a></li>
+                        <li>
+                            <a href="<c:url value="/contact-list?page=${i}"/>">
+                                <c:out value="${i}" />
+                            </a>
+                        </li>
                     </c:forEach>
                     <c:if test="${pagination.activePage < pagination.endPage}">
-                        <li><a href="/contact-list?page=${pagination.activePage + 1}">Вперед</a></li>
+                        <li>
+                            <a href="<c:url value="/contact-list?page=${pagination.activePage + 1}"/>">
+                                Вперед
+                            </a>
+                        </li>
                     </c:if>
                 </ul>
             </div>
         </form>
     </body>
-
-    <link rel="stylesheet" href="css/grid-system.css">
-    <link rel="stylesheet" href="css/style.css">
 </html>

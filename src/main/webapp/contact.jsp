@@ -1,3 +1,4 @@
+<jsp:useBean id="contact" scope="request" type="com.evgenyshilov.web.contacts.database.model.Contact"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -38,14 +39,21 @@
             <label>Web Site <input type="text" value="${contact.website}"></label>
             <label>Email <input type="text" value="${contact.email}"></label>
             <label>Текущее место работы <input type="text" value="${contact.job}"></label>
-            <fieldset>
-                <legend>Адрес</legend>
-                <label>Страна <input type="text" value="${contact.address.country}"></label>
-                <label>Город <input type="text" value="${contact.address.city}"></label>
-                <label>Улица <input type="text" value="${contact.address.street}"></label>
-                <label>Дом <input type="text" value="${contact.address.house}"></label>
-                <label>Квартира <input type="text" value="${contact.address.flat}"></label>
-            </fieldset>
+            <h5>Адрес</h5>
+            <label>Страна <input type="text" value="${contact.address.country}"></label>
+            <label>Город <input type="text" value="${contact.address.city}"></label>
+            <label>Улица <input type="text" value="${contact.address.street}"></label>
+            <label>Дом <input type="text" value="${contact.address.house}"></label>
+            <label>Квартира <input type="text" value="${contact.address.flat}"></label>
+            <h3>Контактные телефоны</h3>
+            <div class="row">
+                <div class="cell-1">
+                    <label>
+                        <input type="checkbox"
+                    </label>
+                </div>
+            </div>
+
         </section>
         <div>
             <h3>Контактные телефоны</h3>

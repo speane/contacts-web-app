@@ -4,7 +4,6 @@ import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.database.model.Contact;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
