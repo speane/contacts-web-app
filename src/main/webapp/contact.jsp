@@ -30,34 +30,96 @@
                 Имя*
                 <input type="text" value="${contact.firstName}">
             </label>
-            <label class="clearfix">Фамилия* <input type="text" value="${contact.lastName}"></label>
-            <label>Отчество <input type="text" value="${contact.patronymic}"></label>
-            <label>Дата рождения <input type="text" value="${contact.birthday}"></label>
-            <label>Пол <input type="text" value="${contact.sex}"></label>
-            <label>Гражданство <input type="text" value="${contact.nationality}"></label>
-            <label>Семейное положение <input type="text" value="${contact.maritalStatus}"></label>
-            <label>Web Site <input type="text" value="${contact.website}"></label>
-            <label>Email <input type="text" value="${contact.email}"></label>
-            <label>Текущее место работы <input type="text" value="${contact.job}"></label>
+            <label>
+                Фамилия*
+                <input type="text" value="${contact.lastName}">
+            </label>
+            <label>
+                Отчество
+                <input type="text" value="${contact.patronymic}">
+            </label>
+            <label>
+                Дата рождения
+                <input type="text" value="${contact.birthday}">
+            </label>
+            <label>
+                Пол
+                <input type="text" value="${contact.sex}">
+            </label>
+            <label>
+                Гражданство
+                <input type="text" value="${contact.nationality}">
+            </label>
+            <label>
+                Семейное положение
+                <input type="text" value="${contact.maritalStatus}">
+            </label>
+            <label>
+                Web Site
+                <input type="text" value="${contact.website}">
+            </label>
+            <label>
+                Email
+                <input type="text" value="${contact.email}">
+            </label>
+            <label>
+                Текущее место работы
+                <input type="text" value="${contact.job}">
+            </label>
             <h5>Адрес</h5>
-            <label>Страна <input type="text" value="${contact.address.country}"></label>
-            <label>Город <input type="text" value="${contact.address.city}"></label>
-            <label>Улица <input type="text" value="${contact.address.street}"></label>
-            <label>Дом <input type="text" value="${contact.address.house}"></label>
-            <label>Квартира <input type="text" value="${contact.address.flat}"></label>
+            <label>
+                Страна
+                <input type="text" value="${contact.address.country}">
+            </label>
+            <label>
+                Город
+                <input type="text" value="${contact.address.city}">
+            </label>
+            <label>
+                Улица
+                <input type="text" value="${contact.address.street}">
+            </label>
+            <label>
+                Дом
+                <input type="text" value="${contact.address.house}">
+            </label>
+            <label>
+                Квартира
+                <input type="text" value="${contact.address.flat}">
+            </label>
             <h3>Контактные телефоны</h3>
             <div class="row">
                 <div class="cell-1">
-                    <label>
-                        <input type="checkbox"
-                    </label>
+                    Выбрать
+                </div>
+                <div class="cell-3">
+                    Номер телефона
+                </div>
+                <div class="cell-2">
+                    Описание номера
+                </div>
+                <div class="cell-6">
+                    Комментарий
                 </div>
             </div>
-
+            <!-- REDO -->
+            <div class="row">
+                <div class="cell-1">
+                    <label>
+                        <input type="checkbox" name="check-contact-phone-1">
+                    </label>
+                </div>
+                <div class="cell-3">
+                    +375(33)693-11-55
+                </div>
+                <div class="cell-2">
+                    Мобильный
+                </div>
+                <div class="cell-6">
+                    Звонить после 15:00
+                </div>
+            </div>
         </section>
-        <div>
-            <h3>Контактные телефоны</h3>
-        </div>
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
