@@ -40,12 +40,6 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setJob(contactSet.getString(JOB_FIELD_NAME));
             contact.setBirthday(contactSet.getDate(BIRTHDAY_FIELD_NAME));
 
-            AddressDAO addressDAO = (AddressDAO) DAOFactory.getDAO(Address.class);
-            Address contact_address = addressDAO.get(contactSet.getInt("address_id"));
-            addressDAO.close();
-
-            contact.setAddress((contact_address != null) ? contact_address : new Address());
-
             contacts.add(contact);
         }
         contactSet.close();
@@ -55,10 +49,16 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public Contact get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Contact get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException,
+            InstantiationException, IllegalAccessException {
         Statement statement = connection.createStatement();
-        String query = "SELECT id, first_name, last_name, patronymic, birthday, sex, nationality, " +
-                "marital_status, email, job, state,  FROM contact WHERE id = " + key + ";";
+        String query = "SELECT id, first_name, last_name, patronymic, birthday, sex, nationality.name, " +
+                "marital_status.name, email, website job, state.name, city.name, street, house, flat, zip_code " +
+                "FROM contact WHERE id = " + key + " " +
+                "JOIN nationality ON nationality.id = contact.nationality_id " +
+                "JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                "JOIN state ON state.id = contact.state_id " +
+                "JOIN city ON city.id = contact.city_id;";
         ResultSet contactResult = statement.executeQuery(query);
         Contact contact = new Contact();
         if (contactResult.next()) {
@@ -69,16 +69,16 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setBirthday(contactResult.getDate("birthday"));
             contact.setSex(contactResult.getString("sex"));
             contact.setEmail(contactResult.getString("email"));
+            contact.setWebsite(contactResult.getString("website"));
             contact.setNationality(contactResult.getString("nationality"));
-            contact.setMaritalStatus(contactResult.getInt("marital_status"));
+            contact.setMaritalStatus(contactResult.getString("marital_status"));
             contact.setJob(contactResult.getString("job"));
-
-            AddressDAO addressDAO = (AddressDAO) DAOFactory.getDAO(Address.class);
-            Address address = addressDAO.get(contactResult.getInt("address_id"));
-            addressDAO.close();
-
-            contact.setAddress(address);
-
+            contact.setState(contactResult.getString("state"));
+            contact.setCity(contactResult.getString("city"));
+            contact.setStreet(contactResult.getString("street"));
+            contact.setHouse(contactResult.getString("house"));
+            contact.setFlat(contactResult.getString("flat"));
+            contact.setZipCode(contactResult.getString("zip_code"));
             return contact;
         } else {
             return null;
