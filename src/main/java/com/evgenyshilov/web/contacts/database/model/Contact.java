@@ -172,4 +172,12 @@ public class Contact implements Serializable {
     public void setPhones(ArrayList<Phone> phones) {
         this.phones = phones;
     }
+
+    public ArrayList<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(ArrayList<Attachment> attachments) {
+        this.attachments = attachments;
+    }
 }

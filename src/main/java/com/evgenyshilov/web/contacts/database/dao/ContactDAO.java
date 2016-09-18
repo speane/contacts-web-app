@@ -1,5 +1,6 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
+import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 
@@ -106,6 +107,10 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
             contact.setPhones(phoneDAO.getAllByContactId(contact.getId()));
             phoneDAO.close();
+
+            AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            contact.setAttachments(attachmentDAO.getAllByContactId(contact.getId()));
+            attachmentDAO.close();
 
             return contact;
         } else {
