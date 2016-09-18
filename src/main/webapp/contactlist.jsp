@@ -46,20 +46,19 @@
                         <div class="cell-2">
                             <c:out value="${contact.birthday}" />
                         </div>
-                        <c:set var="address" value="${contact.address}" />
                         <div class="cell-4">
-                            <c:if test="${contact.address.city != null}">
+                            <c:if test="${contact.city != null}">
                                 г.
-                            </c:if><c:out value="${contact.address.city}" />
-                            <c:if test="${contact.address.street != null}">
+                            </c:if><c:out value="${contact.city}" />
+                            <c:if test="${contact.street != null}">
                                 ул.
-                            </c:if><c:out value="${contact.address.street}" />
-                            <c:if test="${contact.address.house != null}">
+                            </c:if><c:out value="${contact.street}" />
+                            <c:if test="${contact.house != null}">
                                 д.
-                            </c:if><c:out value="${contact.address.house}" />
-                            <c:if test="${contact.address.flat != null}">
+                            </c:if><c:out value="${contact.house}" />
+                            <c:if test="${contact.flat != null}">
                                 кв.
-                            </c:if><c:out value="${contact.address.flat}" />
+                            </c:if><c:out value="${contact.flat}" />
                         </div>
                         <div class="cell-2">${contact.job}</div>
                     </div>
