@@ -125,6 +125,22 @@
                     </div>
                 </div>
             </c:forEach>
+            <h3>Присоединения</h3>
+            <div class="row">
+                <div class="cell-1">
+                    Выбрать
+                </div>
+                <div class="cell-3">
+                    Имя файла
+                </div>
+                <div class="cell-2">
+                    Дата загрузки
+                </div>
+                <div class="cell-6">
+                    Комментарий
+                </div>
+            </div>
+            <!-- TODO -->
         </section>
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">

@@ -27,6 +27,7 @@ public class Contact implements Serializable {
     private String flat;
     private String zipCode;
     private ArrayList<Phone> phones;
+    private ArrayList<Attachment> attachments;
 
     public String getState() {
         return state;
