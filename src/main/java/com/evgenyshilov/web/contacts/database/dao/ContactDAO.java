@@ -1,6 +1,5 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
-import com.evgenyshilov.web.contacts.database.model.Address;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 
 import java.lang.reflect.InvocationTargetException;
@@ -59,7 +58,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     public Contact get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         Statement statement = connection.createStatement();
         String query = "SELECT id, first_name, last_name, patronymic, birthday, sex, nationality, " +
-                "marital_status, email, job, address_id FROM contact WHERE id = " + key + ";";
+                "marital_status, email, job, state,  FROM contact WHERE id = " + key + ";";
         ResultSet contactResult = statement.executeQuery(query);
         Contact contact = new Contact();
         if (contactResult.next()) {

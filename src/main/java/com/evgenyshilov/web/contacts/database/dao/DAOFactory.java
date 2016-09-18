@@ -1,6 +1,5 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
-import com.evgenyshilov.web.contacts.database.model.Address;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 
 import javax.sql.DataSource;

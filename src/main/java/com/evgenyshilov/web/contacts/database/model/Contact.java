@@ -15,11 +15,64 @@ public class Contact implements Serializable {
     private Date birthday;
     private String sex;
     private String nationality;
-    private int maritalStatus;
+    private String maritalStatus;
     private String website;
     private String email;
     private String job;
-    private Address address;
+    private String state;
+    private String city;
+    private String street;
+    private String house;
+    private String flat;
+    private String zipCode;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public String getFlat() {
+        return flat;
+    }
+
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
 
     public int getId() {
         return id;
@@ -77,11 +130,11 @@ public class Contact implements Serializable {
         this.nationality = nationality;
     }
 
-    public int getMaritalStatus() {
+    public String getMaritalStatus() {
         return maritalStatus;
     }
 
-    public void setMaritalStatus(int maritalStatus) {
+    public void setMaritalStatus(String maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 
@@ -107,13 +160,5 @@ public class Contact implements Serializable {
 
     public void setJob(String job) {
         this.job = job;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 }
