@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  * Created by Evgeny Shilov on 12.09.2016.
@@ -25,6 +26,7 @@ public class Contact implements Serializable {
     private String house;
     private String flat;
     private String zipCode;
+    private ArrayList<Phone> phones;
 
     public String getState() {
         return state;
@@ -160,5 +162,13 @@ public class Contact implements Serializable {
 
     public void setJob(String job) {
         this.job = job;
+    }
+
+    public ArrayList<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(ArrayList<Phone> phones) {
+        this.phones = phones;
     }
 }

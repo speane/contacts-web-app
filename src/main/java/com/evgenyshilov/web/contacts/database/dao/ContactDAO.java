@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.database.model.Phone;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -55,10 +56,10 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         String query = "SELECT id, first_name, last_name, patronymic, birthday, sex, nationality.name, " +
                 "marital_status.name, email, website job, state.name, city.name, street, house, flat, zip_code " +
                 "FROM contact WHERE id = " + key + " " +
-                "JOIN nationality ON nationality.id = contact.nationality_id " +
-                "JOIN marital_status ON marital_status.id = contact.marital_status_id " +
-                "JOIN state ON state.id = contact.state_id " +
-                "JOIN city ON city.id = contact.city_id;";
+                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
+                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                "LEFT JOIN state ON state.id = contact.state_id " +
+                "LEFT JOIN city ON city.id = contact.city_id;";
         ResultSet contactResult = statement.executeQuery(query);
         Contact contact = new Contact();
         if (contactResult.next()) {
@@ -79,6 +80,11 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setHouse(contactResult.getString("house"));
             contact.setFlat(contactResult.getString("flat"));
             contact.setZipCode(contactResult.getString("zip_code"));
+
+            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            contact.setPhones(phoneDAO.getAllByContactId(contact.getId()));
+            phoneDAO.close();
+
             return contact;
         } else {
             return null;

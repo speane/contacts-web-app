@@ -69,23 +69,23 @@
             <h5>Адрес</h5>
             <label>
                 Страна
-                <input type="text" value="${contact.address.country}">
+                <input type="text" value="${contact.state}">
             </label>
             <label>
                 Город
-                <input type="text" value="${contact.address.city}">
+                <input type="text" value="${contact.city}">
             </label>
             <label>
                 Улица
-                <input type="text" value="${contact.address.street}">
+                <input type="text" value="${contact.street}">
             </label>
             <label>
                 Дом
-                <input type="text" value="${contact.address.house}">
+                <input type="text" value="${contact.house}">
             </label>
             <label>
                 Квартира
-                <input type="text" value="${contact.address.flat}">
+                <input type="text" value="${contact.flat}">
             </label>
             <h3>Контактные телефоны</h3>
             <div class="row">
