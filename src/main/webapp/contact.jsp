@@ -140,7 +140,24 @@
                     Комментарий
                 </div>
             </div>
-            <!-- TODO -->
+            <c:forEach var="attachment" items="${contact.attachments}">
+                <div class="row">
+                    <div class="cell-1">
+                        <label>
+                            <input type="checkbox" name="attachment-check-${attachment.id}">
+                        </label>
+                    </div>
+                    <div class="cell-3">
+                        <c:out value="${attachment.filename}" />
+                    </div>
+                    <div class="cell-2">
+                        <c:out value="${attachment.uploadDate}" />
+                    </div>
+                    <div class="cell-6">
+                        <c:out value="${attachment.commentary}" />
+                    </div>
+                </div>
+            </c:forEach>
         </section>
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">

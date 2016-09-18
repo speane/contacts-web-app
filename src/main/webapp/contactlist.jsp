@@ -39,7 +39,7 @@
                             </label>
                         </div>
                         <div class="cell-3">
-                            <a href="<c:url value="/edit-contact?id=${contact.id}"/>">
+                            <a href="/edit-contact?id=${contact.id}"">
                                 <c:out value="${contact.firstName} ${contact.lastName}" />
                             </a>
                         </div>
