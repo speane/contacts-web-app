@@ -7,9 +7,12 @@ import java.io.Serializable;
  */
 public class Phone implements Serializable {
 
+    private int id;
     private int countryCode;
     private int operatorCode;
     private int number;
+    private String type;
+    private String commentary;
 
     public int getCountryCode() {
         return countryCode;
@@ -33,5 +36,29 @@ public class Phone implements Serializable {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCommentary() {
+        return commentary;
+    }
+
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -29,17 +29,38 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     public ArrayList<Contact> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         ArrayList<Contact> contacts = new ArrayList<>();
         Statement statement = connection.createStatement();
-        String GET_ALL_CONTACTS_QUERY = "SELECT id, first_name, " +
-                "last_name, job, birthday, address_id  FROM contact;";
+        String GET_ALL_CONTACTS_QUERY = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
+                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
+                "FROM contact " +
+                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
+                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                "LEFT JOIN state ON state.id = contact.state_id " +
+                "LEFT JOIN city ON city.id = contact.city_id;";
         ResultSet contactSet = statement.executeQuery(GET_ALL_CONTACTS_QUERY);
         while (contactSet.next()) {
             Contact contact = new Contact();
 
-            contact.setId(contactSet.getInt(ID_FIELD_NAME));
-            contact.setFirstName(contactSet.getString(FIRST_NAME_FIELD_NAME));
-            contact.setLastName(contactSet.getString(LAST_NAME_FIELD_NAME));
-            contact.setJob(contactSet.getString(JOB_FIELD_NAME));
-            contact.setBirthday(contactSet.getDate(BIRTHDAY_FIELD_NAME));
+            contact.setId(contactSet.getInt("id"));
+            contact.setFirstName(contactSet.getString("first_name"));
+            contact.setLastName(contactSet.getString("last_name"));
+            contact.setPatronymic(contactSet.getString("patronymic"));
+            contact.setBirthday(contactSet.getDate("birthday"));
+            contact.setSex(contactSet.getString("sex"));
+            contact.setEmail(contactSet.getString("email"));
+            contact.setWebsite(contactSet.getString("website"));
+            contact.setNationality(contactSet.getString("nationality"));
+            contact.setMaritalStatus(contactSet.getString("marital_status"));
+            contact.setJob(contactSet.getString("job"));
+            contact.setState(contactSet.getString("state"));
+            contact.setCity(contactSet.getString("city"));
+            contact.setStreet(contactSet.getString("street"));
+            contact.setHouse(contactSet.getString("house"));
+            contact.setFlat(contactSet.getString("flat"));
+            contact.setZipCode(contactSet.getString("zip_code"));
+
+            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            contact.setPhones(phoneDAO.getAllByContactId(contact.getId()));
+            phoneDAO.close();
 
             contacts.add(contact);
         }
@@ -53,13 +74,14 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     public Contact get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException {
         Statement statement = connection.createStatement();
-        String query = "SELECT id, first_name, last_name, patronymic, birthday, sex, nationality.name, " +
-                "marital_status.name, email, website job, state.name, city.name, street, house, flat, zip_code " +
-                "FROM contact WHERE id = " + key + " " +
+        String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
+                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
+                "FROM contact " +
                 "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
                 "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
                 "LEFT JOIN state ON state.id = contact.state_id " +
-                "LEFT JOIN city ON city.id = contact.city_id;";
+                "LEFT JOIN city ON city.id = contact.city_id " +
+                "WHERE contact.id = " + key + ";";
         ResultSet contactResult = statement.executeQuery(query);
         Contact contact = new Contact();
         if (contactResult.next()) {

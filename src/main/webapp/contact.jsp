@@ -102,23 +102,29 @@
                     Комментарий
                 </div>
             </div>
-            <!-- REDO -->
-            <div class="row">
-                <div class="cell-1">
-                    <label>
-                        <input type="checkbox" name="check-contact-phone-1">
-                    </label>
+            <c:forEach var="phone" items="${contact.phones}">
+                <div class="row">
+                    <div class="cell-1">
+                        <label>
+                            <input type="checkbox" name="check-phone-${phone.id}">
+                        </label>
+                    </div>
+                    <div class="cell-3">
+                        <c:out value="+${phone.countryCode}(${phone.operatorCode})${phone.number}" />
+                    </div>
+                    <div class="cell-2">
+                        <c:if test="${phone.type == 'm'}">
+                            Мобильный
+                        </c:if>
+                        <c:if test="${phone.type == 'h'}">
+                            Домашний
+                        </c:if>
+                    </div>
+                    <div class="cell-6">
+                        <c:out value="${phone.commentary}" />
+                    </div>
                 </div>
-                <div class="cell-3">
-                    +375(33)693-11-55
-                </div>
-                <div class="cell-2">
-                    Мобильный
-                </div>
-                <div class="cell-6">
-                    Звонить после 15:00
-                </div>
-            </div>
+            </c:forEach>
         </section>
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">
