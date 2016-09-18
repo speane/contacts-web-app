@@ -67,33 +67,33 @@
                     <ul class="pagination">
                         <c:if test="${pagination.activePage > pagination.startPage}">
                             <li>
-                                <a href="<c:url value="/contact-list?page=${pagination.activePage - 1}"/>">
+                                <a href="/contact-list?page=${pagination.activePage - 1}">
                                     Назад
                                 </a>
                             </li>
                         </c:if>
                         <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.activePage - 1}">
                             <li>
-                                <a href="<c:url value="/contact-list?page=${i}"/>">
+                                <a href="/contact-list?page=${i}">
                                     <c:out value="${i}" />
                                 </a>
                             </li>
                         </c:forEach>
                         <li>
-                            <a class="active" href="<c:url value="/contact-list?page=${pagination.activePage}"/>">
+                            <a class="active" href="value="/contact-list?page=${pagination.activePage}">
                                 <c:out value="${pagination.activePage}" />
                             </a>
                         </li>
                         <c:forEach var="i" begin="${pagination.activePage + 1}" end="${pagination.endPage}">
                             <li>
-                                <a href="<c:url value="/contact-list?page=${i}"/>">
+                                <a href="/contact-list?page=${i}">
                                     <c:out value="${i}" />
                                 </a>
                             </li>
                         </c:forEach>
                         <c:if test="${pagination.activePage < pagination.endPage}">
                             <li>
-                                <a href="<c:url value="/contact-list?page=${pagination.activePage + 1}"/>">
+                                <a href="/contact-list?page=${pagination.activePage + 1}">
                                     Вперед
                                 </a>
                             </li>

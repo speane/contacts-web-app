@@ -25,6 +25,10 @@
             <h2><c:out value="${title}" /></h2>
         </header>
         <section>
+            <h3>Фото</h3>
+            <a href="#">
+                <img width="240" height="320" src="#">
+            </a>
             <h3>Основная информация</h3>
             <label>
                 Имя*
@@ -88,6 +92,19 @@
                 <input type="text" value="${contact.flat}">
             </label>
             <h3>Контактные телефоны</h3>
+            <div id="phone-edit-modal" class="modal">
+                <div class="modal-content">
+                    <form>
+                        <label>
+                            <input type="text">
+                            <input type="button">
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <button type="button" id="add-phone-button">Добавить</button>
+            <button type="button" id="remove-phone-button">Удалить</button>
+            <button type="button" id="edit-phone-button">Редактировать</button>
             <div class="row">
                 <div class="cell-1">
                     Выбрать
@@ -126,6 +143,9 @@
                 </div>
             </c:forEach>
             <h3>Присоединения</h3>
+            <button class="right action-button">ADD</button>
+            <button class="right action-button">RMV</button>
+            <button class="right action-button">EDT</button>
             <div class="row">
                 <div class="cell-1">
                     Выбрать
@@ -162,5 +182,7 @@
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/script.js"></script>
+
 </body>
 </html>
