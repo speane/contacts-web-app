@@ -5,10 +5,7 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -130,5 +127,87 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     @Override
     public void insert(Contact value) {
 
+    }
+
+    public ArrayList<Contact> getAllByParams(String firstName, String lastName, String patronymic,
+                                             Date birthday, boolean older, String sex,
+                                             String maritalStatus, String nationality,
+                                             String state, String city, String house, String flat) throws SQLException {
+        String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
+                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
+                "FROM contact " +
+                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
+                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                "LEFT JOIN state ON state.id = contact.state_id " +
+                "LEFT JOIN city ON city.id = contact.city_id " +
+                "WHERE TRUE";
+        if (!firstName.equals("")) {
+            query += " AND first_name LIKE '" + firstName + "'";
+        }
+        if (!lastName.equals("")) {
+            query += " AND last_name LIKE '" + lastName + "'";
+        }
+        if (!patronymic.equals("")) {
+            query += " AND patronymic LIKE '" + patronymic + "'";
+        }
+        if (true) {
+            query += " AND birthday ";
+            if (older) {
+                query += ">";
+            } else {
+                query += "<";
+            }
+            query += " '" + birthday + "'";
+        }
+        if (!sex.equals("")) {
+            query += " AND sex = '" + sex + "'";
+        }
+        if (!maritalStatus.equals("")) {
+            query += " AND marital_status LIKE '" + maritalStatus + "'";
+        }
+        if (!nationality.equals("")) {
+            query += " AND nationality LIKE '" + nationality + "'";
+        }
+        if (!state.equals("")) {
+            query += " AND state LIKE '" + state + "'";
+        }
+        if (!city.equals("")) {
+            query += " AND city LIKE '" + city + "'";
+        }
+        if (!house.equals("")) {
+            query += " AND house LIKE '" + house + "'";
+        }
+        if (!flat.equals("")) {
+            query += " AND flat LIKE '" + flat + "'";
+        }
+        query += ";";
+
+        Statement statement = connection.createStatement();
+        System.out.println(query);
+        ResultSet contactResult = statement.executeQuery(query);
+        ArrayList<Contact> contacts = new ArrayList<>();
+        while (contactResult.next()) {
+            Contact contact = new Contact();
+            contact.setId(contactResult.getInt("id"));
+            contact.setFirstName(contactResult.getString("first_name"));
+            contact.setLastName(contactResult.getString("last_name"));
+            contact.setPatronymic(contactResult.getString("patronymic"));
+            contact.setBirthday(contactResult.getDate("birthday"));
+            contact.setSex(contactResult.getString("sex"));
+            contact.setEmail(contactResult.getString("email"));
+            contact.setWebsite(contactResult.getString("website"));
+            contact.setNationality(contactResult.getString("nationality"));
+            contact.setMaritalStatus(contactResult.getString("marital_status"));
+            contact.setJob(contactResult.getString("job"));
+            contact.setState(contactResult.getString("state"));
+            contact.setCity(contactResult.getString("city"));
+            contact.setStreet(contactResult.getString("street"));
+            contact.setHouse(contactResult.getString("house"));
+            contact.setFlat(contactResult.getString("flat"));
+            contact.setZipCode(contactResult.getString("zip_code"));
+
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }

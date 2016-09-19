@@ -5,7 +5,7 @@
     <title>Поиск</title>
 </head>
 <body>
-    <form>
+    <form action="/search" method="post">
         <header>
             Поиск контактов
         </header>
@@ -59,7 +59,7 @@
                 Квартира
                 <input type="text" name="flat">
             </label>
-            <button type="button" id="find-contacts-button">Найти</button>
+            <button type="submit" id="find-contacts-button">Найти</button>
         </section>
     </form>
 </body>
