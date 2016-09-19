@@ -8,8 +8,8 @@
         <title>Список контактов</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link rel="stylesheet" href="css/grid-system.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="/css/grid-system.css">
+        <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
         <form class="centered contact" method="post">
@@ -18,7 +18,7 @@
             </header>
             <section>
                 <div class="clearfix">
-                    <a class="nav-button left" href="#">Search</a>
+                    <a class="nav-button left" href="/app/contact-search">Search</a>
                     <a class="nav-button left" href="#">Send e-mail</a>
                     <button class="action-button right" formaction="#">ADD</button>
                     <button class="action-button right" formaction="#">RMV</button>
@@ -39,7 +39,7 @@
                             </label>
                         </div>
                         <div class="cell-3">
-                            <a href="/edit-contact?id=${contact.id}"">
+                            <a href="/app/edit-contact?id=${contact.id}"">
                                 <c:out value="${contact.firstName} ${contact.lastName}" />
                             </a>
                         </div>
@@ -67,33 +67,33 @@
                     <ul class="pagination">
                         <c:if test="${pagination.activePage > pagination.startPage}">
                             <li>
-                                <a href="/contact-list?page=${pagination.activePage - 1}">
+                                <a href="/app/contact-list?page=${pagination.activePage - 1}">
                                     Назад
                                 </a>
                             </li>
                         </c:if>
                         <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.activePage - 1}">
                             <li>
-                                <a href="/contact-list?page=${i}">
+                                <a href="/app/contact-list?page=${i}">
                                     <c:out value="${i}" />
                                 </a>
                             </li>
                         </c:forEach>
                         <li>
-                            <a class="active" href="/contact-list?page=${pagination.activePage}">
+                            <a class="active" href="/app/contact-list?page=${pagination.activePage}">
                                 <c:out value="${pagination.activePage}" />
                             </a>
                         </li>
                         <c:forEach var="i" begin="${pagination.activePage + 1}" end="${pagination.endPage}">
                             <li>
-                                <a href="/contact-list?page=${i}">
+                                <a href="/app/contact-list?page=${i}">
                                     <c:out value="${i}" />
                                 </a>
                             </li>
                         </c:forEach>
                         <c:if test="${pagination.activePage < pagination.endPage}">
                             <li>
-                                <a href="/contact-list?page=${pagination.activePage + 1}">
+                                <a href="/app/contact-list?page=${pagination.activePage + 1}">
                                     Вперед
                                 </a>
                             </li>

@@ -59,8 +59,8 @@ public class FrontController extends HttpServlet {
             IOException {
         String viewPageURL;
         try {
-            String URI = (String) request.getAttribute(ApplicationResources.PRIMARY_URI_ATTRIBUTE_NAME);
-            Command command = commandFactory.create(URI);
+            String commandURI = request.getPathInfo();
+            Command command = commandFactory.create(commandURI);
             if (command != null) {
                 viewPageURL = command.execute(request, response);
             } else {
