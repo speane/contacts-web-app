@@ -71,7 +71,7 @@ public class FrontController extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute(ApplicationResources.ERROR_MESSAGE_ATTRIBUTE_NAME, Messages.SERVER_ERROR_MESSAGE);
+            request.setAttribute(ApplicationResources.ERROR_MESSAGE_ATTRIBUTE_NAME, e.getStackTrace());
             viewPageURL = ApplicationResources.ERROR_PAGE_URL;
         }
         request.getRequestDispatcher(viewPageURL).forward(request, response);
