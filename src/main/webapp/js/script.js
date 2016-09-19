@@ -14,12 +14,6 @@ addPhoneButton.onclick = function() {
     showModalForm(phoneEditModal);
 };
 
-window.onclick = function(event) {
-    if (event.target == phoneEditModal) {
-        hideModalForm(phoneEditModal);
-    }
-};
-
 var createdPhones = [];
 
 var savePhoneButton = document.getElementById('save-phone-button');
@@ -53,15 +47,18 @@ savePhoneButton.onclick = function() {
     document.getElementById('phone-list').appendChild(newPhone);
 };
 
-var submitButton = document.getElementById('submit-form-button');
-submitButton.onclick = function() {
-    alert("SDFSDF");
-    var form = document.getElementById('contact-form');
-    var createdPhonesInput = document.createElement("input");
-    createdPhonesInput.setAttribute('type', 'hidden');
-    createdPhonesInput.setAttribute('value', 'HELLO, WORLD');
-    createdPhonesInput.setAttribute('name', 'created-phones');
-    form.appendChild(createdPhonesInput);
-    form.submit();
-}
+var attachmentEditModal = document.getElementById('attachment-edit-modal');
 
+var addAttachmentButton = document.getElementById('add-attachment-button');
+addAttachmentButton.onclick = function() {
+    showModalForm(attachmentEditModal);
+};
+
+window.onclick = function(event) {
+    if (event.target == phoneEditModal) {
+        hideModalForm(phoneEditModal);
+    }
+    else if (event.target == attachmentEditModal) {
+        hideModalForm(attachmentEditModal);
+    }
+};

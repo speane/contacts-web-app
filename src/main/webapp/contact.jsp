@@ -165,9 +165,23 @@
                 </c:forEach>
             </div>
             <h3>Присоединения</h3>
-            <button class="right action-button">ADD</button>
-            <button class="right action-button">RMV</button>
-            <button class="right action-button">EDT</button>
+            <button type="button" id="add-attachment-button">Добавить</button>
+            <button type="button" id="remove-attachment-button">Удалить</button>
+            <button type="button" id="edit-attachment-button">Редактировать</button>
+            <div id="attachment-edit-modal" class="modal">
+                <div class="modal-content">
+                    <label>
+                        Имя файла присоединения
+                        <input type="text" name="attachment-name">
+                    </label>
+                    <label>
+                        Комментарий
+                        <input type="text" name="attachment-commentary">
+                    </label>
+                    <button type="button" name="save-attachment-button">Созранить</button>
+                    <button type="button" name="cancel-attachment-edit-button">Отменить</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="cell-1">
                     Выбрать
@@ -201,7 +215,6 @@
                 </div>
             </c:forEach>
         </section>
-        <button id="submit-form-button">JSDF</button>
     </form>
     <link rel="stylesheet" type="text/css" href="css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">

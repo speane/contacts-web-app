@@ -80,7 +80,7 @@
                             </li>
                         </c:forEach>
                         <li>
-                            <a class="active" href="value="/contact-list?page=${pagination.activePage}">
+                            <a class="active" href="/contact-list?page=${pagination.activePage}">
                                 <c:out value="${pagination.activePage}" />
                             </a>
                         </li>
