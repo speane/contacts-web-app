@@ -26,9 +26,19 @@
         </header>
         <section>
             <h3>Фото</h3>
-            <a href="#">
-                <img width="240" height="320" src="#">
-            </a>
+            <img id="photo-edit-image" src="#">
+            <div id="choose-photo-modal" class="modal">
+                <div class="modal-content">
+                    <h4>Выбор фото</h4>
+                    <label>
+                        Путь к фото на диске
+                        <input type="text" name="photo-disk-path">
+                    </label>
+                    <button type="button">Найти</button>
+                    <button type="button">Сохранить</button>
+                    <button type="button">Отменить</button>
+                </div>
+            </div>
             <h3>Основная информация</h3>
             <label>
                 Имя*
@@ -97,6 +107,7 @@
             <button type="button" id="edit-phone-button">Редактировать</button>
             <div id="phone-edit-modal" class="modal">
                 <div class="modal-content">
+                    <h4>Редактирование телефонного номера</h4>
                     <label>
                         Код страны
                         <input type="text" id="country-code">
@@ -170,6 +181,7 @@
             <button type="button" id="edit-attachment-button">Редактировать</button>
             <div id="attachment-edit-modal" class="modal">
                 <div class="modal-content">
+                    <h4>Редактирование присоединения</h4>
                     <label>
                         Имя файла присоединения
                         <input type="text" name="attachment-name">

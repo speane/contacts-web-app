@@ -129,3 +129,8 @@ ul.pagination li a.active {
     border: 1px solid #888;
     width: 80%;
 }
+
+img#photo-edit-image {
+    width: 240px;
+    height: 320px;
+}

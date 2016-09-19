@@ -54,11 +54,19 @@ addAttachmentButton.onclick = function() {
     showModalForm(attachmentEditModal);
 };
 
+var photoEditButton = document.getElementById('photo-edit-image');
+var choosePhotoModal = document.getElementById('choose-photo-modal');
+photoEditButton.onclick = function() {
+    showModalForm(choosePhotoModal);
+};
+
 window.onclick = function(event) {
     if (event.target == phoneEditModal) {
         hideModalForm(phoneEditModal);
     }
     else if (event.target == attachmentEditModal) {
         hideModalForm(attachmentEditModal);
+    } else if (event.target == choosePhotoModal) {
+        hideModalForm(choosePhotoModal);
     }
 };
