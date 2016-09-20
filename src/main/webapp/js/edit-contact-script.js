@@ -71,7 +71,13 @@ window.onclick = function(event) {
     }
 };
 
-var button = document.getElementById('delete-contact-button');
-button.addEventListener("click", function() {
-    alert("sdfsd");
-});
+document.getElementById('remove-phone-button').onclick = function() {
+    var checkboxes = document.getElementsByName('phone-check');
+    var checked = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            checked.push(checkboxes[i].value);
+        }
+    }
+    alert(checked);
+};

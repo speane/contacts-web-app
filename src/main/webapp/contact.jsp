@@ -20,7 +20,6 @@
 <body>
     <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="/js/edit-contact-script.js"></script>
     <form method="post" action="${submitAction}" id="contact-form" class="centered contact">
         <header>
             <h2><c:out value="${title}" /></h2>
@@ -103,9 +102,9 @@
                 <input type="text" value="${not empty contact ? contact.flat : ''}">
             </label>
             <h3>Контактные телефоны</h3>
-            <button type="button" id="add-phone-button">Добавить</button>
-            <button type="button" id="remove-phone-button">Удалить</button>
-            <button type="button" id="edit-phone-button">Редактировать</button>
+            <input type="button" id="add-phone-button" value="Добавить">
+            <input type="button" id="remove-phone-button" value="Удалить">
+            <input type="button" id="edit-phone-button" value="Редактировать">
             <div id="phone-edit-modal" class="modal">
                 <div class="modal-content">
                     <h4>Редактирование телефонного номера</h4>
@@ -151,13 +150,13 @@
                     Комментарий
                 </div>
             </div>
-            <c:if test="${not empty conact}">
-                <div id="phone-list">
+            <div id="phone-list">
+                <c:if test="${not empty contact}">
                     <c:forEach var="phone" items="${contact.phones}">
                         <div class="row">
                             <div class="cell-1">
                                 <label>
-                                    <input type="checkbox" name="check-phone-${phone.id}">
+                                    <input type="checkbox" name="phone-check" value="${phone.id}">
                                 </label>
                             </div>
                             <div class="cell-3">
@@ -176,8 +175,8 @@
                             </div>
                         </div>
                     </c:forEach>
-                </div>
-            </c:if>
+                </c:if>
+            </div>
             <h3>Присоединения</h3>
             <button type="button" id="add-attachment-button">Добавить</button>
             <button type="button" id="remove-attachment-button">Удалить</button>
@@ -233,8 +232,9 @@
                     </c:forEach>
                 </c:if>
             </div>
+            <input type="submit" id="save-contact-button" value="Сохранить">
         </section>
     </form>
-
+    <script src="/js/edit-contact-script.js"></script>
 </body>
 </html>

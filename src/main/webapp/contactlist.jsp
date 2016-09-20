@@ -17,7 +17,7 @@
                 <div class="clearfix">
                     <a class="nav-button left" href="/app/contact-search">Search</a>
                     <a class="nav-button left" href="#">Send e-mail</a>
-                    <input type="button" id="add-contact-button" value="Добавить" />
+                    <a id="add-contact-button" href="/app/add-contact">Добавить</a>
                     <input type="submit" id="delete-contact-button" value="Удалить" />
                     <input type="submit" id="edit-checked-contact-button" value="Редактировать" />
                 </div>
