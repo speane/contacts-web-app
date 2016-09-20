@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 
 import javax.sql.DataSource;
@@ -28,6 +29,7 @@ public class DAOFactory {
         DAOClassMap.put(Contact.class, ContactDAO.class);
         DAOClassMap.put(Phone.class, PhoneDAO.class);
         DAOClassMap.put(Attachment.class, AttachmentDAO.class);
+        DAOClassMap.put(MaritalStatus.class, MaritalStatusDAO.class);
     }
 
     public static GenericDAO getDAO(Class elementClass) throws IllegalAccessException,

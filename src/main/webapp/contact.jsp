@@ -82,6 +82,14 @@
             </label>
             <label>
                 Семейное положение
+                <select>
+                    <option disabled>Семейное положение</option>
+                    <c:forEach var="maritalStatus" items="${maritalStatuses}">
+                        <option ${empty contact or contact.maritalStatus == maritalStatus.name ? '' : 'selected'} value="${maritalStatus}">
+                            ${maritalStatus}
+                        </option>
+                    </c:forEach>
+                </select>
                 <input type="text" value="${not empty contact ? contact.maritalStatus : ''}">
             </label>
             <label>
