@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Created by Evgeny Shilov on 16.09.2016.
  */
-public class EditForm implements Command {
+public class EditFormCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 11.09.2016.
  */
-public class MainForm implements Command {
+public class MainFormCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
