@@ -71,13 +71,36 @@ window.onclick = function(event) {
     }
 };
 
-document.getElementById('remove-phone-button').onclick = function() {
-    var checkboxes = document.getElementsByName('phone-check');
+function getCheckedItems(checkName) {
+    var checkBoxes = document.getElementsByName(checkName);
     var checked = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            checked.push(checkboxes[i].value);
+    for (var i = 0; i < checkBoxes.length; i++) {
+        if (checkBoxes[i].checked) {
+            checked.push(checkBoxes[i].value);
         }
     }
-    alert(checked);
+    return checked;
+}
+
+document.getElementById('remove-phone-button').onclick = function() {
+    var checkedPhones = getCheckedItems('phone-check');
+    for (var i = 0; i < checkedPhones.length; i++) {
+        var deletePhone = document.getElementById('contact-phone-' + checkedPhones[i]);
+        deletePhone.parentNode.removeChild(deletePhone);
+    }
+};
+
+document.getElementById('edit-phone-button').onclick = function() {
+    var checkedPhones = getCheckedItems('phone-check');
+
+    if (checkedPhones.length > 0) {
+        var editPhoneId = checkedPhones[0];
+        var phoneNumber = document.getElementById('phone-number-' + editPhoneId).innerHTML;
+        document.getElementById('phone-number').value = phoneNumber.split(')', 2)[1];
+        document.getElementById('country-code').value = phoneNumber.split('+', 2)[1].split('(', 2)[0];
+        document.getElementById('operator-code').value = phoneNumber.split(')', 2)[0].split('(', 2)[1];
+        document.getElementById('phone-type').value = document.getElementById('phone-type-' + editPhoneId).innerHTML.trim();
+        document.getElementById('phone-commentary').value = document.getElementById('phone-commentary-' + editPhoneId).innerHTML.trim();
+        showModalForm(phoneEditModal);
+    }
 };

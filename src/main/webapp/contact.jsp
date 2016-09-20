@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:choose>
     <c:when test="${empty contact}">
         <c:set var="title" value="Создание контакта" />
@@ -53,12 +54,27 @@
                 <input type="text" value="${not empty contact ? contact.patronymic : ''}">
             </label>
             <label>
-                Дата рождения
-                <input type="text" value="${not empty contact ? contact.birthday : ''}">
+                <h4>Дата рождения</h4>
+                Год рождения
+                <c:if test="${not empty contact}">
+                    <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="yyyy" />">
+                </c:if>
+                Месяц
+                <c:if test="${not empty contact}">
+                    <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="MM" />">
+                </c:if>
+                День
+                <c:if test="${not empty contact}">
+                    <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="dd" />">
+                </c:if>
             </label>
             <label>
                 Пол
-                <input type="text" value="${not empty contact ? contact.sex : ''}">
+                <select>
+                    <option disabled>Выберите пол</option>
+                    <option ${empty contact or contact.sex == 'f' ? '' : 'selected'} value="m">Мужчина</option>
+                    <option ${empty contact or contact.sex == 'm' ? '' : 'selected'} value="f">Женщина</option>
+                </select>
             </label>
             <label>
                 Гражданство
@@ -153,16 +169,16 @@
             <div id="phone-list">
                 <c:if test="${not empty contact}">
                     <c:forEach var="phone" items="${contact.phones}">
-                        <div class="row">
+                        <div id="contact-phone-${phone.id}" class="row">
                             <div class="cell-1">
                                 <label>
                                     <input type="checkbox" name="phone-check" value="${phone.id}">
                                 </label>
                             </div>
-                            <div class="cell-3">
+                            <div id="phone-number-${phone.id}" class="cell-3">
                                 <c:out value="+${phone.countryCode}(${phone.operatorCode})${phone.number}" />
                             </div>
-                            <div class="cell-2">
+                            <div id="phone-type-${phone.id}" class="cell-2">
                                 <c:if test="${phone.type == 'm'}">
                                     Мобильный
                                 </c:if>
@@ -170,7 +186,7 @@
                                     Домашний
                                 </c:if>
                             </div>
-                            <div class="cell-6">
+                            <div id="phone-commentary-${phone.id}" class="cell-6">
                                 <c:out value="${phone.commentary}" />
                             </div>
                         </div>
