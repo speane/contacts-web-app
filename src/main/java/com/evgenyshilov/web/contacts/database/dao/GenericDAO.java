@@ -26,7 +26,7 @@ public abstract class GenericDAO<PK, T> {
 
     public abstract void update(PK key, T value);
 
-    public abstract void delete(PK key);
+    public abstract void delete(PK key) throws SQLException;
 
     public abstract void insert(T value);
 

@@ -121,7 +121,11 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void delete(Integer key) {
+    public void delete(Integer key) throws SQLException {
+        String query = "DELETE FROM contact WHERE id = " + key + ";";
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
     }
 
     @Override

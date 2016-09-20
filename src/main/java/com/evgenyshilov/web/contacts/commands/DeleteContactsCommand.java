@@ -27,7 +27,9 @@ public class DeleteContactsCommand implements Command {
     private void removeContacts(ArrayList<Integer> ids) throws InvocationTargetException, SQLException,
             InstantiationException, NoSuchMethodException, IllegalAccessException {
         ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
-        ids.forEach(contactDAO::delete);
+        for (Integer id : ids) {
+            contactDAO.delete(id);
+        }
         contactDAO.close();
     }
 }
