@@ -17,9 +17,11 @@ public class EditForm implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String contactIdAttribute = request.getParameter("id");
-        Contact contact = getContactFromDAO(Integer.parseInt(contactIdAttribute));
-        request.setAttribute("contact", contact);
-        System.out.println(contact.getFirstName());
+        if (contactIdAttribute != null) {
+            Contact contact = getContactFromDAO(Integer.parseInt(contactIdAttribute));
+            request.setAttribute("contact", contact);
+        }
+
         return "/contact.jsp";
     }
 

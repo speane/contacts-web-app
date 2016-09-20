@@ -1,26 +1,27 @@
-<jsp:useBean id="contact" scope="request" type="com.evgenyshilov.web.contacts.database.model.Contact"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:choose>
+    <c:when test="${contact == null}">
+        <c:set var="title" value="Создание контакта" />
+        <c:set var="first-name" value="" />
+        <c:set var="last-name" value="" />
+        <c:set var="patronymic" value="" />
+        <c:set var="submitAction" value="/app/create-contact" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="title" value="Редактирование контакта" />
+        <c:set var="submitAction" value="/app/update-contact" />
+    </c:otherwise>
+</c:choose>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>
-        <c:choose>
-            <c:when test="${contact == null}">
-                <c:set var="title" value="Создание контакта" />
-                <c:out value="${title}" />
-            </c:when>
-            <c:otherwise>
-                <c:set var="title" value="Редактирование контакта" />
-                <c:out value="${title}" />
-            </c:otherwise>
-        </c:choose>
-    </title>
+    <title><c:out value="${title}" /></title>
 </head>
 <body>
-    <form method="post" action="/update-contact" id="contact-form" class="centered contact">
+    <form method="post" action="${submitAction}" id="contact-form" class="centered contact">
         <header>
             <h2><c:out value="${title}" /></h2>
         </header>

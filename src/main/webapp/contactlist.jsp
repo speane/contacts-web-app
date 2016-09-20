@@ -20,7 +20,7 @@
                 <div class="clearfix">
                     <a class="nav-button left" href="/app/contact-search">Search</a>
                     <a class="nav-button left" href="#">Send e-mail</a>
-                    <button class="action-button right" formaction="#">ADD</button>
+                    <button class="action-button right" formaction="/app/add-contact">ADD</button>
                     <button class="action-button right" formaction="#">RMV</button>
                     <button class="action-button right" formaction="#">EDT</button>
                 </div>
@@ -39,7 +39,7 @@
                             </label>
                         </div>
                         <div class="cell-3">
-                            <a href="/app/edit-contact?id=${contact.id}"">
+                            <a href="/app/edit-contact?id=${contact.id}">
                                 <c:out value="${contact.firstName} ${contact.lastName}" />
                             </a>
                         </div>
