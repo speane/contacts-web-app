@@ -17,9 +17,9 @@
                 <div class="clearfix">
                     <a class="nav-button left" href="/app/contact-search">Search</a>
                     <a class="nav-button left" href="#">Send e-mail</a>
-                    <button class="action-button right" formaction="/app/add-contact">ADD</button>
+                    <input type="button" id="add-contact-button" value="Добавить" />
                     <input type="submit" id="delete-contact-button" value="Удалить" />
-                    <button class="action-button right" formaction="#">EDT</button>
+                    <input type="submit" id="edit-checked-contact-button" value="Редактировать" />
                 </div>
                 <div class="row">
                     <div class="cell-1">Выбор</div>

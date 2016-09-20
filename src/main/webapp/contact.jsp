@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:choose>
-    <c:when test="${not empty contact}">
+    <c:when test="${empty contact}">
         <c:set var="title" value="Создание контакта" />
         <c:set var="submitAction" value="/app/create-contact" />
     </c:when>
@@ -22,6 +22,9 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="/js/edit-contact-script.js"></script>
     <form method="post" action="${submitAction}" id="contact-form" class="centered contact">
+        <header>
+            <h2><c:out value="${title}" /></h2>
+        </header>
         <section>
             <h3>Фото</h3>
             <img id="photo-edit-image" src="#">
@@ -231,9 +234,6 @@
                 </c:if>
             </div>
         </section>
-        <header>
-            <h2><c:out value="${title}" /></h2>
-        </header>
     </form>
 
 </body>
