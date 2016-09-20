@@ -231,7 +231,7 @@
     </form>
     <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="/js/script.js"></script>
+    <script src="/js/edit-contact-script.js"></script>
 
 </body>
 </html>

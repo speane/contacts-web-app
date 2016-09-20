@@ -57,7 +57,7 @@ public class FrontController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        String viewPageURL;
+        String viewPageURL = null;
         try {
             String commandURI = request.getPathInfo();
             Command command = commandFactory.create(commandURI);
@@ -74,7 +74,9 @@ public class FrontController extends HttpServlet {
             request.setAttribute(ApplicationResources.ERROR_MESSAGE_ATTRIBUTE_NAME, e.getStackTrace());
             viewPageURL = ApplicationResources.ERROR_PAGE_URL;
         }
-        request.getRequestDispatcher(viewPageURL).forward(request, response);
+        if (viewPageURL != null) {
+            request.getRequestDispatcher(viewPageURL).forward(request, response);
+        }
     }
 
 }

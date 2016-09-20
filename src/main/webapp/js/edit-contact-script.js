@@ -70,3 +70,8 @@ window.onclick = function(event) {
         hideModalForm(choosePhotoModal);
     }
 };
+
+var button = document.getElementById('delete-contact-button');
+button.addEventListener("click", function() {
+    alert("sdfsd");
+});
