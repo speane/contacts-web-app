@@ -215,22 +215,22 @@
                 </c:if>
             </div>
             <h3>Присоединения</h3>
-            <button type="button" id="add-attachment-button">Добавить</button>
-            <button type="button" id="remove-attachment-button">Удалить</button>
-            <button type="button" id="edit-attachment-button">Редактировать</button>
+            <input type="button" id="add-attachment-button" value="Добавить">
+            <input type="button" id="remove-attachment-button" value="Удалить">
+            <input type="button" id="edit-attachment-button" value="Редактировать">
             <div id="attachment-edit-modal" class="modal">
                 <div class="modal-content">
                     <h4>Редактирование присоединения</h4>
                     <label>
                         Имя файла присоединения
-                        <input type="text" name="attachment-name">
+                        <input type="text" id="attachment-file-name">
                     </label>
                     <label>
                         Комментарий
-                        <input type="text" name="attachment-commentary">
+                        <input type="text" id="attachment-commentary">
                     </label>
-                    <button type="button" name="save-attachment-button">Созранить</button>
-                    <button type="button" name="cancel-attachment-edit-button">Отменить</button>
+                    <input type="button" id="save-attachment-button" value="Сохранить">
+                    <input type="button" id="cancel-attachment-edit-button" value="Отменить">
                 </div>
             </div>
             <div class="row">
