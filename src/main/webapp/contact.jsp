@@ -250,10 +250,10 @@
             <div id="attachment-list">
                 <c:if test="${not empty contact}">
                     <c:forEach var="attachment" items="${contact.attachments}">
-                        <div class="row">
+                        <div id="attachment-${attachment.id}" class="row">
                             <div class="cell-1">
                                 <label>
-                                    <input type="checkbox" name="attachment-check-${attachment.id}">
+                                    <input type="checkbox" name="attachment-check" value="${attachment.id}">
                                 </label>
                             </div>
                             <div class="cell-3">

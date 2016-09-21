@@ -221,6 +221,7 @@ var createdAttachments = {};
 var removedAttachments = [];
 var updateAttachments = {};
 
+var attachmentList = document.getElementById('attachment-list');
 var attachmentEditModal = document.getElementById('attachment-edit-modal');
 var addAttachmentButton = document.getElementById('add-attachment-button');
 var editAttachmentButton = document.getElementById('edit-attachment-button');
@@ -250,8 +251,28 @@ function setAttachmentFields() {
 }
 
 removeAttachmentButton.onclick = function() {
-
+    var checkedAttachments = getCheckedItems('attachment-check');
+    var checkedCreatedAttachments = getCheckedItems('created-attachment-check');
+    for (var i = 0; i < checkedAttachments.length; i++) {
+        removeAttachment(checkedAttachments[i]);
+    }
+    for (var i = 0; i < checkedCreatedAttachments.length; i++) {
+        removeCreatedAttachment(checkedCreatedAttachments[i]);
+    }
 };
+
+function removeAttachment(id) {
+    removedAttachments.push(id);
+    var attachmentRow = document.getElementById('attachment-' + id);
+    attachmentList.removeChild(attachmentRow);
+}
+
+function removeCreatedAttachment(id) {
+    delete createdAttachments[id];
+    var createdAttachmentRow = document.getElementById('created-attachment-' + id);
+    attachmentList.removeChild(createdAttachmentRow);
+}
+
 
 saveAttachmentButton.onclick = function() {
     if (editAttachment) {
@@ -284,7 +305,8 @@ function addAttachmentToList(attachment) {
     var attachmentCheckBoxLabel = document.createElement('label');
     var attachmentCheckBox = document.createElement('input');
     attachmentCheckBox.type = 'checkbox';
-    attachmentCheckBox.id = 'created-attachment-check-' + attachment.id;
+    attachmentCheckBox.name = 'created-attachment-check';
+    attachmentCheckBox.value = attachment.id;
     attachmentCheckBoxLabel.appendChild(attachmentCheckBox);
     attachmentCheckBoxCell.appendChild(attachmentCheckBoxLabel);
 
@@ -308,7 +330,6 @@ function addAttachmentToList(attachment) {
     attachmentRow.appendChild(attachmentUploadDateCell);
     attachmentRow.appendChild(attachmentCommentaryCell);
 
-    var attachmentList = document.getElementById('attachment-list');
     attachmentList.appendChild(attachmentRow);
 }
 
