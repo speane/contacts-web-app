@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
  * Created by Evgeny Shilov on 21.09.2016.
  */
 public class MaritalStatusDAO extends GenericDAO {
+
+    public MaritalStatusDAO(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public ArrayList getAll() throws SQLException, InvocationTargetException, NoSuchMethodException,
