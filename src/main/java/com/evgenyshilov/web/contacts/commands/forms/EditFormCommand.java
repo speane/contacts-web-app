@@ -4,8 +4,10 @@ import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.database.dao.MaritalStatusDAO;
+import com.evgenyshilov.web.contacts.database.dao.PhoneTypeDAO;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
+import com.evgenyshilov.web.contacts.database.model.PhoneType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +37,7 @@ public class EditFormCommand implements Command {
         request.setAttribute("contact", contact);
         request.setAttribute("maritalStatuses", getMaritalStatuses());
         request.setAttribute("months", new DateFormatSymbols(Locale.forLanguageTag("ru")).getMonths());
+        request.setAttribute("phoneTypes", getPhoneTypes());
 
         return "/contact.jsp";
     }
@@ -45,6 +48,13 @@ public class EditFormCommand implements Command {
         ArrayList<MaritalStatus> maritalStatuses = maritalStatusDAO.getAll();
         maritalStatusDAO.close();
         return maritalStatuses;
+    }
+
+    private ArrayList<PhoneType> getPhoneTypes() throws InvocationTargetException, SQLException,
+            InstantiationException, NoSuchMethodException, IllegalAccessException {
+        PhoneTypeDAO phoneTypeDAO = (PhoneTypeDAO) DAOFactory.getDAO(PhoneType.class);
+        ArrayList<PhoneType> phoneTypes = phoneTypeDAO.getAll();
+        return phoneTypes;
     }
 
     private Contact getContactFromDAO(int id) throws InvocationTargetException, SQLException,

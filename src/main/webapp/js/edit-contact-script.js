@@ -15,6 +15,8 @@ addPhoneButton.onclick = function() {
 };
 
 var createdPhones = [];
+var removedPhones = [];
+
 var lastCreatedPhoneId = 0;
 
 var savePhoneButton = document.getElementById('save-phone-button');
@@ -41,7 +43,8 @@ savePhoneButton.onclick = function() {
 
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.name = "created-phone-check-" + phone.id;
+    checkbox.name = "created-phone-check";
+    checkbox.value = phone.id;
 
     var checkLabel = document.createElement("label");
     newPhone.appendChild(checkCell);
@@ -116,6 +119,20 @@ document.getElementById('remove-phone-button').onclick = function() {
     for (var i = 0; i < checkedPhones.length; i++) {
         var deletePhone = document.getElementById('contact-phone-' + checkedPhones[i]);
         deletePhone.parentNode.removeChild(deletePhone);
+        removedPhones.push(checkedPhones[i]);
+    }
+    var createdCheckedPhones = getCheckedItems('created-phone-check');
+
+    for (var i = 0; i < createdCheckedPhones.length; i++) {
+        var deletePhone = document.getElementById('created-phone-' + createdCheckedPhones[i]);
+        deletePhone.parentNode.removeChild(deletePhone);
+        for (var phone in createdPhones) {
+            createdPhones.forEach(function(item, index, object) {
+                if (item.id == createdCheckedPhones[i]) {
+                    object.splice(index, 1);
+                }
+            })
+        }
     }
 };
 

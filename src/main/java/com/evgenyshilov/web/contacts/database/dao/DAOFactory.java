@@ -1,9 +1,6 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
-import com.evgenyshilov.web.contacts.database.model.Attachment;
-import com.evgenyshilov.web.contacts.database.model.Contact;
-import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
-import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.database.model.*;
 
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
@@ -30,6 +27,7 @@ public class DAOFactory {
         DAOClassMap.put(Phone.class, PhoneDAO.class);
         DAOClassMap.put(Attachment.class, AttachmentDAO.class);
         DAOClassMap.put(MaritalStatus.class, MaritalStatusDAO.class);
+        DAOClassMap.put(PhoneType.class, PhoneTypeDAO.class);
     }
 
     public static GenericDAO getDAO(Class elementClass) throws IllegalAccessException,

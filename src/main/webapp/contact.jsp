@@ -161,8 +161,9 @@
                     <label>
                         Тип телефон
                         <select id="phone-type-select">
-                            <option value="m" name="phone-type">Мобильный</option>
-                            <option value="h" name="phone-type">Домашний</option>
+                            <c:forEach var="phoneType" items="${phoneTypes}">
+                                <option value="${phoneType.name}">${phoneType.name}</option>
+                            </c:forEach>
                         </select>
                     </label>
                     <label>
@@ -204,12 +205,7 @@
                                 <c:out value="+${phone.countryCode}(${phone.operatorCode})${phone.number}" />
                             </div>
                             <div id="phone-type-${phone.id}" class="cell-2">
-                                <c:if test="${phone.type == 'm'}">
-                                    Мобильный
-                                </c:if>
-                                <c:if test="${phone.type == 'h'}">
-                                    Домашний
-                                </c:if>
+                                <c:out value="${phone.type}" />
                             </div>
                             <div id="phone-commentary-${phone.id}" class="cell-6">
                                 <c:out value="${phone.commentary}" />

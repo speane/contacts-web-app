@@ -45,8 +45,9 @@ public class PhoneDAO extends GenericDAO {
 
     public ArrayList<Phone> getAllByContactId(int id) throws SQLException {
         Statement statement = connection.createStatement();
-        String query = "SELECT id, country_code, operator_code, number, type, commentary " +
+        String query = "SELECT phone.id, country_code, operator_code, number, phone_type.name AS type, commentary " +
                 "FROM phone " +
+                "JOIN phone_type ON phone_type.id = phone.phone_type_id " +
                 "WHERE contact_id = " + id + ";";
         ResultSet phoneResultSet = statement.executeQuery(query);
         ArrayList<Phone> phones = new ArrayList<>();
