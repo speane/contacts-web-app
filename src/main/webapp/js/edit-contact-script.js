@@ -15,23 +15,34 @@ addPhoneButton.onclick = function() {
 };
 
 var createdPhones = [];
+var lastCreatedPhoneId = 0;
 
 var savePhoneButton = document.getElementById('save-phone-button');
 savePhoneButton.onclick = function() {
+    lastCreatedPhoneId++;
+    var phoneTypeSelect = document.getElementById('phone-type-select');
+    var phoneTypeValue = phoneTypeSelect.options[phoneTypeSelect.selectedIndex].value;
     var phone = {
+        id : lastCreatedPhoneId,
         countryCode : document.getElementById('country-code').value,
         operatorCode : document.getElementById('operator-code').value,
         number : document.getElementById('phone-number').value,
-        type : document.getElementById('phone-type').value,
+        type : phoneTypeValue,
         commentary : document.getElementById('phone-commentary').value
     };
     createdPhones.push(phone);
+
     var newPhone = document.createElement("div");
     newPhone.className = "row";
+    newPhone.id = "created-phone-" + phone.id;
+
     var checkCell = document.createElement("div");
     checkCell.className = "cell-1";
+
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.name = "created-phone-check-" + phone.id;
+
     var checkLabel = document.createElement("label");
     newPhone.appendChild(checkCell);
     checkLabel.appendChild(checkbox);
@@ -40,10 +51,28 @@ savePhoneButton.onclick = function() {
 
     var numberCell = document.createElement("div");
     numberCell.className = "cell-3";
+    numberCell.id = "created-phone-number-" + phone.id;
     var fullNumber = '+' + phone.countryCode + '(' + phone.operatorCode + ')' + phone.number;
     var fullNumberTextNode = document.createTextNode(fullNumber);
     numberCell.appendChild(fullNumberTextNode);
     newPhone.appendChild(numberCell);
+
+    var typeCell = document.createElement("div");
+    typeCell.className = "cell-2";
+    typeCell.id = "created-phone-type-" + phone.id;
+    var phoneType = phoneTypeSelect.options[phoneTypeSelect.selectedIndex].text;
+    var typeTextNode = document.createTextNode(phoneType);
+    typeCell.appendChild(typeTextNode);
+
+    var commentaryCell = document.createElement("div");
+    commentaryCell.className = "cell-6";
+    commentaryCell.id = "created-phone-commentary-" + phone.id;
+    var phoneCommentaryTextNode = document.createTextNode(phone.commentary);
+    commentaryCell.appendChild(phoneCommentaryTextNode);
+
+    newPhone.appendChild(typeCell);
+    newPhone.appendChild(commentaryCell);
+
     document.getElementById('phone-list').appendChild(newPhone);
 };
 

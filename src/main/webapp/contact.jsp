@@ -53,16 +53,29 @@
                 Отчество
                 <input type="text" value="${not empty contact ? contact.patronymic : ''}">
             </label>
+            <h4>Дата рождения</h4>
+            <c:if test="${not empty contact and not empty contact.birthday}">
+                <fmt:formatDate value="${contact.birthday}" pattern="yyyy" var="year" />
+                <fmt:formatDate value="${contact.birthday}" pattern="M" var="month" />
+                <fmt:formatDate value="${contact.birthday}" pattern="dd" var="day" />
+            </c:if>
+            <c:if test="${empty contact or empty contact.birthday}">
+                <c:set var="year" value="" />
+                <c:set var="month" value="0" />
+                <c:set var="day" value="" />
+            </c:if>
             <label>
-                <h4>Дата рождения</h4>
                 Год рождения
-                <c:if test="${not empty contact}">
-                    <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="yyyy" />">
-                </c:if>
-                Месяц
-                <c:if test="${not empty contact}">
-                    <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="MM" />">
-                </c:if>
+                <input type="text" value="${year}" >
+            </label>
+            <label>
+                <select>
+                    <c:forEach var="tempMonth" items="${months}">
+                        <option value="${tempMonth}">${tempMonth}</option>
+                    </c:forEach>
+                </select>
+            </label>
+            <label>
                 День
                 <c:if test="${not empty contact}">
                     <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="dd" />">
@@ -83,22 +96,23 @@
             <label>
                 Семейное положение
                 <select>
-                    <option disabled>Семейное положение</option>
+                    <option ${empty contact or empty contact.maritalStatus ? 'selected' : ''} value="0">
+                        Не выбрано
+                    </option>
                     <c:forEach var="maritalStatus" items="${maritalStatuses}">
-                        <option ${empty contact or contact.maritalStatus == maritalStatus.name ? '' : 'selected'} value="${maritalStatus}">
-                            ${maritalStatus}
+                        <option ${empty contact or contact.maritalStatus != maritalStatus.name ? '' : 'selected'} value="${maritalStatus.name}">
+                            ${maritalStatus.name}
                         </option>
                     </c:forEach>
                 </select>
-                <input type="text" value="${not empty contact ? contact.maritalStatus : ''}">
             </label>
             <label>
                 Web Site
-                <input type="text" value="${not empty contact ? not contact.website : ''}">
+                <input type="url" value="${not empty contact ? contact.website : ''}">
             </label>
             <label>
                 Email
-                <input type="text" value="${not empty contact ? contact.email : ''}">
+                <input type="email" value="${not empty contact ? contact.email : ''}">
             </label>
             <label>
                 Текущее место работы
@@ -146,7 +160,10 @@
                     </label>
                     <label>
                         Тип телефон
-                        <input type="text" id="phone-type">
+                        <select id="phone-type-select">
+                            <option value="m" name="phone-type">Мобильный</option>
+                            <option value="h" name="phone-type">Домашний</option>
+                        </select>
                     </label>
                     <label>
                         Комментарий

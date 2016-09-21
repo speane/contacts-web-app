@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Evgeny Shilov on 16.09.2016.
@@ -32,6 +34,7 @@ public class EditFormCommand implements Command {
         }
         request.setAttribute("contact", contact);
         request.setAttribute("maritalStatuses", getMaritalStatuses());
+        request.setAttribute("months", new DateFormatSymbols(Locale.forLanguageTag("ru")).getMonths());
 
         return "/contact.jsp";
     }
