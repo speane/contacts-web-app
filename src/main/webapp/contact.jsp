@@ -256,13 +256,13 @@
                                     <input type="checkbox" name="attachment-check" value="${attachment.id}">
                                 </label>
                             </div>
-                            <div class="cell-3">
+                            <div id="attachment-filename-${attachment.id}" class="cell-3">
                                 <c:out value="${attachment.filename}" />
                             </div>
-                            <div class="cell-2">
+                            <div id="attachment-upload-date-${attachment.id}" class="cell-2">
                                 <c:out value="${attachment.uploadDate}" />
                             </div>
-                            <div class="cell-6">
+                            <div id="attachment-commentary-${attachment.id}" class="cell-6">
                                 <c:out value="${attachment.commentary}" />
                             </div>
                         </div>

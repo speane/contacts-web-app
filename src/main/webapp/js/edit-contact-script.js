@@ -215,11 +215,12 @@ var attachmentCommentaryField = document.getElementById('attachment-commentary')
 
 var editAttachment;
 var editCreatedAttachment;
+var editAttachmentId;
 
 var lastAttachmentId = 0;
 var createdAttachments = {};
 var removedAttachments = [];
-var updateAttachments = {};
+var updatedAttachments = {};
 
 var attachmentList = document.getElementById('attachment-list');
 var attachmentEditModal = document.getElementById('attachment-edit-modal');
@@ -242,12 +243,33 @@ function clearAttachmentFields() {
 
 editAttachmentButton.onclick = function() {
     editAttachment = true;
-    setAttachmentFields();
-    showModalForm(attachmentEditModal);
+    setAttachmentEditParameters();
+    if (editAttachmentId != -1) {
+        setAttachmentFields();
+        showModalForm(attachmentEditModal);
+    }
 };
 
-function setAttachmentFields() {
+function setAttachmentEditParameters() {
+    editAttachmentId = -1;
+    var checkedAttachments = getCheckedItems('attachment-check');
+    if (checkedAttachments.length > 0) {
+        editCreatedAttachment = false;
+        editAttachmentId = checkedAttachments[0];
+    } else {
+        var checkedCreatedAttachments = getCheckedItems('created-attachment-check');
+        if (checkedCreatedAttachments.length > 0) {
+            editCreatedAttachment = true;
+            editAttachmentId = checkedCreatedAttachments[0];
+        }
+    }
+}
 
+function setAttachmentFields() {
+    var attachmentPrefix;
+    attachmentPrefix = editCreatedAttachment ? 'created-attachment-' : 'attachment-';
+    attachmentFileNameField.value = document.getElementById(attachmentPrefix + 'filename-' + editAttachmentId).innerHTML.trim();
+    attachmentCommentaryField.value = document.getElementById(attachmentPrefix + 'commentary-' + editAttachmentId).innerHTML.trim();
 }
 
 removeAttachmentButton.onclick = function() {
@@ -272,7 +294,6 @@ function removeCreatedAttachment(id) {
     var createdAttachmentRow = document.getElementById('created-attachment-' + id);
     attachmentList.removeChild(createdAttachmentRow);
 }
-
 
 saveAttachmentButton.onclick = function() {
     if (editAttachment) {
@@ -342,7 +363,31 @@ function getDateString() {
 }
 
 function updateAttachment() {
+    var attachment = {
+        id : editAttachmentId,
+        filename : attachmentFileNameField.value,
+        commentary : attachmentCommentaryField.value,
+        uploadDate : getDateString()
+    };
+    var attachmentPrefix;
+    if (editCreatedAttachment) {
+        createdAttachments[attachment.id] = attachment;
+        attachmentPrefix = 'created-attachment-';
+    }
+    else {
+        updatedAttachments[attachment.id] = attachment;
+        attachmentPrefix = 'attachment-';
+    }
+    updateAttachmentRow(attachmentPrefix, attachment);
+}
 
+function updateAttachmentRow(attachmentPrefix, attachment) {
+    var attachmentFileNameDiv = document.getElementById(attachmentPrefix + 'filename-' + attachment.id);
+    attachmentFileNameDiv.innerHTML = attachment.filename;
+    var attachmentUploadDateDiv = document.getElementById(attachmentPrefix + 'upload-date-' + attachment.id);
+    attachmentUploadDateDiv.innerHTML = attachment.uploadDate;
+    var attachmentCommentaryDiv = document.getElementById(attachmentPrefix + 'commentary-' + attachment.id);
+    attachmentCommentaryDiv.innerHTML = attachment.commentary;
 }
 
 cancelAttachmentButton.onclick = function() {
