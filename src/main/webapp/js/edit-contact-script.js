@@ -129,20 +129,14 @@ function updatePhone() {
 
 }
 
-var photoEditButton = document.getElementById('photo-edit-image');
-var choosePhotoModal = document.getElementById('choose-photo-modal');
-photoEditButton.onclick = function() {
-    showModalForm(choosePhotoModal);
-};
-
 window.onclick = function(event) {
     if (event.target == phoneEditModal) {
         hideModalForm(phoneEditModal);
     }
     else if (event.target == attachmentEditModal) {
         hideModalForm(attachmentEditModal);
-    } else if (event.target == choosePhotoModal) {
-        hideModalForm(choosePhotoModal);
+    } else if (event.target == selectPhotoModal) {
+        hideModalForm(selectPhotoModal);
     }
 };
 
@@ -392,6 +386,37 @@ function updateAttachmentRow(attachmentPrefix, attachment) {
 
 cancelAttachmentButton.onclick = function() {
     hideModalForm(attachmentEditModal);
+};
+
+var photoFileInput = document.getElementById('photo-file-input');
+var savePhotoButton = document.getElementById('save-photo-button');
+var contactPhotoImage = document.getElementById('contact-photo-image');
+var contactPhotoSelectArea = document.getElementById('contact-photo-select-area');
+var selectPhotoModal = document.getElementById('select-photo-modal');
+var cancelPhotoSelectButton = document.getElementById('cancel-photo-select-button');
+var clearPhotoButton = document.getElementById('clear-photo-button');
+
+contactPhotoSelectArea.onclick = function() {
+    showModalForm(selectPhotoModal);
+};
+
+savePhotoButton.onclick = function() {
+    var fileReader = new FileReader;
+    var imageFile = photoFileInput.files[0];
+    fileReader.onload = function() {
+        contactPhotoImage.src = this.result;
+    };
+    if (imageFile) {
+        fileReader.readAsDataURL(imageFile);
+    }
+};
+
+cancelPhotoSelectButton.onclick = function() {
+    hideModalForm(selectPhotoModal);
+};
+
+clearPhotoButton.onclick = function() {
+    contactPhotoImage.src = '/images/default.png';
 };
 
 

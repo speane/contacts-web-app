@@ -28,7 +28,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         ArrayList<Contact> contacts = new ArrayList<>();
         Statement statement = connection.createStatement();
         String GET_ALL_CONTACTS_QUERY = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
+                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
                 "FROM contact " +
                 "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
                 "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
@@ -73,7 +73,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             InstantiationException, IllegalAccessException {
         Statement statement = connection.createStatement();
         String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
+                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
                 "FROM contact " +
                 "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
                 "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
@@ -100,6 +100,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setHouse(contactResult.getString("house"));
             contact.setFlat(contactResult.getString("flat"));
             contact.setZipCode(contactResult.getString("zip_code"));
+            contact.setImageFileName(contactResult.getString("image_filename"));
 
             PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
             contact.setPhones(phoneDAO.getAllByContactId(contact.getId()));

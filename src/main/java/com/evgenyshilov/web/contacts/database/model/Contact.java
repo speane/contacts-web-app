@@ -28,6 +28,7 @@ public class Contact implements Serializable {
     private String zipCode;
     private ArrayList<Phone> phones;
     private ArrayList<Attachment> attachments;
+    private String imageFileName;
 
     public String getState() {
         return state;
@@ -179,5 +180,13 @@ public class Contact implements Serializable {
 
     public void setAttachments(ArrayList<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 }

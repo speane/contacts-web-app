@@ -5,10 +5,12 @@
     <c:when test="${empty contact}">
         <c:set var="title" value="Создание контакта" />
         <c:set var="submitAction" value="/app/create-contact" />
+        <c:set var="contactImagePath" value="/images/default.png" />
     </c:when>
     <c:otherwise>
         <c:set var="title" value="Редактирование контакта" />
         <c:set var="submitAction" value="/app/update-contact" />
+        <c:set var="contactImagePath" value="/images/${not empty contact.imageFileName ? contact.imageFileName : 'default.png'}" />
     </c:otherwise>
 </c:choose>
 <!DOCTYPE html>
@@ -27,17 +29,19 @@
         </header>
         <section>
             <h3>Фото</h3>
-            <img id="photo-edit-image" src="#">
-            <div id="choose-photo-modal" class="modal">
+            <div id="contact-photo-select-area">
+                <img id="contact-photo-image" src="${contactImagePath}">
+            </div>
+            <div id="select-photo-modal" class="modal">
                 <div class="modal-content">
                     <h4>Выбор фото</h4>
+                    <input type="button" id="clear-photo-button" value="Удалить">
                     <label>
                         Путь к фото на диске
-                        <input type="text" name="photo-disk-path">
+                        <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png,image/gif">
                     </label>
-                    <button type="button">Найти</button>
-                    <button type="button">Сохранить</button>
-                    <button type="button">Отменить</button>
+                    <input type="button" id="save-photo-button" value="Сохранить">
+                    <input type="button" id="cancel-photo-select-button" value="Отменить">
                 </div>
             </div>
             <h3>Основная информация</h3>
