@@ -20,6 +20,7 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("year", new YearFieldHanlder());
         fieldHandlerMap.put("sex", new SexFieldHanlder());
         fieldHandlerMap.put("marital-status", new MaritalStatusFieldHandler());
+        fieldHandlerMap.put("nationality", new NationalityFieldHandler());
         fieldHandlerMap.put("website", new WebsiteFieldHandler());
         fieldHandlerMap.put("email", new EmailFieldHandler());
         fieldHandlerMap.put("job", new JobFieldHandler());

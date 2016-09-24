@@ -148,8 +148,9 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         statement.setString(3, contact.getPatronymic());
         statement.setDate(4, contact.getBirthday());
         statement.setString(5, contact.getSex());
+        System.out.println(getContactNationalityId(contact));
         statement.setInt(6, getContactNationalityId(contact));
-        statement.setInt(7, 1);
+        statement.setInt(7, contact.getMaritalStatus());
         statement.setString(8, contact.getWebsite());
         statement.setString(9, contact.getEmail());
         statement.setString(10, contact.getJob());

@@ -106,7 +106,7 @@
                         Не выбрано
                     </option>
                     <c:forEach var="maritalStatus" items="${maritalStatuses}">
-                        <option ${empty contact or contact.maritalStatus != maritalStatus.name ? '' : 'selected'} value="${maritalStatus.id}">
+                        <option ${empty contact or contact.maritalStatus != maritalStatus.id ? '' : 'selected'} value="${maritalStatus.id}">
                             ${maritalStatus.name}
                         </option>
                     </c:forEach>

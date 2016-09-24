@@ -8,6 +8,6 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 public class MaritalStatusFieldHandler implements FieldHandler {
     @Override
     public void setField(Contact contact, String value) {
-        contact.setMaritalStatus(value);
+        contact.setMaritalStatus(Integer.parseInt(value));
     }
 }
