@@ -140,6 +140,13 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         statement.close();
     }
 
+    public int getLastInsertedId() throws SQLException {
+        Statement statement = connection.createStatement();
+        String query = "SELECT last_insert_id() AS last_id FROM contact";
+        ResultSet resultSet = statement.executeQuery(query);
+        return resultSet.next() ? resultSet.getInt("last_id") : -1;
+    }
+
     private PreparedStatement createPreparedStatement(String query, Contact contact) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
 

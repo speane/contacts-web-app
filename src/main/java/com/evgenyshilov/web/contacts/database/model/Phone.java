@@ -13,6 +13,7 @@ public class Phone implements Serializable {
     private int number;
     private String type;
     private String commentary;
+    private int contactId;
 
     public int getCountryCode() {
         return countryCode;
@@ -60,5 +61,13 @@ public class Phone implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 }

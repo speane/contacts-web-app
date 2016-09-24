@@ -145,6 +145,10 @@
                 Квартира
                 <input name="flat" type="text" value="${not empty contact ? contact.flat : ''}">
             </label>
+            <label>
+                Почтовый индекс
+                <input name="zipcode" type="text" value="${not empty contact ? contact.zipCode : ''}">
+            </label>
             <h3>Контактные телефоны</h3>
             <input type="button" id="add-phone-button" value="Добавить">
             <input type="button" id="remove-phone-button" value="Удалить">
@@ -168,7 +172,7 @@
                         Тип телефон
                         <select id="phone-type-select">
                             <c:forEach var="phoneType" items="${phoneTypes}">
-                                <option value="${phoneType.id}">${phoneType.name}</option>
+                                <option value="${phoneType.name}">${phoneType.name}</option>
                             </c:forEach>
                         </select>
                     </label>

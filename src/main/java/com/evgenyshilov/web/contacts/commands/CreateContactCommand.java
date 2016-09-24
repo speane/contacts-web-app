@@ -34,11 +34,19 @@ public class CreateContactCommand implements Command {
     private void createNewContact(Contact contact) throws InvocationTargetException, SQLException, InstantiationException, NoSuchMethodException, IllegalAccessException {
         ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
         contactDAO.insert(contact);
-        contactDAO.close();
+        int contactId = contactDAO.getLastInsertedId();
+
         PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-        contact.getPhones().forEach(phoneDAO::insert);
+        for (Phone phone : contact.getPhones()) {
+            phone.setContactId(contactId);
+            phoneDAO.insert(phone);
+        }
         phoneDAO.close();
+
         AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
-        contact.getAttachments().forEach(attachmentDAO::insert);
+        for (Attachment attachment : contact.getAttachments()) {
+            attachment.setContactId(contactId);
+            attachmentDAO.insert(attachment);
+        }
     }
 }

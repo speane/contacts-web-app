@@ -3,44 +3,49 @@ package com.evgenyshilov.web.contacts.database.dao;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
  * Created by Evgeny Shilov on 18.09.2016.
  */
-public class AttachmentDAO extends GenericDAO {
+public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
 
     public AttachmentDAO(Connection connection) {
         super(connection);
     }
 
     @Override
-    public ArrayList getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public ArrayList<Attachment> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return null;
     }
 
     @Override
-    public Object get(Object key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Attachment get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return null;
     }
 
     @Override
-    public void update(Object key, Object value) {
+    public void update(Integer key, Attachment attachment) {
 
     }
 
     @Override
-    public void delete(Object key) {
+    public void delete(Integer key) {
 
     }
 
     @Override
-    public void insert(Object value) {
-
+    public void insert(Attachment attachment) throws SQLException {
+        String query = "INSERT INTO attachment (`filename`, `commentary`, `upload_date`, `contact_id`) " +
+                "VALUES (?, ?, ?, ?);";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, attachment.getFilename());
+        statement.setString(2, attachment.getCommentary());
+        statement.setDate(3, attachment.getUploadDate());
+        statement.setInt(4, attachment.getContactId());
+        statement.executeUpdate();
+        statement.close();
     }
 
     public ArrayList<Attachment> getAllByContactId(int id) throws SQLException {

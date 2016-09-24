@@ -12,6 +12,7 @@ public class Attachment implements Serializable {
     private String filename;
     private Date uploadDate;
     private String commentary;
+    private int contactId;
 
     public int getId() {
         return id;
@@ -43,5 +44,13 @@ public class Attachment implements Serializable {
 
     public void setCommentary(String commentary) {
         this.commentary = commentary;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 }
