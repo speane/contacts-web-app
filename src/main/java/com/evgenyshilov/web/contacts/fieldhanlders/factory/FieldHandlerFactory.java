@@ -29,6 +29,7 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("flat", new FlatFieldHandler());
         fieldHandlerMap.put("zipcode", new ZipCodeFieldHandler());
         fieldHandlerMap.put("created-phones", new CreatedPhonesFieldHandler());
+        fieldHandlerMap.put("created-attachments", new CreatedAttachmentsFieldHandler());
     }
 
     public FieldHandler getFieldHandler(String fieldName) {

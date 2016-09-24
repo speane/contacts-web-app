@@ -465,15 +465,25 @@ function createHiddenCreatedPhonesField() {
     var field = document.createElement('input');
     field.type = 'hidden';
     field.name = 'created-phones';
-    field.value = JSON.stringify(createdPhones);
+    field.value = JSON.stringify(getValuesFromAssociativeArray(createdPhones));
     return field;
+}
+
+function getValuesFromAssociativeArray(associativeArray) {
+    var values = [];
+    for (var key in associativeArray) {
+        if (associativeArray.hasOwnProperty(key)) {
+            values.push(associativeArray[key]);
+        }
+    }
+    return values;
 }
 
 function createHiddenCreatedAttachmentsField() {
     var field = document.createElement('input');
     field.type = 'hidden';
     field.name = 'created-attachments';
-    field.value = JSON.stringify(createdAttachments);
+    field.value = JSON.stringify(getValuesFromAssociativeArray(createdAttachments));
     return field;
 }
 

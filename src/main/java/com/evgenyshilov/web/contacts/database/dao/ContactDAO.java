@@ -130,8 +130,19 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void insert(Contact value) {
-
+    public void insert(Contact value) throws SQLException {
+        int cityId = getContactCityId(value);
+        int stateId = getContactStateId(value);
+        String query = String.format("INSERT INTO contact (`first_name`, `last_name`, `patronymic`, `birthday`, " +
+                "`sex`, `nationality`, `marital_status_id`, `website`, `email`, `job`, `state_id`, `city_id`, `street`, " +
+                "`house`, `flat`, `zipcode`) " +
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",
+                value.getFirstName(), value.getLastName(), value.getPatronymic(), value.getBirthday(),
+                value.getSex(), value.getMaritalStatus(), value.getWebsite(), value.getEmail(), value.getJob(),
+                stateId, cityId, value.getStreet(), value.getHouse(), value.getFlat(), value.getZipCode());
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
     }
 
     public ArrayList<Contact> getAllByParams(String firstName, String lastName, String patronymic,
@@ -214,5 +225,37 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contacts.add(contact);
         }
         return contacts;
+    }
+
+    private int getContactCityId(Contact contact) throws SQLException {
+        int cityId;
+        if ((cityId = getCityId(contact.getCity())) != -1) {
+            return cityId;
+        }
+        else {
+            String insertQuery = "INSERT INTO city (name) VALUES (" + contact.getCity() + ";";
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(insertQuery);
+            return getCityId(contact.getCity());
+        }
+    }
+
+    private int getCityId(String city) throws SQLException {
+        String query = "SELECT id FROM city WHERE name = " + city + " LIMIT 1;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        int id;
+        if (resultSet.next()) {
+            id = resultSet.getInt("id");
+        }
+        else {
+            id = -1;
+        }
+        statement.close();
+        return id;
+    }
+
+    private int getContactStateId(Contact contact) {
+        return 1;
     }
 }
