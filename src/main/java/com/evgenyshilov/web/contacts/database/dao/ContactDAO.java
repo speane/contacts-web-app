@@ -28,7 +28,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         ArrayList<Contact> contacts = new ArrayList<>();
         Statement statement = connection.createStatement();
         String GET_ALL_CONTACTS_QUERY = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
+                "marital_status.id AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
                 "FROM contact " +
                 "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
                 "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
@@ -47,7 +47,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setEmail(contactSet.getString("email"));
             contact.setWebsite(contactSet.getString("website"));
             contact.setNationality(contactSet.getString("nationality"));
-            contact.setMaritalStatus(contactSet.getString("marital_status"));
+            contact.setMaritalStatus(contactSet.getInt("marital_status"));
             contact.setJob(contactSet.getString("job"));
             contact.setState(contactSet.getString("state"));
             contact.setCity(contactSet.getString("city"));
@@ -73,7 +73,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             InstantiationException, IllegalAccessException {
         Statement statement = connection.createStatement();
         String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
+                "marital_status.id AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
                 "FROM contact " +
                 "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
                 "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
@@ -92,7 +92,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setEmail(contactResult.getString("email"));
             contact.setWebsite(contactResult.getString("website"));
             contact.setNationality(contactResult.getString("nationality"));
-            contact.setMaritalStatus(contactResult.getString("marital_status"));
+            contact.setMaritalStatus(contactResult.getInt("marital_status"));
             contact.setJob(contactResult.getString("job"));
             contact.setState(contactResult.getString("state"));
             contact.setCity(contactResult.getString("city"));
@@ -131,18 +131,36 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
 
     @Override
     public void insert(Contact value) throws SQLException {
-        int cityId = getContactCityId(value);
-        int stateId = getContactStateId(value);
-        String query = String.format("INSERT INTO contact (`first_name`, `last_name`, `patronymic`, `birthday`, " +
-                "`sex`, `nationality`, `marital_status_id`, `website`, `email`, `job`, `state_id`, `city_id`, `street`, " +
-                "`house`, `flat`, `zipcode`) " +
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",
-                value.getFirstName(), value.getLastName(), value.getPatronymic(), value.getBirthday(),
-                value.getSex(), value.getMaritalStatus(), value.getWebsite(), value.getEmail(), value.getJob(),
-                stateId, cityId, value.getStreet(), value.getHouse(), value.getFlat(), value.getZipCode());
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
+        String query = "INSERT INTO contact (`first_name`, `last_name`, `patronymic`, `birthday`, " +
+                "`sex`, `nationality_id`, `marital_status_id`, `website`, `email`, `job`, `state_id`, `city_id`, " +
+                "`street`,`house`, `flat`, `zip_code`) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement statement = createPreparedStatement(query, value);
+        statement.executeUpdate();
         statement.close();
+    }
+
+    private PreparedStatement createPreparedStatement(String query, Contact contact) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        statement.setString(1, contact.getFirstName());
+        statement.setString(2, contact.getLastName());
+        statement.setString(3, contact.getPatronymic());
+        statement.setDate(4, contact.getBirthday());
+        statement.setString(5, contact.getSex());
+        statement.setInt(6, getContactNationalityId(contact));
+        statement.setInt(7, 1);
+        statement.setString(8, contact.getWebsite());
+        statement.setString(9, contact.getEmail());
+        statement.setString(10, contact.getJob());
+        statement.setInt(11, getContactStateId(contact));
+        statement.setInt(12, getContactCityId(contact));
+        statement.setString(13, contact.getStreet());
+        statement.setString(14, contact.getHouse());
+        statement.setString(15, contact.getFlat());
+        statement.setString(16, contact.getZipCode());
+
+        return statement;
     }
 
     public ArrayList<Contact> getAllByParams(String firstName, String lastName, String patronymic,
@@ -150,7 +168,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
                                              String maritalStatus, String nationality,
                                              String state, String city, String house, String flat) throws SQLException {
         String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.name AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
+                "marital_status.id AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
                 "FROM contact " +
                 "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
                 "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
@@ -213,7 +231,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setEmail(contactResult.getString("email"));
             contact.setWebsite(contactResult.getString("website"));
             contact.setNationality(contactResult.getString("nationality"));
-            contact.setMaritalStatus(contactResult.getString("marital_status"));
+            contact.setMaritalStatus(contactResult.getInt("marital_status"));
             contact.setJob(contactResult.getString("job"));
             contact.setState(contactResult.getString("state"));
             contact.setCity(contactResult.getString("city"));
@@ -233,15 +251,17 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             return cityId;
         }
         else {
-            String insertQuery = "INSERT INTO city (name) VALUES (" + contact.getCity() + ";";
+            String insertQuery = "INSERT INTO city (name) VALUES (\"" + contact.getCity() + "\");";
             Statement statement = connection.createStatement();
             statement.executeUpdate(insertQuery);
+            statement.close();
             return getCityId(contact.getCity());
         }
     }
 
     private int getCityId(String city) throws SQLException {
-        String query = "SELECT id FROM city WHERE name = " + city + " LIMIT 1;";
+        String query = "SELECT id FROM city WHERE name = \"" + city + "\" LIMIT 1;";
+        System.out.println(query);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         int id;
@@ -255,7 +275,63 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         return id;
     }
 
-    private int getContactStateId(Contact contact) {
-        return 1;
+    private int getContactStateId(Contact contact) throws SQLException {
+        int stateId;
+        if ((stateId = getStateId(contact.getState())) != -1) {
+            return stateId;
+        }
+        else {
+            String insertQuery = "INSERT INTO state (name) VALUES (\"" + contact.getState() + "\");";
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(insertQuery);
+            statement.close();
+            return getStateId(contact.getState());
+        }
     }
+
+    private int getStateId(String state) throws SQLException {
+        String query = "SELECT id FROM state WHERE name = \"" + state + "\" LIMIT 1;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        int id;
+        if (resultSet.next()) {
+            id = resultSet.getInt("id");
+        }
+        else {
+            id = -1;
+        }
+        statement.close();
+        return id;
+    }
+
+    private int getContactNationalityId(Contact contact) throws SQLException {
+        int nationalityId;
+        if ((nationalityId = getNationalityId(contact.getNationality())) != -1) {
+            return nationalityId;
+        }
+        else {
+            String insertQuery = "INSERT INTO nationality (name) VALUES (\"" + contact.getNationality() + "\");";
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(insertQuery);
+            statement.close();
+            return getNationalityId(contact.getNationality());
+        }
+    }
+
+    private int getNationalityId(String nationality) throws SQLException {
+        String query = "SELECT id FROM nationality WHERE name = \"" + nationality + "\" LIMIT 1;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        int id;
+        if (resultSet.next()) {
+            id = resultSet.getInt("id");
+        }
+        else {
+            id = -1;
+        }
+        statement.close();
+        return id;
+    }
+
+
 }

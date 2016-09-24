@@ -15,7 +15,7 @@ public class MonthFieldHandler implements FieldHandler {
             if (contact.getBirthday() == null) {
                 contact.setBirthday(new Date(0));
             }
-            //contact.setBirthday(setDateMonth(contact.getBirthday(), Integer.parseInt(value)));
+            contact.setBirthday(setDateMonth(contact.getBirthday(), Integer.parseInt(value)));
         }
     }
 

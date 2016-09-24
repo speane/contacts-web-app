@@ -25,6 +25,7 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("job", new JobFieldHandler());
         fieldHandlerMap.put("state", new StateFieldHandler());
         fieldHandlerMap.put("city", new CityFieldHandler());
+        fieldHandlerMap.put("street", new StreetFieldHandler());
         fieldHandlerMap.put("house", new HouseFieldHandler());
         fieldHandlerMap.put("flat", new FlatFieldHandler());
         fieldHandlerMap.put("zipcode", new ZipCodeFieldHandler());

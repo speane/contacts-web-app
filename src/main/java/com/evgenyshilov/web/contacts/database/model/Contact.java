@@ -16,7 +16,7 @@ public class Contact implements Serializable {
     private Date birthday;
     private String sex;
     private String nationality;
-    private String maritalStatus;
+    private int maritalStatus;
     private String website;
     private String email;
     private String job;
@@ -134,11 +134,11 @@ public class Contact implements Serializable {
         this.nationality = nationality;
     }
 
-    public String getMaritalStatus() {
+    public int getMaritalStatus() {
         return maritalStatus;
     }
 
-    public void setMaritalStatus(String maritalStatus) {
+    public void setMaritalStatus(int maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 

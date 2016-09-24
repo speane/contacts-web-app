@@ -78,8 +78,8 @@
             </label>
             <label>
                 <select name="month">
-                    <c:forEach var="tempMonth" items="${months}">
-                        <option value="${tempMonth}">${tempMonth}</option>
+                    <c:forEach var="tempMonth" items="${months}" varStatus="loop">
+                        <option ${month == loop.index ? 'selected' : ''} value="${loop.index}">${tempMonth}</option>
                     </c:forEach>
                 </select>
             </label>
@@ -106,7 +106,7 @@
                         Не выбрано
                     </option>
                     <c:forEach var="maritalStatus" items="${maritalStatuses}">
-                        <option ${empty contact or contact.maritalStatus != maritalStatus.name ? '' : 'selected'} value="${maritalStatus.name}">
+                        <option ${empty contact or contact.maritalStatus != maritalStatus.name ? '' : 'selected'} value="${maritalStatus.id}">
                             ${maritalStatus.name}
                         </option>
                     </c:forEach>
@@ -168,7 +168,7 @@
                         Тип телефон
                         <select id="phone-type-select">
                             <c:forEach var="phoneType" items="${phoneTypes}">
-                                <option value="${phoneType.name}">${phoneType.name}</option>
+                                <option value="${phoneType.id}">${phoneType.name}</option>
                             </c:forEach>
                         </select>
                     </label>
