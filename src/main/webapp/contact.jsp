@@ -276,7 +276,7 @@
                     </c:forEach>
                 </c:if>
             </div>
-            <input type="submit" id="save-contact-button" value="Сохранить">
+            <input type="button" id="save-contact-button" value="Сохранить">
         </section>
     </form>
     <script src="/js/edit-contact-script.js"></script>

@@ -453,4 +453,28 @@ clearPhotoButton.onclick = function() {
     contactPhotoImage.src = '/images/default.png';
 };
 
+var contactForm = document.getElementById('contact-form');
+var submitContactButton = document.getElementById('save-contact-button');
+submitContactButton.onclick = function() {
+    contactForm.appendChild(createHiddenCreatedPhonesField());
+    contactForm.appendChild(createHiddenCreatedAttachmentsField());
+    contactForm.submit();
+};
+
+function createHiddenCreatedPhonesField() {
+    var field = document.createElement('input');
+    field.type = 'hidden';
+    field.name = 'created-phones';
+    field.value = JSON.stringify(createdPhones);
+    return field;
+}
+
+function createHiddenCreatedAttachmentsField() {
+    var field = document.createElement('input');
+    field.type = 'hidden';
+    field.name = 'created-attachments';
+    field.value = JSON.stringify(createdAttachments);
+    return field;
+}
+
 

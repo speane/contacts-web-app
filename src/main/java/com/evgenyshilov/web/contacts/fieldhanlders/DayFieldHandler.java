@@ -15,7 +15,7 @@ public class DayFieldHandler implements FieldHandler {
             if (contact.getBirthday() == null) {
                 contact.setBirthday(new Date(0));
             }
-            contact.setBirthday(setDateDay(contact.getBirthday(), Integer.parseInt(value)));
+            //contact.setBirthday(setDateDay(contact.getBirthday(), Integer.parseInt(value)));
         }
     }
 

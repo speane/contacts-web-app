@@ -15,7 +15,7 @@ public class YearFieldHanlder implements FieldHandler {
             if (contact.getBirthday() == null) {
                 contact.setBirthday(new Date(0));
             }
-            contact.setBirthday(setDateYear(contact.getBirthday(), Integer.parseInt(value)));
+            //contact.setBirthday(setDateYear(contact.getBirthday(), Integer.parseInt(value)));
         }
     }
 

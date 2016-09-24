@@ -1,7 +1,8 @@
 package com.evgenyshilov.web.contacts.commands;
 
-import com.evgenyshilov.web.contacts.commands.forms.EditFormCommand;
-import com.evgenyshilov.web.contacts.database.model.ContactFieldSetter;
+import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.fieldhanlders.FieldHandler;
+import com.evgenyshilov.web.contacts.fieldhanlders.factory.FieldHandlerFactory;
 import com.evgenyshilov.web.contacts.resources.ApplicationResources;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -29,11 +30,15 @@ public class CreateContactCommand implements Command {
         try {
             List<FileItem> formItems = upload.parseRequest(request);
             if (formItems != null) {
-                ContactFieldSetter fieldSetter = new ContactFieldSetter();
+                Contact contact = new Contact();
+                FieldHandlerFactory fieldHandlerFactory = new FieldHandlerFactory();
                 for (FileItem item : formItems) {
                     if (item.isFormField()) {
                         System.out.println(item.getFieldName() + " " + item.getString("UTF-8"));
-                        //fieldSetter.setField(item.getFieldName(), item.getString());
+                        FieldHandler handler = fieldHandlerFactory.getFieldHandler(item.getFieldName());
+                        if (handler != null) {
+                            handler.setField(contact, item.getString("UTF-8"));
+                        }
                     }
                 }
             }
@@ -44,6 +49,6 @@ public class CreateContactCommand implements Command {
         response.sendRedirect("/app/contact-list");
 
 
-        return new EditFormCommand().execute(request, response);
+        return null;
     }
 }

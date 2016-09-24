@@ -1,4 +1,6 @@
-package com.evgenyshilov.web.contacts.fieldhanlders;
+package com.evgenyshilov.web.contacts.fieldhanlders.factory;
+
+import com.evgenyshilov.web.contacts.fieldhanlders.*;
 
 import java.util.HashMap;
 
@@ -26,6 +28,7 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("house", new HouseFieldHandler());
         fieldHandlerMap.put("flat", new FlatFieldHandler());
         fieldHandlerMap.put("zipcode", new ZipCodeFieldHandler());
+        fieldHandlerMap.put("created-phones", new CreatedPhonesFieldHandler());
     }
 
     public FieldHandler getFieldHandler(String fieldName) {
