@@ -223,10 +223,13 @@ var editAttachmentButton = document.getElementById('edit-attachment-button');
 var removeAttachmentButton = document.getElementById('remove-attachment-button');
 var saveAttachmentButton = document.getElementById('save-attachment-button');
 var cancelAttachmentButton = document.getElementById('cancel-attachment-edit-button');
+var attachmentForm = document.getElementById('attachment-form');
+var attachmentFileInput = document.getElementById('attachment-file-input');
 
 addAttachmentButton.onclick = function() {
     editAttachment = false;
     clearAttachmentFields();
+    attachmentFileInput.style.display = 'block';
     showModalForm(attachmentEditModal);
 };
 
@@ -238,6 +241,7 @@ function clearAttachmentFields() {
 editAttachmentButton.onclick = function() {
     editAttachment = true;
     setAttachmentEditParameters();
+    attachmentFileInput.style.display = 'none';
     if (editAttachmentId != -1) {
         setAttachmentFields();
         showModalForm(attachmentEditModal);
@@ -308,6 +312,7 @@ function createAttachment() {
     };
     createdAttachments[lastAttachmentId] = attachment;
     addAttachmentToList(attachment);
+    createAttachmentFileInput();
 }
 
 function addAttachmentToList(attachment) {
@@ -340,12 +345,26 @@ function addAttachmentToList(attachment) {
     attachmentCommentaryCell.id = 'created-attachment-commentary-' + attachment.id;
     attachmentCommentaryCell.innerHTML = attachment.commentary;
 
+    attachmentFileInput.id = 'created-attachment-file-input-' + attachment.id;
+    attachmentFileInput.style.display = 'block';
+    attachmentRow.appendChild(attachmentFileInput);
+
     attachmentRow.appendChild(attachmentCheckBoxCell);
     attachmentRow.appendChild(attachmentFileNameCell);
     attachmentRow.appendChild(attachmentUploadDateCell);
     attachmentRow.appendChild(attachmentCommentaryCell);
+    attachmentRow.appendChild(attachmentFileInput);
 
     attachmentList.appendChild(attachmentRow);
+}
+
+function createAttachmentFileInput() {
+    var newAttachmentFileInput = document.createElement('input');
+    newAttachmentFileInput.type = 'file';
+    newAttachmentFileInput.style.display = 'block';
+    newAttachmentFileInput.id = 'attachment-file-input';
+    attachmentFileInput = newAttachmentFileInput;
+    attachmentForm.insertBefore(newAttachmentFileInput, saveAttachmentButton);
 }
 
 function getDateString() {
@@ -395,6 +414,8 @@ var contactPhotoSelectArea = document.getElementById('contact-photo-select-area'
 var selectPhotoModal = document.getElementById('select-photo-modal');
 var cancelPhotoSelectButton = document.getElementById('cancel-photo-select-button');
 var clearPhotoButton = document.getElementById('clear-photo-button');
+var uploadedContactPhotoFileInput = document.getElementById('uploaded-contact-photo');
+var photoSelectForm = document.getElementById('photo-select-form');
 
 contactPhotoSelectArea.onclick = function() {
     showModalForm(selectPhotoModal);
@@ -409,7 +430,20 @@ savePhotoButton.onclick = function() {
     if (imageFile) {
         fileReader.readAsDataURL(imageFile);
     }
+    uploadedContactPhotoFileInput.parentNode.removeChild(uploadedContactPhotoFileInput);
+    contactPhotoSelectArea.appendChild(photoFileInput);
+    photoFileInput.id = 'uploaded-contact-photo';
+    uploadedContactPhotoFileInput = photoFileInput;
+    photoFileInput = createPhotoFileInput();
+    photoSelectForm.insertBefore(photoFileInput, savePhotoButton);
 };
+
+function createPhotoFileInput() {
+    var newPhotoFileInput = document.createElement('input');
+    newPhotoFileInput.type = 'file';
+    newPhotoFileInput.id = 'photo-file-input';
+    return newPhotoFileInput;
+}
 
 cancelPhotoSelectButton.onclick = function() {
     hideModalForm(selectPhotoModal);

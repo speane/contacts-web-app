@@ -13,4 +13,5 @@ public class ApplicationResources {
     public static final int FILE_NOT_FOUND_STATUS_CODE = 404;
     public static final String CONNECTION_POOL_DATA_SOURCE_URL = "java:comp/env/jdbc/TestDB";
     public static final String ALL_CONTACTS_ATTRIBUTE_NAME = "allcontacts";
+    public static String FILE_UPLOAD_PATH;
 }

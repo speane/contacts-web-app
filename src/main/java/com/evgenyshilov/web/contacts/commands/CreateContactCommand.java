@@ -1,19 +1,25 @@
 package com.evgenyshilov.web.contacts.commands;
 
 import com.evgenyshilov.web.contacts.commands.forms.EditFormCommand;
+import com.evgenyshilov.web.contacts.database.model.ContactFieldSetter;
+import com.evgenyshilov.web.contacts.resources.ApplicationResources;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.List;
 
 /**
- * Created by Evgeny Shilov on 19.09.2016.
+ * Created by Evgeny Shilov on 24.09.2016.
  */
-public class UpdateContactCommand implements Command {
-
+public class CreateContactCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        /*DiskFileItemFactory factory = new DiskFileItemFactory();
+        request.setCharacterEncoding("UTF-8");
+        DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
         File uploadDir = new File(ApplicationResources.FILE_UPLOAD_PATH);
@@ -26,15 +32,18 @@ public class UpdateContactCommand implements Command {
                 ContactFieldSetter fieldSetter = new ContactFieldSetter();
                 for (FileItem item : formItems) {
                     if (item.isFormField()) {
-
-                    } else {
-
+                        System.out.println(item.getFieldName() + " " + item.getString("UTF-8"));
+                        //fieldSetter.setField(item.getFieldName(), item.getString());
                     }
                 }
             }
         } finally {
             System.out.println("sdfsdf");
-        }*/
+        }
+
+        response.sendRedirect("/app/contact-list");
+
+
         return new EditFormCommand().execute(request, response);
     }
 }

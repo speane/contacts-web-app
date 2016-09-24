@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -28,6 +29,7 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        ApplicationResources.FILE_UPLOAD_PATH = getServletContext().getRealPath("") + File.separator + "files";
         logger = LogManager.getRootLogger();
         commandFactory = new CommandFactory();
         try {

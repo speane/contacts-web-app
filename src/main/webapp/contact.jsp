@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page language="java" contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:choose>
@@ -16,14 +16,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title><c:out value="${title}" /></title>
 </head>
 <body>
     <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <form method="post" action="${submitAction}" id="contact-form" class="centered contact">
+    <form method="post" action="${submitAction}" id="contact-form" class="centered contact" enctype="multipart/form-data" >
         <header>
             <h2><c:out value="${title}" /></h2>
         </header>
@@ -31,31 +31,35 @@
             <h3>Фото</h3>
             <div id="contact-photo-select-area">
                 <img id="contact-photo-image" src="${contactImagePath}">
+                <input type="file" id="uploaded-contact-photo">
             </div>
             <div id="select-photo-modal" class="modal">
-                <div class="modal-content">
+                <div id="photo-select-form" class="modal-content">
                     <h4>Выбор фото</h4>
                     <input type="button" id="clear-photo-button" value="Удалить">
-                    <label>
-                        Путь к фото на диске
-                        <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png,image/gif">
-                    </label>
+                    Путь к фото на диске
+                    <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png,image/gif">
                     <input type="button" id="save-photo-button" value="Сохранить">
                     <input type="button" id="cancel-photo-select-button" value="Отменить">
                 </div>
             </div>
+            <c:if test="${not empty errorMessage}">
+                <h4>
+                    <c:out value="${errorMessage}" />
+                </h4>
+            </c:if>
             <h3>Основная информация</h3>
             <label>
                 Имя*
-                <input type="text" value="${not empty contact ? contact.firstName : ''}">
+                <input name="first-name" type="text" value="${not empty contact ? contact.firstName : ''}">
             </label>
             <label>
                 Фамилия*
-                <input type="text" value="${not empty contact ? contact.lastName : ''}">
+                <input name="last-name" type="text" value="${not empty contact ? contact.lastName : ''}">
             </label>
             <label>
                 Отчество
-                <input type="text" value="${not empty contact ? contact.patronymic : ''}">
+                <input name="patronymic" type="text" value="${not empty contact ? contact.patronymic : ''}">
             </label>
             <h4>Дата рождения</h4>
             <c:if test="${not empty contact and not empty contact.birthday}">
@@ -70,10 +74,10 @@
             </c:if>
             <label>
                 Год рождения
-                <input type="text" value="${year}" >
+                <input type="text" value="${year}" name="year">
             </label>
             <label>
-                <select>
+                <select name="month">
                     <c:forEach var="tempMonth" items="${months}">
                         <option value="${tempMonth}">${tempMonth}</option>
                     </c:forEach>
@@ -81,13 +85,11 @@
             </label>
             <label>
                 День
-                <c:if test="${not empty contact}">
-                    <input type="text" value="<fmt:formatDate value="${contact.birthday}" pattern="dd" />">
-                </c:if>
+                <input type="text" value="${day}" name="day">
             </label>
             <label>
                 Пол
-                <select>
+                <select name="sex">
                     <option disabled>Выберите пол</option>
                     <option ${empty contact or contact.sex == 'f' ? '' : 'selected'} value="m">Мужчина</option>
                     <option ${empty contact or contact.sex == 'm' ? '' : 'selected'} value="f">Женщина</option>
@@ -95,11 +97,11 @@
             </label>
             <label>
                 Гражданство
-                <input type="text" value="${not empty contact ? contact.nationality : ''}">
+                <input name="nationality" type="text" value="${not empty contact ? contact.nationality : ''}">
             </label>
             <label>
                 Семейное положение
-                <select>
+                <select name="marital-status">
                     <option ${empty contact or empty contact.maritalStatus ? 'selected' : ''} value="0">
                         Не выбрано
                     </option>
@@ -112,36 +114,36 @@
             </label>
             <label>
                 Web Site
-                <input type="url" value="${not empty contact ? contact.website : ''}">
+                <input name="website" type="url" value="${not empty contact ? contact.website : ''}">
             </label>
             <label>
                 Email
-                <input type="email" value="${not empty contact ? contact.email : ''}">
+                <input name="email" type="email" value="${not empty contact ? contact.email : ''}">
             </label>
             <label>
                 Текущее место работы
-                <input type="text" value="${not empty contact ? contact.job : ''}">
+                <input name="job" type="text" value="${not empty contact ? contact.job : ''}">
             </label>
             <h5>Адрес</h5>
             <label>
                 Страна
-                <input type="text" value="${not empty contact ? contact.state : ''}">
+                <input name="state" type="text" value="${not empty contact ? contact.state : ''}">
             </label>
             <label>
                 Город
-                <input type="text" value="${not empty contact ? contact.city : ''}">
+                <input name="city" type="text" value="${not empty contact ? contact.city : ''}">
             </label>
             <label>
                 Улица
-                <input type="text" value="${not empty contact ? contact.street : ''}">
+                <input name="street" type="text" value="${not empty contact ? contact.street : ''}">
             </label>
             <label>
                 Дом
-                <input type="text" value="${not empty contact ? contact.house : ''}">
+                <input name="house" type="text" value="${not empty contact ? contact.house : ''}">
             </label>
             <label>
                 Квартира
-                <input type="text" value="${not empty contact ? contact.flat : ''}">
+                <input name="flat" type="text" value="${not empty contact ? contact.flat : ''}">
             </label>
             <h3>Контактные телефоны</h3>
             <input type="button" id="add-phone-button" value="Добавить">
@@ -223,7 +225,7 @@
             <input type="button" id="remove-attachment-button" value="Удалить">
             <input type="button" id="edit-attachment-button" value="Редактировать">
             <div id="attachment-edit-modal" class="modal">
-                <div class="modal-content">
+                <div id="attachment-form" class="modal-content">
                     <h4>Редактирование присоединения</h4>
                     <label>
                         Имя файла присоединения
@@ -233,6 +235,7 @@
                         Комментарий
                         <input type="text" id="attachment-commentary">
                     </label>
+                    <input type="file" id="attachment-file-input" value="Выберите файл">
                     <input type="button" id="save-attachment-button" value="Сохранить">
                     <input type="button" id="cancel-attachment-edit-button" value="Отменить">
                 </div>
