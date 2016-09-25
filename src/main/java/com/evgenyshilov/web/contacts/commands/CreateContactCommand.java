@@ -7,11 +7,13 @@ import com.evgenyshilov.web.contacts.database.dao.PhoneDAO;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.Phone;
+import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 /**
  * Created by Evgeny Shilov on 24.09.2016.
@@ -24,14 +26,14 @@ public class CreateContactCommand implements Command {
         ContactInputHandleCommand inputHandleCommand = new ContactInputHandleCommand();
         inputHandleCommand.execute(request, response);
         contact = (Contact) request.getAttribute("contact");
-        createNewContact(contact);
+        createNewContact(contact, (HashMap<Integer, FileItem>)request.getAttribute("attachment-items"), (FileItem)request.getAttribute("photo-item"));
 
         response.sendRedirect("/app/contact-list");
 
         return null;
     }
 
-    private void createNewContact(Contact contact) throws InvocationTargetException, SQLException, InstantiationException, NoSuchMethodException, IllegalAccessException {
+    private void createNewContact(Contact contact, HashMap<Integer, FileItem> attachmentItems, FileItem photoFileItem) throws InvocationTargetException, SQLException, InstantiationException, NoSuchMethodException, IllegalAccessException {
         ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
         contactDAO.insert(contact);
         int contactId = contactDAO.getLastInsertedId();
@@ -47,6 +49,12 @@ public class CreateContactCommand implements Command {
         for (Attachment attachment : contact.getAttachments()) {
             attachment.setContactId(contactId);
             attachmentDAO.insert(attachment);
+        }
+
+        System.out.println("--ssf--" + photoFileItem.getName());
+
+        for (FileItem item : attachmentItems.values()) {
+            System.out.println(item.getFieldName());
         }
     }
 }

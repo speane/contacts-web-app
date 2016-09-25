@@ -29,11 +29,11 @@ function createNewPhone() {
     var phoneTypeValue = phoneTypeSelect.options[phoneTypeSelect.selectedIndex].value;
     var phone = {
         id : lastCreatedPhoneId,
-        countryCode : document.getElementById('country-code').value,
-        operatorCode : document.getElementById('operator-code').value,
-        number : document.getElementById('phone-number').value,
+        countryCode : document.getElementById('country-code').value.trim(),
+        operatorCode : document.getElementById('operator-code').value.trim(),
+        number : document.getElementById('phone-number').value.trim(),
         type : phoneTypeValue,
-        commentary : document.getElementById('phone-commentary').value
+        commentary : document.getElementById('phone-commentary').value.trim()
     };
     createdPhones[phone.id] = phone;
 
@@ -99,26 +99,26 @@ var updatedPhones = {};
 
 function updatePhone() {
     if (editCreatedPhone) {
-        createdPhones[editPhoneId].number = document.getElementById('phone-number').value;
-        createdPhones[editPhoneId].countryCode = document.getElementById('country-code').value;
-        createdPhones[editPhoneId].operatorCode = document.getElementById('operator-code').value;
+        createdPhones[editPhoneId].number = document.getElementById('phone-number').value.trim();
+        createdPhones[editPhoneId].countryCode = document.getElementById('country-code').value.trim();
+        createdPhones[editPhoneId].operatorCode = document.getElementById('operator-code').value.trim();
         createdPhones[editPhoneId].type = document.getElementById('phone-type-select').value;
-        createdPhones[editPhoneId].commentary = document.getElementById('phone-commentary').value;
-        document.getElementById('created-phone-number-' + editPhoneId).innerHTML = '+' + document.getElementById('country-code').value + '('
-            + document.getElementById('operator-code').value + ')' + document.getElementById('phone-number').value;
+        createdPhones[editPhoneId].commentary = document.getElementById('phone-commentary').value.trim();
+        document.getElementById('created-phone-number-' + editPhoneId).innerHTML = '+' + document.getElementById('country-code').value.trim() + '('
+            + document.getElementById('operator-code').value + ')' + document.getElementById('phone-number').value.trim();
         document.getElementById('created-phone-type-' + editPhoneId).innerHTML = document.getElementById('phone-type-select').value;
-        document.getElementById('created-phone-commentary-' + editPhoneId).innerHTML = document.getElementById('phone-commentary').value;
+        document.getElementById('created-phone-commentary-' + editPhoneId).innerHTML = document.getElementById('phone-commentary').value.trim();
     }
     else {
         var phoneTypeSelect = document.getElementById('phone-type-select');
         var phoneTypeValue = phoneTypeSelect.options[phoneTypeSelect.selectedIndex].value;
         var phone = {
             id : lastCreatedPhoneId,
-            countryCode : document.getElementById('country-code').value,
-            operatorCode : document.getElementById('operator-code').value,
-            number : document.getElementById('phone-number').value,
+            countryCode : document.getElementById('country-code').value.trim(),
+            operatorCode : document.getElementById('operator-code').value.trim(),
+            number : document.getElementById('phone-number').value.trim(),
             type : phoneTypeValue,
-            commentary : document.getElementById('phone-commentary').value
+            commentary : document.getElementById('phone-commentary').value.trim()
         };
         updatedPhones[editPhoneId] = phone;
         document.getElementById('phone-number-' + editPhoneId).innerHTML = '+' + document.getElementById('country-code').value + '('
@@ -306,8 +306,8 @@ function createAttachment() {
     lastAttachmentId++;
     var attachment = {
         id : lastAttachmentId,
-        filename : attachmentFileNameField.value,
-        commentary : attachmentCommentaryField.value,
+        filename : attachmentFileNameField.value.trim(),
+        commentary : attachmentCommentaryField.value.trim(),
         uploadDate : getDateString()
     };
     createdAttachments[lastAttachmentId] = attachment;
@@ -346,6 +346,7 @@ function addAttachmentToList(attachment) {
     attachmentCommentaryCell.innerHTML = attachment.commentary;
 
     attachmentFileInput.id = 'created-attachment-file-input-' + attachment.id;
+    attachmentFileInput.name = 'attachment-' + attachment.id;
     attachmentFileInput.style.display = 'block';
     attachmentRow.appendChild(attachmentFileInput);
 
@@ -378,8 +379,8 @@ function getDateString() {
 function updateAttachment() {
     var attachment = {
         id : editAttachmentId,
-        filename : attachmentFileNameField.value,
-        commentary : attachmentCommentaryField.value,
+        filename : attachmentFileNameField.value.trim(),
+        commentary : attachmentCommentaryField.value.trim(),
         uploadDate : getDateString()
     };
     var attachmentPrefix;
@@ -433,6 +434,7 @@ savePhotoButton.onclick = function() {
     uploadedContactPhotoFileInput.parentNode.removeChild(uploadedContactPhotoFileInput);
     contactPhotoSelectArea.appendChild(photoFileInput);
     photoFileInput.id = 'uploaded-contact-photo';
+    photoFileInput.name = 'upload-photo';
     uploadedContactPhotoFileInput = photoFileInput;
     photoFileInput = createPhotoFileInput();
     photoSelectForm.insertBefore(photoFileInput, savePhotoButton);

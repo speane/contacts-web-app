@@ -22,7 +22,7 @@ public class JSONObjectFactory {
             JSONArray array = (JSONArray) parser.parse(JSONAttachmentListString);
             for (JSONObject object : (Iterable<JSONObject>) array) {
                 Attachment attachment = new Attachment();
-                attachment.setId(Integer.parseInt((String) object.get("id")));
+                attachment.setId(Integer.parseInt(object.get("id").toString()));
                 attachment.setFilename((String) object.get("filename"));
                 attachment.setCommentary((String) object.get("commentary"));
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));
@@ -41,7 +41,7 @@ public class JSONObjectFactory {
             JSONArray array = (JSONArray) parser.parse(JSONPhoneListString);
             for (JSONObject object : (Iterable<JSONObject>) array) {
                 Phone phone = new Phone();
-                phone.setId(Integer.parseInt((String) object.get("id")));
+                phone.setId(Integer.parseInt(object.get("id").toString()));
                 phone.setCountryCode(Integer.parseInt((String) object.get("countryCode")));
                 phone.setOperatorCode(Integer.parseInt((String) object.get("operatorCode")));
                 phone.setNumber(Integer.parseInt((String) object.get("number")));

@@ -11,6 +11,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class ContactInputHandleCommand implements Command {
         request.setCharacterEncoding("UTF-8");
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
+        HashMap<Integer, FileItem> attachmentFiles = new HashMap<>();
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
         File uploadDir = new File(ApplicationResources.FILE_UPLOAD_PATH);
         if (!uploadDir.exists()) {
@@ -38,6 +40,17 @@ public class ContactInputHandleCommand implements Command {
                         FieldHandler handler = fieldHandlerFactory.getFieldHandler(item.getFieldName());
                         if (handler != null) {
                             handler.setField(contact, item.getString("UTF-8"));
+                        }
+                    } else {
+                        String inputFieldName = item.getFieldName();
+                        if (inputFieldName.startsWith("attachment")) {
+                            int createdAttachmentIndex = Integer.parseInt(inputFieldName.substring(11, inputFieldName.length()));
+                            System.out.println("INDEX: " + createdAttachmentIndex);
+                            attachmentFiles.put(createdAttachmentIndex, item);
+                            request.setAttribute("attachment-items", attachmentFiles);
+                        } else if (inputFieldName.startsWith("upload-photo")) {
+                            request.setAttribute("photo-item", item);
+                            System.out.println("photo_ITEMEEEEE");
                         }
                     }
                 }

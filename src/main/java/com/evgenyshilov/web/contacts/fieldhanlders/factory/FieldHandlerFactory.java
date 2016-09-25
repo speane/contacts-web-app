@@ -33,6 +33,9 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("created-phones", new CreatedPhonesFieldHandler());
         fieldHandlerMap.put("created-attachments", new CreatedAttachmentsFieldHandler());
         fieldHandlerMap.put("removed-phones", new DeletePhonesFieldHandler());
+        fieldHandlerMap.put("removed-attachments", new DeleteAttachmentFieldHandler());
+        fieldHandlerMap.put("updated-phones", new UpdatePhonesFieldHandler());
+        fieldHandlerMap.put("updated-attachments", new UpdateAttachmentsFieldHandler());
     }
 
     public FieldHandler getFieldHandler(String fieldName) {

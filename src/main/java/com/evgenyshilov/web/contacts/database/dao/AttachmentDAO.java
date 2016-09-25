@@ -28,17 +28,28 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
     @Override
     public void update(Integer key, Attachment attachment) throws SQLException {
         String query = "UPDATE attachment SET " +
-                "filename=?, commentary=?";
+                "filename=?, commentary=? WHERE id=?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, attachment.getFilename());
         statement.setString(2, attachment.getCommentary());
+        statement.setInt(3, key);
         statement.executeUpdate();
         statement.close();
     }
 
-    @Override
-    public void delete(Integer key) {
+    public int getLastInsertId() throws SQLException {
+        String query = "SELECT last_insert_id() as last_id FROM attachment";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        return resultSet.next() ? resultSet.getInt("last_id") : -1;
+    }
 
+    @Override
+    public void delete(Integer key) throws SQLException {
+        String query = "DELETE FROM attachment WHERE id = " + key;
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
     }
 
     @Override

@@ -121,9 +121,9 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         String query = "UPDATE contact SET " +
                 "first_name=?, last_name=?, patronymic=?, birthday=?, sex=?, nationality_id=?, " +
                 "marital_status_id=?, website=?, email=?, job=?, state_id=?, city_id=?, " +
-                "street=?, house=?, flat=?, zip_code=? WHERE id=?";
+                "street=?, house=?, flat=?, zip_code=?, image_filename=? WHERE id=?";
         PreparedStatement preparedStatement = createPreparedStatement(query, value);
-        preparedStatement.setInt(17, key);
+        preparedStatement.setInt(18, key);
         preparedStatement.executeUpdate();
         preparedStatement.close();
     }
@@ -149,8 +149,8 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     public void insert(Contact value) throws SQLException {
         String query = "INSERT INTO contact (`first_name`, `last_name`, `patronymic`, `birthday`, " +
                 "`sex`, `nationality_id`, `marital_status_id`, `website`, `email`, `job`, `state_id`, `city_id`, " +
-                "`street`,`house`, `flat`, `zip_code`) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "`street`,`house`, `flat`, `zip_code`, `image_filename`) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = createPreparedStatement(query, value);
         statement.executeUpdate();
         statement.close();
@@ -183,6 +183,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         statement.setString(14, contact.getHouse());
         statement.setString(15, contact.getFlat());
         statement.setString(16, contact.getZipCode());
+        statement.setString(17, contact.getImageFileName());
 
         return statement;
     }

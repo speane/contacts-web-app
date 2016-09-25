@@ -41,8 +41,11 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public void delete(Integer key) {
-
+    public void delete(Integer key) throws SQLException {
+        String query = "DELETE FROM phone WHERE id = " + key;
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
     }
 
     public void deleteAllContactPhones(int id) throws SQLException {
