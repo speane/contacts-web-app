@@ -9,7 +9,7 @@
     </c:when>
     <c:otherwise>
         <c:set var="title" value="Редактирование контакта" />
-        <c:set var="submitAction" value="/app/update-contact" />
+        <c:set var="submitAction" value="/app/update-contact?id=${contact.id}" />
         <c:set var="contactImagePath" value="/images/${not empty contact.imageFileName ? contact.imageFileName : 'default.png'}" />
     </c:otherwise>
 </c:choose>

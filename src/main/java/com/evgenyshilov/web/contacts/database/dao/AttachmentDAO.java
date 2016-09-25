@@ -26,8 +26,14 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
     }
 
     @Override
-    public void update(Integer key, Attachment attachment) {
-
+    public void update(Integer key, Attachment attachment) throws SQLException {
+        String query = "UPDATE attachment SET " +
+                "filename=?, commentary=?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, attachment.getFilename());
+        statement.setString(2, attachment.getCommentary());
+        statement.executeUpdate();
+        statement.close();
     }
 
     @Override
@@ -66,5 +72,12 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
         }
         statement.close();
         return attachments;
+    }
+
+    public void deleteAllContactAttachments(int id) throws SQLException {
+        String query = "DELETE FROM attachment WHERE contact_id = '" + id + "'";
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
     }
 }

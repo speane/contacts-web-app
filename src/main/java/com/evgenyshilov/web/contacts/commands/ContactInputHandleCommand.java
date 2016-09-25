@@ -30,7 +30,7 @@ public class ContactInputHandleCommand implements Command {
         try {
             List<FileItem> formItems = upload.parseRequest(request);
             if (formItems != null) {
-                Contact contact = new Contact();
+                Contact contact = (Contact) request.getAttribute("contact");
                 FieldHandlerFactory fieldHandlerFactory = new FieldHandlerFactory();
                 for (FileItem item : formItems) {
                     if (item.isFormField()) {

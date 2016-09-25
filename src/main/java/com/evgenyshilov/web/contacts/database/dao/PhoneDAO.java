@@ -26,13 +26,30 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public void update(Integer key, Phone value) {
-
+    public void update(Integer key, Phone phone) throws SQLException {
+        String query = "UPDATE phone SET country_code=?, operator_code=?, number=?, " +
+                "commentary=?, contact_id=?, phone_type_id=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, phone.getCountryCode());
+        preparedStatement.setInt(2, phone.getOperatorCode());
+        preparedStatement.setInt(3, phone.getNumber());
+        preparedStatement.setString(4, phone.getCommentary());
+        preparedStatement.setInt(5, phone.getContactId());
+        preparedStatement.setInt(6, getPhoneTypeId(phone.getType()));
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
     }
 
     @Override
     public void delete(Integer key) {
 
+    }
+
+    public void deleteAllContactPhones(int id) throws SQLException {
+        String query = "DELETE FROM phone WHERE contact_id = '" + id + "'";
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
     }
 
     @Override

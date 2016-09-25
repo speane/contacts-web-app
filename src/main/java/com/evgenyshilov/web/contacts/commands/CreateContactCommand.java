@@ -19,12 +19,12 @@ import java.sql.SQLException;
 public class CreateContactCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Contact contact = new Contact();
+        request.setAttribute("contact", contact);
         ContactInputHandleCommand inputHandleCommand = new ContactInputHandleCommand();
         inputHandleCommand.execute(request, response);
-        Contact contact = (Contact) request.getAttribute("contact");
-        if (contact != null) {
-            createNewContact(contact);
-        }
+        contact = (Contact) request.getAttribute("contact");
+        createNewContact(contact);
 
         response.sendRedirect("/app/contact-list");
 

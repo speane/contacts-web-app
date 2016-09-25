@@ -117,16 +117,32 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void update(Integer key, Contact value) {
-
+    public void update(Integer key, Contact value) throws SQLException {
+        String query = "UPDATE contact SET " +
+                "first_name=?, last_name=?, patronymic=?, birthday=?, sex=?, nationality_id=?, " +
+                "marital_status_id=?, website=?, email=?, job=?, state_id=?, city_id=?, " +
+                "street=?, house=?, flat=?, zip_code=? WHERE id=?";
+        PreparedStatement preparedStatement = createPreparedStatement(query, value);
+        preparedStatement.setInt(17, key);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
     }
 
     @Override
-    public void delete(Integer key) throws SQLException {
+    public void delete(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+        phoneDAO.deleteAllContactPhones(key);
+        phoneDAO.close();
+
+        AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+        attachmentDAO.deleteAllContactAttachments(key);
+        attachmentDAO.close();
+
         String query = "DELETE FROM contact WHERE id = " + key + ";";
         Statement statement = connection.createStatement();
         statement.executeUpdate(query);
         statement.close();
+
     }
 
     @Override
