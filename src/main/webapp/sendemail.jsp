@@ -5,16 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="/app/send-email">
+    <form method="post" action="/app/send-emails">
         <header>
             <h1>Отправка email</h1>
         </header>
         <section>
             <h3>Получатели:</h3>
-            <c:forEach var="recipient" items="${emails}">
+            <c:forEach var="recipient" items="${recipients}">
                 <label>
-                        ${recipient}
+                    <input type="text" disabled value="${recipient.email}">
                 </label>
+                <input type="hidden" value="${recipient.id}" name="recipient-id">
             </c:forEach>
             <label>
                 Тема

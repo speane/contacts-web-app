@@ -17,17 +17,16 @@ public class EmailFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         RequestParser requestParser = new RequestParser(request);
-        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<Contact> recipients = new ArrayList<>();
         ArrayList<Integer> checkedContacts = requestParser.getCheckedIdList("contact-check");
         if (checkedContacts.size() > 0) {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
             for (Integer checkedContactId : checkedContacts) {
                 Contact contact = contactDAO.get(checkedContactId);
-                emails.add(contact.getEmail());
+                recipients.add(contact);
             }
 
-            System.out.println(emails);
-            request.setAttribute("emails", emails);
+            request.setAttribute("recipients", recipients);
             ArrayList<String> patterns = new ArrayList<>();
             patterns.add("first pattern <first_name>");
             patterns.add("second pattern <last_name> <first_name>");
