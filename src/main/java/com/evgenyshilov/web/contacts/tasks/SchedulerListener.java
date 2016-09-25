@@ -25,7 +25,7 @@ public class SchedulerListener implements ServletContextListener {
                     .build();
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("myJob", "group1")
-                    .withSchedule(dailyAtHourAndMinute(23, 29))
+                    .withSchedule(dailyAtHourAndMinute(1, 2))
                     .build();
             scheduler.start();
             scheduler.scheduleJob(job, trigger);
@@ -37,7 +37,7 @@ public class SchedulerListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         try {
-            scheduler.shutdown();
+            scheduler.shutdown(false);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,22 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
+    <context-param>
+        <param-name>quartz:config-file</param-name>
+        <param-value>/some/path/my_quartz.properties</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:shutdown-on-unload</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:wait-on-shutdown</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:start-scheduler-on-load</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>com.evgenyshilov.web.contacts.FrontController</servlet-class>
