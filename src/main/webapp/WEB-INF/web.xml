@@ -13,6 +13,10 @@
         <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>com.evgenyshilov.web.contacts.tasks.SchedulerListener</listener-class>
+    </listener>
+
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/TestDB</res-ref-name>
