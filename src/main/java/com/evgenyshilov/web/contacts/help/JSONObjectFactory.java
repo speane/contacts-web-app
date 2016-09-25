@@ -22,6 +22,7 @@ public class JSONObjectFactory {
             JSONArray array = (JSONArray) parser.parse(JSONAttachmentListString);
             for (JSONObject object : (Iterable<JSONObject>) array) {
                 Attachment attachment = new Attachment();
+                attachment.setId(Integer.parseInt((String) object.get("id")));
                 attachment.setFilename((String) object.get("filename"));
                 attachment.setCommentary((String) object.get("commentary"));
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));
@@ -40,6 +41,7 @@ public class JSONObjectFactory {
             JSONArray array = (JSONArray) parser.parse(JSONPhoneListString);
             for (JSONObject object : (Iterable<JSONObject>) array) {
                 Phone phone = new Phone();
+                phone.setId(Integer.parseInt((String) object.get("id")));
                 phone.setCountryCode(Integer.parseInt((String) object.get("countryCode")));
                 phone.setOperatorCode(Integer.parseInt((String) object.get("operatorCode")));
                 phone.setNumber(Integer.parseInt((String) object.get("number")));
@@ -51,5 +53,16 @@ public class JSONObjectFactory {
             System.out.println("finally");
         }
         return phones;
+    }
+
+    public ArrayList<Integer> getIntegerList(String JSONIntegerListString) throws ParseException {
+        ArrayList<Integer> list = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        JSONArray array = (JSONArray) parser.parse(JSONIntegerListString);
+        for (Object number : array) {
+            list.add(Integer.parseInt((String) number));
+        }
+
+        return list;
     }
 }

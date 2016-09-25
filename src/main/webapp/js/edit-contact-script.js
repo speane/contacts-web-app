@@ -458,8 +458,20 @@ var submitContactButton = document.getElementById('save-contact-button');
 submitContactButton.onclick = function() {
     contactForm.appendChild(createHiddenCreatedPhonesField());
     contactForm.appendChild(createHiddenCreatedAttachmentsField());
+    contactForm.appendChild(createHiddenInput('removed-phones', JSON.stringify(removedPhones)));
+    contactForm.appendChild(createHiddenInput('removed-attachments', JSON.stringify(removedAttachments)));
+    contactForm.appendChild(createHiddenInput('updated-phones', JSON.stringify(getValuesFromAssociativeArray(updatedPhones))));
+    contactForm.appendChild(createHiddenInput('updated-attachments', JSON.stringify(getValuesFromAssociativeArray(updatedAttachments))));
     contactForm.submit();
 };
+
+function createHiddenInput(name, value) {
+    var field = document.createElement('input');
+    field.type = 'hidden';
+    field.name = name;
+    field.value = value;
+    return field;
+}
 
 function createHiddenCreatedPhonesField() {
     var field = document.createElement('input');

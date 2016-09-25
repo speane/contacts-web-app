@@ -1,6 +1,5 @@
 package com.evgenyshilov.web.contacts.commands;
 
-import com.evgenyshilov.web.contacts.commands.forms.MainFormCommand;
 import com.evgenyshilov.web.contacts.database.dao.AttachmentDAO;
 import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
@@ -31,19 +30,22 @@ public class UpdateContactCommand implements Command {
 
         contact = (Contact) request.getAttribute("contact");
 
+        contactDAO.update(contactId, contact);
+
         PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
         for (Phone phone : contact.getPhones()) {
+            phone.setContactId(contactId);
             phoneDAO.insert(phone);
         }
         phoneDAO.close();
 
         AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
         for (Attachment attachment : contact.getAttachments()) {
+            attachment.setContactId(contactId);
             attachmentDAO.insert(attachment);
         }
 
-        contactDAO.update(contactId, contact);
-
-        return new MainFormCommand().execute(request, response);
+        response.sendRedirect("/app/contact-list");
+        return null;
     }
 }
