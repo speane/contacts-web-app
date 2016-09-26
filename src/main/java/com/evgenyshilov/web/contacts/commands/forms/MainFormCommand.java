@@ -22,7 +22,7 @@ public class MainFormCommand implements Command {
         String ALL_CONTACTS_ATTRIBUTE_NAME = "contacts";
         String PAGINATION_ATTRIBUTE_NAME = "pagination";
         String PAGE_NUMBER_PARAMETER_NAME = "page";
-        int CONTACTS_PER_PAGE = 10;
+        int CONTACTS_PER_PAGE = 1;
 
 
         /* Get contact from database */

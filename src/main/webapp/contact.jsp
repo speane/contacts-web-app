@@ -23,26 +23,28 @@
 <body>
     <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <form method="post" action="${submitAction}" id="contact-form" class="centered contact" enctype="multipart/form-data" >
+    <form class="centered main" method="post" action="${submitAction}" id="contact-form" class="centered contact" enctype="multipart/form-data" >
         <header>
             <h2><c:out value="${title}" /></h2>
         </header>
         <section>
-            <h3>Фото</h3>
-            <div id="contact-photo-select-area">
-                <img id="contact-photo-image" src="${contactImagePath}">
-                <input type="file" id="uploaded-contact-photo">
-            </div>
-            <div id="select-photo-modal" class="modal">
-                <div id="photo-select-form" class="modal-content">
-                    <h4>Выбор фото</h4>
-                    <input type="button" id="clear-photo-button" value="Удалить">
-                    Путь к фото на диске
-                    <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png,image/gif">
-                    <input type="button" id="save-photo-button" value="Сохранить">
-                    <input type="button" id="cancel-photo-select-button" value="Отменить">
+            <article class="edit-photo">
+                <h3>Фото</h3>
+                <div id="contact-photo-select-area">
+                    <img id="contact-photo-image" src="${contactImagePath}">
+                    <input class="hidden" type="file" id="uploaded-contact-photo">
                 </div>
-            </div>
+                <div id="select-photo-modal" class="modal">
+                    <div id="photo-select-form" class="modal-content">
+                        <h4>Выбор фото</h4>
+                        <input type="button" id="clear-photo-button" value="Удалить">
+                        Путь к фото на диске
+                        <input type="file" id="photo-file-input" value="Выберите фото" accept="image/jpeg,image/png,image/gif">
+                        <input type="button" id="save-photo-button" value="Сохранить">
+                        <input type="button" id="cancel-photo-select-button" value="Отменить">
+                    </div>
+                </div>
+            </article>
             <c:if test="${not empty errorMessage}">
                 <h4>
                     <c:out value="${errorMessage}" />
@@ -169,7 +171,7 @@
                         <input type="text" id="phone-number">
                     </label>
                     <label>
-                        Тип телефон
+                        Тип телефона
                         <select id="phone-type-select">
                             <c:forEach var="phoneType" items="${phoneTypes}">
                                 <option value="${phoneType.name}">${phoneType.name}</option>
