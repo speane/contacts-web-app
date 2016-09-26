@@ -154,44 +154,47 @@
             </article>
             <article class="contact-phones">
                 <header><h3 class="centered">Контактные телефоны</h3></header>
-                <input class="action-button" type="button" id="add-phone-button" value="Добавить">
-                <input class="action-button" type="button" id="remove-phone-button" value="Удалить">
-                <input class="action-button" type="button" id="edit-phone-button" value="Редактировать">
+                <input class="action-button remove" type="button" id="remove-phone-button" value="Удалить">
+                <input class="action-button edit" type="button" id="edit-phone-button" value="Редактировать">
+                <input class="action-button add" type="button" id="add-phone-button" value="Добавить">
                 <div id="phone-edit-modal" class="modal">
                     <div class="modal-content">
                         <article class="edit-phone">
                             <header>
                                 <h4>Редактирование телефонного номера</h4>
                             </header>
-                            <label class="input-label">
-                                Код страны
-                                <input class="input-field" type="text" id="country-code">
-                            </label>
-                            <label class="input-label">
-                                Код оператора
-                                <input class="input-field" type="text" id="operator-code">
-                            </label>
-                            <label class="input-label">
-                                Номер
-                                <input class="input-field" type="text" id="phone-number">
-                            </label>
-                            <label class="input-label">
-                                Тип телефона
-                                <select class="input-field" id="phone-type-select">
-                                    <c:forEach var="phoneType" items="${phoneTypes}">
-                                        <option value="${phoneType.name}">${phoneType.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </label>
-                            <label class="input-label">
-                                Комментарий
-                                <textarea class="input-field" id="phone-commentary"></textarea>
-                            </label>
+                            <div class="data-fields">
+                                <label class="input-label">
+                                    Код страны
+                                    <input class="input-field" type="text" id="country-code">
+                                </label>
+                                <label class="input-label">
+                                    Код оператора
+                                    <input class="input-field" type="text" id="operator-code">
+                                </label>
+                                <label class="input-label">
+                                    Номер
+                                    <input class="input-field" type="text" id="phone-number">
+                                </label>
+                                <label class="input-label">
+                                    Тип телефона
+                                    <select class="input-field" id="phone-type-select">
+                                        <option disabled>Тип</option>
+                                        <c:forEach var="phoneType" items="${phoneTypes}">
+                                            <option value="${phoneType.name}">${phoneType.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </label>
+                                <label class="input-label">
+                                    Комментарий
+                                    <textarea class="input-field" id="phone-commentary"></textarea>
+                                </label>
+                            </div>
                         </article>
-                        <button type="button" id="save-phone-button">
+                        <button class="centered block apply-button" type="button" id="save-phone-button">
                             Сохранить
                         </button>
-                        <button type="button" id="cancel-phone-edit-button">
+                        <button class="centered block apply-button" type="button" id="cancel-phone-edit-button">
                             Отменить
                         </button>
                     </div>
@@ -237,23 +240,25 @@
                 <header>
                     <h3 class="centered">Присоединения</h3>
                 </header>
-                <input class="action-button" type="button" id="add-attachment-button" value="Добавить">
-                <input class="action-button" type="button" id="remove-attachment-button" value="Удалить">
-                <input class="action-button" type="button" id="edit-attachment-button" value="Редактировать">
+                <input class="action-button remove" type="button" id="remove-attachment-button" value="Удалить">
+                <input class="action-button edit" type="button" id="edit-attachment-button" value="Редактировать">
+                <input class="action-button add" type="button" id="add-attachment-button" value="Добавить">
                 <div id="attachment-edit-modal" class="modal">
                     <div id="attachment-form" class="modal-content">
-                        <h4>Редактирование присоединения</h4>
-                        <label>
-                            Имя файла присоединения
-                            <input type="text" id="attachment-file-name">
-                        </label>
-                        <label>
-                            Комментарий
-                            <input type="text" id="attachment-commentary">
-                        </label>
-                        <input type="file" id="attachment-file-input" value="Выберите файл">
-                        <input type="button" id="save-attachment-button" value="Сохранить">
-                        <input type="button" id="cancel-attachment-edit-button" value="Отменить">
+                        <header><h4>Редактирование присоединения</h4></header>
+                        <div class="data-fields">
+                            <label class="input-label">
+                                Имя файла присоединения
+                                <input class="input-field" type="text" id="attachment-file-name">
+                            </label>
+                            <label class="input-label">
+                                Комментарий
+                                <textarea class="input-field" id="attachment-commentary"></textarea>
+                            </label>
+                        </div>
+                        <input class="centered block" type="file" id="attachment-file-input" value="Выберите файл">
+                        <input class="centered block apply-button" type="button" id="save-attachment-button" value="Сохранить">
+                        <input class="centered block apply-button" type="button" id="cancel-attachment-edit-button" value="Отменить">
                     </div>
                 </div>
                 <div class="row">
@@ -293,7 +298,7 @@
                     </c:if>
                 </div>
             </article>
-            <input type="button" id="save-contact-button" value="Сохранить">
+            <input class="centered block save-button" type="button" id="save-contact-button" value="Сохранить">
         </section>
     </form>
     <script src="/js/edit-contact-script.js"></script>

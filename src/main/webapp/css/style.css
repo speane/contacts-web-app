@@ -23,6 +23,10 @@ body {
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
+.nav-button:hover {
+    background-color: #42a057;
+}
+
 nav {
     width: 90%;
     margin: auto;
@@ -102,11 +106,19 @@ a.edit-contact {
 div#contact-photo-select-area {
     width: 240px;
     height: 320px;
+    box-sizing: border-box;
+}
+
+div#contact-photo-select-area img:hover {
+    border: solid 1px black;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 div#contact-photo-select-area img {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
 }
 
 .hidden {
@@ -158,6 +170,46 @@ div#contact-photo-select-area img {
 
 .action-button {
     float: right;
+    margin: 10px;
+    width: 130px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+input.remove {
+    background-color: #c0392b;
+}
+
+input.remove:hover {
+    background-color: #c0773a;
+}
+
+input.add {
+    background-color: #2ecc71;
+}
+
+input.add:hover {
+    background-color: #4ccca4;
+}
+
+input.edit {
+    background-color: #34495e;
+}
+
+input.edit:hover {
+    background-color: #42595e;
+}
+
+#edit-contact-button {
+    background-color: #888888;
 }
 
 article {
@@ -197,4 +249,50 @@ label span {
     display: block;
     width: 20%;
     margin: 30px auto;
+}
+
+.data-fields {
+    width: 60%;
+    margin: 30px auto;
+}
+
+.save-button {
+    margin: 20px auto;
+    width: 230px;
+    display: block;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 17px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    background-color: #e67e22;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.save-button:hover {
+    background-color: #e6d860;
+}
+
+.recipients {
+    width: 50%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.email-properties {
+    width: 40%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
 }

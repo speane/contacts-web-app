@@ -347,7 +347,7 @@ function addAttachmentToList(attachment) {
 
     attachmentFileInput.id = 'created-attachment-file-input-' + attachment.id;
     attachmentFileInput.name = 'attachment-' + attachment.id;
-    attachmentFileInput.style.display = 'block';
+    attachmentFileInput.style.display = 'none';
     attachmentRow.appendChild(attachmentFileInput);
 
     attachmentRow.appendChild(attachmentCheckBoxCell);
@@ -364,6 +364,7 @@ function createAttachmentFileInput() {
     newAttachmentFileInput.type = 'file';
     newAttachmentFileInput.style.display = 'block';
     newAttachmentFileInput.id = 'attachment-file-input';
+    newAttachmentFileInput.className = "centered block";
     attachmentFileInput = newAttachmentFileInput;
     attachmentForm.insertBefore(newAttachmentFileInput, saveAttachmentButton);
 }
@@ -385,13 +386,14 @@ function updateAttachment() {
     };
     var attachmentPrefix;
     if (editCreatedAttachment) {
-        createdAttachments[attachment.id] = attachment;
         attachmentPrefix = 'created-attachment-';
+        createdAttachments[attachment.id] = attachment;
     }
     else {
-        updatedAttachments[attachment.id] = attachment;
         attachmentPrefix = 'attachment-';
+        updatedAttachments[attachment.id] = attachment;
     }
+    attachment.uploadDate = document.getElementById(attachmentPrefix + 'upload-date-' + attachment.id).innerHTML.trim();
     updateAttachmentRow(attachmentPrefix, attachment);
 }
 
