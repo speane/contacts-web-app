@@ -3,63 +3,98 @@
 <html>
 <head>
     <title>Поиск</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <form action="/search" method="post">
+    <form class="centered main" action="/app/search" method="post">
         <header>
-            Поиск контактов
+            <h2>Поиск контактов</h2>
         </header>
         <section>
-            <h3>Параметры поиска</h3>
-            <label>
-                Имя
-                <input type="text" name="first-name">
-            </label>
-            <label>
-                Фамилия
-                <input type="text" name="last-name">
-            </label>
-            <label>
-                Отчество
-                <input type="text" name="patronymic">
-            </label>
-            <label>
-                Дата рождения
-                <input type="text" name="birthday">
-            </label>
-            <label>
-                Пол
-                <input type="text" name="sex">
-            </label>
-            <label>
-                Семейное положение
-                <input type="text" name="marital-status">
-            </label>
-            <label>
-                Гражданство
-                <input type="text" name="nationality">
-            </label>
-            <label>
-                Страна
-                <input type="text" name="state">
-            </label>
-            <label>
-                Город
-                <input type="text" name="city">
-            </label>
-            <label>
-                Улица
-                <input type="text" name="street">
-            </label>
-            <label>
-                Дом
-                <input type="text" name="house">
-            </label>
-            <label>
-                Квартира
-                <input type="text" name="flat">
-            </label>
-            <button type="submit" id="find-contacts-button">Найти</button>
+            <header><h3>Параметры поиска</h3></header>
+            <div class="search-data-fields">
+                <h5>Основные сведения</h5>
+                <label class="input-label">
+                    Имя
+                    <input class="input-field" type="text" name="first-name">
+                </label>
+                <label class="input-label">
+                    Фамилия
+                    <input class="input-field" type="text" name="last-name">
+                </label>
+                <label class="input-label">
+                    Отчество
+                    <input class="input-field" type="text" name="patronymic">
+                </label>
+                <h5>Дата рождения</h5>
+                <label class="input-label">
+                    Год рождения
+                    <input class="input-field" type="text" name="year">
+                </label>
+                <label class="input-label">
+                    Месяц
+                    <select class="input-field" name="month">
+                        <option selected value="0">Не выбран</option>
+                        <c:forEach var="tempMonth" items="${months}" varStatus="loop">
+                            <option value="${loop.index}">${tempMonth}</option>
+                        </c:forEach>
+                    </select>
+                </label>
+                <label class="input-label">
+                    День
+                    <input class="input-field" type="text" value="${day}" name="day">
+                </label>
+                <label class="input-label">
+                    Пол
+                    <select class="input-field" name="sex">
+                        <option selected value="x">Не выбран</option>
+                        <option value="m">Мужчина</option>
+                        <option value="f">Женщина</option>
+                    </select>
+                </label>
+                <h5>Дополнительные сведения</h5>
+                <label class="input-label">
+                    Семейное положение
+                    <select class="input-field" name="marital-status">
+                        <option selected value="0">Не выбрано</option>
+                        <c:forEach var="maritalStatus" items="${maritalStatuses}">
+                            <option ${empty contact or contact.maritalStatus != maritalStatus.id ? '' : 'selected'} value="${maritalStatus.id}">
+                                    ${maritalStatus.name}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </label>
+                <label class="input-label">
+                    Гражданство
+                    <input class="input-field" type="text" name="nationality">
+                </label>
+                <h5>Адрес</h5>
+                <label class="input-label">
+                    Страна
+                    <input class="input-field" type="text" name="state">
+                </label>
+                <label class="input-label">
+                    Город
+                    <input class="input-field" type="text" name="city">
+                </label>
+                <label class="input-label">
+                    Улица
+                    <input class="input-field" type="text" name="street">
+                </label>
+                <label class="input-label">
+                    Дом
+                    <input class="input-field" type="text" name="house">
+                </label>
+                <label class="input-label">
+                    Квартира
+                    <input class="input-field" type="text" name="flat">
+                </label>
+                <label class="input-label">
+                    Почтовый индекс
+                    <input class="input-field" type="text" name="zipcode">
+                </label>
+            </div>
+            <button class="centered block apply-button" type="submit" id="find-contacts-button">Найти</button>
         </section>
     </form>
 </body>

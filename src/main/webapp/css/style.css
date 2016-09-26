@@ -10,7 +10,7 @@ body {
     border: none;
     color: white;
     border-radius: 5px;
-    padding: 13px;
+    padding: 4px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -295,4 +295,9 @@ label span {
     display: block;
     height: 0;
     clear: both;
+}
+
+.search-data-fields {
+    width: 50%;
+    margin: auto;
 }

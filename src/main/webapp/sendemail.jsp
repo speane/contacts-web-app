@@ -43,7 +43,7 @@
                     <textarea class="input-field" id="email-text-area" name="email-text-area" cols="40" rows="6"></textarea>
                 </label>
             </div>
-            <input class="apply-button" type="submit" id="send-email-button">
+            <input class="centered block apply-button" type="submit" id="send-email-button">
         </section>
     </form>
     <script src="/js/send-email-script.js"></script>
