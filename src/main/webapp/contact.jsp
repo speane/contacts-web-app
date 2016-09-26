@@ -116,6 +116,7 @@
                 <label class="input-label">
                     Месяц
                     <select class="input-field" name="month">
+                        <option disabled>Месяц рождения</option>
                         <c:forEach var="tempMonth" items="${months}" varStatus="loop">
                             <option ${month == loop.index ? 'selected' : ''} value="${loop.index}">${tempMonth}</option>
                         </c:forEach>

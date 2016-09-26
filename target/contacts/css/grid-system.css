@@ -17,6 +17,8 @@
 	float: left;
 	min-height: 1px;
 	padding: 10px;
+	overflow: visible;
+	word-wrap: break-word;
 }
 
 .cell-1 {

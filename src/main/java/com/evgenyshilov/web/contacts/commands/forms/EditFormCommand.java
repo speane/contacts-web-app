@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by Evgeny Shilov on 16.09.2016.
@@ -36,7 +34,7 @@ public class EditFormCommand implements Command {
         }
         request.setAttribute("contact", contact);
         request.setAttribute("maritalStatuses", getMaritalStatuses());
-        request.setAttribute("months", new DateFormatSymbols(Locale.forLanguageTag("ru")).getMonths());
+        request.setAttribute("months", getMonthList());
         request.setAttribute("phoneTypes", getPhoneTypes());
 
         return "/contact.jsp";
@@ -64,5 +62,23 @@ public class EditFormCommand implements Command {
         contactDAO.close();
 
         return contact;
+    }
+
+    private ArrayList<String> getMonthList() {
+        ArrayList<String> months = new ArrayList<>(12);
+        months.add("Январь");
+        months.add("Февраль");
+        months.add("Март");
+        months.add("Апрель");
+        months.add("Май");
+        months.add("Июнь");
+        months.add("Июль");
+        months.add("Август");
+        months.add("Сентябрь");
+        months.add("Октябрь");
+        months.add("Ноябрь");
+        months.add("Декабрь");
+
+        return months;
     }
 }
