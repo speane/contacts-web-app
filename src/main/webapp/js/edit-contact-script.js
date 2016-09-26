@@ -113,7 +113,7 @@ function updatePhone() {
         var phoneTypeSelect = document.getElementById('phone-type-select');
         var phoneTypeValue = phoneTypeSelect.options[phoneTypeSelect.selectedIndex].value;
         var phone = {
-            id : lastCreatedPhoneId,
+            id : editPhoneId,
             countryCode : document.getElementById('country-code').value.trim(),
             operatorCode : document.getElementById('operator-code').value.trim(),
             number : document.getElementById('phone-number').value.trim(),
@@ -414,11 +414,12 @@ var contactPhotoImage = document.getElementById('contact-photo-image');
 var contactPhotoSelectArea = document.getElementById('contact-photo-select-area');
 var selectPhotoModal = document.getElementById('select-photo-modal');
 var cancelPhotoSelectButton = document.getElementById('cancel-photo-select-button');
-var clearPhotoButton = document.getElementById('clear-photo-button');
 var uploadedContactPhotoFileInput = document.getElementById('uploaded-contact-photo');
 var photoSelectForm = document.getElementById('photo-select-form');
+var applyButtons = document.getElementById('apply-buttons');
 
 contactPhotoSelectArea.onclick = function() {
+    photoFileInput.value = '';
     showModalForm(selectPhotoModal);
 };
 
@@ -430,29 +431,28 @@ savePhotoButton.onclick = function() {
     };
     if (imageFile) {
         fileReader.readAsDataURL(imageFile);
+        uploadedContactPhotoFileInput.parentNode.removeChild(uploadedContactPhotoFileInput);
+        photoFileInput.id = 'uploaded-contact-photo';
+        photoFileInput.name = 'upload-photo';
+        photoFileInput.style.display = 'none';
+        contactPhotoSelectArea.appendChild(photoFileInput);
+        uploadedContactPhotoFileInput = photoFileInput;
+        photoFileInput = createPhotoFileInput();
+        photoSelectForm.insertBefore(photoFileInput, applyButtons);
     }
-    uploadedContactPhotoFileInput.parentNode.removeChild(uploadedContactPhotoFileInput);
-    contactPhotoSelectArea.appendChild(photoFileInput);
-    photoFileInput.id = 'uploaded-contact-photo';
-    photoFileInput.name = 'upload-photo';
-    uploadedContactPhotoFileInput = photoFileInput;
-    photoFileInput = createPhotoFileInput();
-    photoSelectForm.insertBefore(photoFileInput, savePhotoButton);
 };
 
 function createPhotoFileInput() {
     var newPhotoFileInput = document.createElement('input');
     newPhotoFileInput.type = 'file';
     newPhotoFileInput.id = 'photo-file-input';
+    newPhotoFileInput.accept = 'image/jpeg,image/png,image/gif';
+    newPhotoFileInput.className = "centered block";
     return newPhotoFileInput;
 }
 
 cancelPhotoSelectButton.onclick = function() {
     hideModalForm(selectPhotoModal);
-};
-
-clearPhotoButton.onclick = function() {
-    contactPhotoImage.src = '/images/default.png';
 };
 
 var contactForm = document.getElementById('contact-form');

@@ -28,7 +28,7 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     @Override
     public void update(Integer key, Phone phone) throws SQLException {
         String query = "UPDATE phone SET country_code=?, operator_code=?, number=?, " +
-                "commentary=?, contact_id=?, phone_type_id=?";
+                "commentary=?, contact_id=?, phone_type_id=? WHERE id=" + key;
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, phone.getCountryCode());
         preparedStatement.setInt(2, phone.getOperatorCode());

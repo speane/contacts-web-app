@@ -132,5 +132,69 @@ div#contact-photo-select-area img {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
+}
+
+.block {
+    display: block;
+}
+
+.input-label {
+    display: block;
+    margin: 10px;
+}
+
+.input-field {
+    float: right;
+    width: 300px;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-style: oblique;
+}
+
+.main-info, .edit-photo {
+    width: 60%;
+    margin: 40px auto;
+}
+
+.action-button {
+    float: right;
+}
+
+article {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+img {
+    width: 240px;
+    height: 320px;
+    display: block;
+    margin: 30px auto;
+}
+
+.apply-button {
+    margin: 20px auto;
+    width: 200px;
+    display: block;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    background-color: #16a085;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.apply-button:hover {
+    background-color: #43a049;
+}
+
+label span {
+    display: block;
+    width: 20%;
+    margin: 30px auto;
 }
