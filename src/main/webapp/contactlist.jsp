@@ -9,6 +9,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
+        <div id="message-modal-window" class="modal">
+            <div class="modal-content">
+                <header><h3 id="message-info-field"></h3></header>
+                <input id="message-ok-button" type="button" class="centered block apply-button" value="Понятно">
+            </div>
+        </div>
         <form id="contact-list-form" class="centered main" method="post">
             <header>
                 <h1>Список контактов</h1>
@@ -19,8 +25,8 @@
                         <a class="nav-button" href="/app/contact-search">Поиск</a>
                         <input type="button" class="nav-button"  id="send-email-button" value="Отправить email">
                         <a class="nav-button" id="add-contact-button" href="/app/add-contact">Добавить</a>
-                        <input class="nav-button" type="submit" id="delete-contact-button" value="Удалить" />
-                        <input class="nav-button" type="submit" id="edit-checked-contact-button" value="Редактировать" />
+                        <input class="nav-button" type="button" id="delete-contact-button" value="Удалить" />
+                        <input class="nav-button" type="button" id="edit-checked-contact-button" value="Редактировать" />
                     </div>
                 </nav>
                 <div class="contact-list">

@@ -92,6 +92,10 @@ form.main {
     background-color: white;
     padding: 40px;
     font-family: "Lucida Console", Monaco, monospace;
+
+    -webkit-box-shadow: 6px 10px 53px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 6px 10px 53px 1px rgba(0,0,0,0.75);
+    box-shadow: 6px 10px 53px 1px rgba(0,0,0,0.75);
 }
 
 header {
@@ -107,12 +111,13 @@ div#contact-photo-select-area {
     width: 240px;
     height: 320px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
-div#contact-photo-select-area img:hover {
-    border: solid 1px black;
-    border-radius: 5px;
-    cursor: pointer;
+div#contact-photo-select-area:hover {
+    -webkit-box-shadow: 14px 14px 71px -18px rgba(0,0,0,0.75);
+    -moz-box-shadow: 14px 14px 71px -18px rgba(0,0,0,0.75);
+    box-shadow: 14px 14px 71px -18px rgba(0,0,0,0.75);
 }
 
 div#contact-photo-select-area img {
@@ -267,14 +272,14 @@ label span {
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;
-    background-color: #e67e22;
+    background-color: #90c9e6;
     font-size: 14px;
     cursor: pointer;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .save-button:hover {
-    background-color: #e6d860;
+    background-color: #4e91e6;
 }
 
 .recipients {

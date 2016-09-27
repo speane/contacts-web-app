@@ -469,6 +469,100 @@ submitContactButton.onclick = function() {
     contactForm.submit();
 };
 
+function validateFormFields() {
+    var nationality = document.getElementById('nationality').value.trim();
+    var website = document.getElementById('website').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var job = document.getElementById('job').value.trim();
+    var state = document.getElementById('state').value.trim();
+    var city = document.getElementById('city').value.trim();
+    var street = document.getElementById('street').value.trim();
+    var house = document.getElementById('house').value.trim();
+    var flat = document.getElementById('flat').value.trim();
+    var zipcode = document.getElementById('zipcode').value.trim();
+}
+
+function checkFirstName() {
+    var MIN_NAME_LENGTH = 3;
+    var firstName = document.getElementById('first-name').value.trim();
+    if (isEmpty(firstName)) {
+        return 'Вы не ввели имя';
+    }
+    if (!containsOnlyLetters(firstName)) {
+        return 'Имя может содержать только буквы';
+    }
+    if (firstName.length < MIN_NAME_LENGTH) {
+        return 'Имя должно состоять не менее, чем из ' + MIN_NAME_LENGTH + ' символов';
+    }
+    return '';
+}
+
+function checkLastName() {
+    var MIN_LAST_NAME_LENGTH = 3;
+    var lastName = document.getElementById('last-name').value.trim();
+    if (isEmpty(lastName)) {
+        return 'Вы не ввели фамилию';
+    }
+    if (!containsOnlyLetters(lastName)) {
+        return 'Фамилия может содержать только буквы';
+    }
+    if (lastName.length < MIN_LAST_NAME_LENGTH) {
+        return 'Фамилия должна состоять не менее, чем из ' + MIN_LAST_NAME_LENGTH + ' символов';
+    }
+    return '';
+}
+
+function checkPatronymic() {
+    var patronymic = document.getElementById('patronymic').value.trim();
+    var MIN_PATRONYMIC_LENGTH = 5;
+    if (!isEmpty(patronymic)) {
+        if (!containsOnlyLetters(patronymic)) {
+            return 'Отчество может содержать только буквы';
+        }
+        if (patronymic.length < MIN_PATRONYMIC_LENGTH) {
+            return 'Отчество должно состоять не менее, чем из ' + MIN_PATRONYMIC_LENGTH + ' символов';
+        }
+    }
+}
+
+function checkDate() {
+    var MIN_YEAR = 1880;
+    var MIN_CONTACT_AGE = 10;
+    var MAX_YEAR = new Date().getFullYear() - MIN_CONTACT_AGE;
+    var day = document.getElementById('day').value.trim();
+    var month = document.getElementById('month').value.trim();
+    var year = document.getElementById('year').value.trim();
+
+    if (!isEmpty(day) || !isEmpty(month) || !isEmpty(year)) {
+        if (isEmpty(day) || isEmpty(month) || isEmpty(year)) {
+            return 'Вы ввели дату рождения не полностью';
+        }
+        else {
+            if (!isNumber(year)) {
+                return 'Год может содержать только цифры';
+            }
+            if (!isNumber(day)) {
+                return 'День может содержать только цифры';
+            }
+            if ((year < MIN_YEAR)) {
+                return 'Контакт неправдоподобно стар';
+            }
+            if ((year > MAX_YEAR)) {
+                return 'Контакту мешьше 10 лет';
+            }
+            var DAYS_IN_MONTH = new Date(year, month, 0).getDate();
+            if (day < 0 && day > DAYS_IN_MONTH) {
+                return 'В указанном месяце не может быть ' + day + ' дней';
+            }
+        }
+    }
+}
+
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}
+
 function createHiddenInput(name, value) {
     var field = document.createElement('input');
     field.type = 'hidden';
@@ -501,6 +595,36 @@ function createHiddenCreatedAttachmentsField() {
     field.name = 'created-attachments';
     field.value = JSON.stringify(getValuesFromAssociativeArray(createdAttachments));
     return field;
+}
+
+/* VALIDATION */
+
+var EN_ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
+var RU_ALPHABET_LOWER = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+var DIGITS = "1234567890";
+
+function containsLettersDigitsHyphen(value) {
+    var HYPHEN = "-";
+    return containsOnlyCharsIgnoreCase(value, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER + DIGITS + HYPHEN)
+}
+
+function isNumber(value) {
+    return containsOnlyCharsIgnoreCase(value, DIGITS);
+}
+
+function containsOnlyLetters(value) {
+    return containsOnlyCharsIgnoreCase(value, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER);
+}
+
+function containsOnlyCharsIgnoreCase(value, chars) {
+    var lowerCaseChars = chars.toLowerCase();
+    var lowerCaseValue = value.toLowerCase();
+    for (var i = 0; i < value.length; i++) {
+        if (lowerCaseChars.indexOf(lowerCaseValue.charAt(i)) == -1) {
+            return false;
+        }
+    }
+    return true;
 }
 
 

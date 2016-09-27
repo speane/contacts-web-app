@@ -51,19 +51,19 @@
                 <header><h3>Основная информация</h3></header>
                 <label class="input-label">
                     Фамилия*
-                    <input class="input-field" name="last-name" type="text" value="${not empty contact ? contact.lastName : ''}">
+                    <input id="last-name" class="input-field" name="last-name" type="text" value="${not empty contact ? contact.lastName : ''}">
                 </label>
                 <label class="input-label">
                     Имя*
-                    <input class="input-field" name="first-name" type="text" value="${not empty contact ? contact.firstName : ''}">
+                    <input id="first-name" class="input-field" name="first-name" type="text" value="${not empty contact ? contact.firstName : ''}">
                 </label>
                 <label class="input-label">
                     Отчество
-                    <input class="input-field" name="patronymic" type="text" value="${not empty contact ? contact.patronymic : ''}">
+                    <input id="patronymic" class="input-field" name="patronymic" type="text" value="${not empty contact ? contact.patronymic : ''}">
                 </label>
                 <label class="input-label">
                     Пол
-                    <select class="input-field" name="sex">
+                    <select id="sex" class="input-field" name="sex">
                         <option disabled>Выберите пол</option>
                         <option ${empty contact or contact.sex == 'f' ? '' : 'selected'} value="m">Мужчина</option>
                         <option ${empty contact or contact.sex == 'm' ? '' : 'selected'} value="f">Женщина</option>
@@ -71,11 +71,11 @@
                 </label>
                 <label class="input-label">
                     Гражданство
-                    <input class="input-field" name="nationality" type="text" value="${not empty contact ? contact.nationality : ''}">
+                    <input id="nationality" class="input-field" name="nationality" type="text" value="${not empty contact ? contact.nationality : ''}">
                 </label>
                 <label class="input-label">
                     Семейное положение
-                    <select class="input-field" name="marital-status">
+                    <select id="marital-status" class="input-field" name="marital-status">
                         <option disabled>
                             Ваше семейное положение
                         </option>
@@ -88,15 +88,15 @@
                 </label>
                 <label class="input-label">
                     Web Site
-                    <input class="input-field" name="website" type="url" value="${not empty contact ? contact.website : ''}">
+                    <input id="website" class="input-field" name="website" type="url" value="${not empty contact ? contact.website : ''}">
                 </label>
                 <label class="input-label">
                     Email
-                    <input class="input-field" name="email" type="email" value="${not empty contact ? contact.email : ''}">
+                    <input id="email" class="input-field" name="email" type="email" value="${not empty contact ? contact.email : ''}">
                 </label>
                 <label class="input-label">
                     Текущее место работы
-                    <input class="input-field" name="job" type="text" value="${not empty contact ? contact.job : ''}">
+                    <input id="job" class="input-field" name="job" type="text" value="${not empty contact ? contact.job : ''}">
                 </label>
                 <h5>Дата рождения</h5>
                 <c:if test="${not empty contact and not empty contact.birthday}">
@@ -111,45 +111,45 @@
                 </c:if>
                 <label class="input-label">
                     Год рождения
-                    <input class="input-field" type="text" value="${year}" name="year">
+                    <input id="year" class="input-field" type="text" value="${year}" name="year">
                 </label>
                 <label class="input-label">
                     Месяц
-                    <select class="input-field" name="month">
+                    <select id="month" class="input-field" name="month">
                         <option disabled>Месяц рождения</option>
                         <c:forEach var="tempMonth" items="${months}" varStatus="loop">
-                            <option ${month == loop.index ? 'selected' : ''} value="${loop.index}">${tempMonth}</option>
+                            <option ${month == (loop.index + 1) ? 'selected' : ''} value="${loop.index + 1}">${tempMonth}</option>
                         </c:forEach>
                     </select>
                 </label>
                 <label class="input-label">
                     День
-                    <input class="input-field" type="text" value="${day}" name="day">
+                    <input id="day" class="input-field" type="text" value="${day}" name="day">
                 </label>
                 <h5>Адрес</h5>
                 <label class="input-label">
                     Страна
-                    <input class="input-field" name="state" type="text" value="${not empty contact ? contact.state : ''}">
+                    <input id="state" class="input-field" name="state" type="text" value="${not empty contact ? contact.state : ''}">
                 </label>
                 <label class="input-label">
                     Город
-                    <input class="input-field" name="city" type="text" value="${not empty contact ? contact.city : ''}">
+                    <input id="city" class="input-field" name="city" type="text" value="${not empty contact ? contact.city : ''}">
                 </label>
                 <label class="input-label">
                     Улица
-                    <input class="input-field" name="street" type="text" value="${not empty contact ? contact.street : ''}">
+                    <input id="street" class="input-field" name="street" type="text" value="${not empty contact ? contact.street : ''}">
                 </label>
                 <label class="input-label">
                     Дом
-                    <input class="input-field" name="house" type="text" value="${not empty contact ? contact.house : ''}">
+                    <input id="house" class="input-field" name="house" type="text" value="${not empty contact ? contact.house : ''}">
                 </label>
                 <label class="input-label">
                     Квартира
-                    <input class="input-field" name="flat" type="text" value="${not empty contact ? contact.flat : ''}">
+                    <input id="flat" class="input-field" name="flat" type="text" value="${not empty contact ? contact.flat : ''}">
                 </label>
                 <label class="input-label">
                     Почтовый индекс
-                    <input class="input-field" name="zipcode" type="text" value="${not empty contact ? contact.zipCode : ''}">
+                    <input id="zipcode" class="input-field" name="zipcode" type="text" value="${not empty contact ? contact.zipCode : ''}">
                 </label>
             </article>
             <article class="contact-phones">

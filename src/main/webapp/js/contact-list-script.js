@@ -1,20 +1,39 @@
+var messageModalWindow = document.getElementById('message-modal-window');
+var messageTextField = document.getElementById('message-info-field');
+var messageOkButton = document.getElementById('message-ok-button');
+
 var contactListForm = document.getElementById("contact-list-form");
-document.getElementById("delete-contact-button").onclick = function() {
-    contactListForm.action = "/app/delete-contact";
-    contactListForm.submit();
-};
 
-document.getElementById("edit-checked-contact-button").onclick = function() {
-    contactListForm.action = "/app/edit-checked-contact"
-};
-
+var deleteContactsButton = document.getElementById('delete-contact-button');
 var sendEmailButton = document.getElementById('send-email-button');
+var editContactButton = document.getElementById("edit-checked-contact-button");
+
+deleteContactsButton.onclick = function() {
+    if (isAnyContactSelected()) {
+        contactListForm.action = "/app/delete-contact";
+        contactListForm.submit();
+    }
+    else {
+        showInfoMessage('Сначала выберите контакты для удаления');
+    }
+};
+
+editContactButton.onclick = function() {
+    if (isAnyContactSelected()) {
+        contactListForm.action = "/app/edit-checked-contact";
+        contactListForm.submit();
+    }
+    else {
+        showInfoMessage('Сначала выберите контакт для редактирования')
+    }
+};
+
 sendEmailButton.onclick = function() {
     if (isAnyContactSelected()) {
         contactListForm.action = "/app/send-email";
     }
     else {
-        alert('SELECT A CONTACT')
+        showInfoMessage('Сначала выберите контакты для оправки сообщения');
     }
 };
 
@@ -33,3 +52,26 @@ function isAnyContactSelected() {
     var checkedContacts = getCheckedItems('contact-check');
     return checkedContacts.length > 0;
 }
+
+function showModalForm(modal) {
+    modal.style.display = 'block';
+}
+
+function hideModalForm(modal) {
+    modal.style.display = 'none';
+}
+
+function showInfoMessage(message) {
+    messageTextField.innerHTML = message;
+    showModalForm(messageModalWindow);
+}
+
+messageOkButton.onclick = function() {
+    hideModalForm(messageModalWindow);
+};
+
+window.onclick = function(event) {
+    if (event.target == messageModalWindow) {
+        hideModalForm(messageModalWindow);
+    }
+};
