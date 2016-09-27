@@ -31,6 +31,7 @@ editContactButton.onclick = function() {
 sendEmailButton.onclick = function() {
     if (isAnyContactSelected()) {
         contactListForm.action = "/app/send-email";
+        contactListForm.submit();
     }
     else {
         showInfoMessage('Сначала выберите контакты для оправки сообщения');

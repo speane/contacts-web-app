@@ -306,3 +306,7 @@ label span {
     width: 50%;
     margin: auto;
 }
+
+.error-message {
+    text-align: center;
+}

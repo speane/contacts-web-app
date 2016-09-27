@@ -28,6 +28,14 @@
             <h2><c:out value="${title}" /></h2>
         </header>
         <section>
+            <div id="input-message-window" class="modal">
+                <div class="modal-content">
+                    <div id="input-messages">
+
+                    </div>
+                    <input type="button" id="message-ok-button" value="Ок" class="apply-button">
+                </div>
+            </div>
             <article class="edit-photo">
                 <header><h3>Фото</h3></header>
                 <div class="centered" id="contact-photo-select-area">
@@ -64,7 +72,7 @@
                 <label class="input-label">
                     Пол
                     <select id="sex" class="input-field" name="sex">
-                        <option disabled>Выберите пол</option>
+                        <option ${empty contact or empty contact.sex ? 'selected' : ''} value="x">Не выбран</option>
                         <option ${empty contact or contact.sex == 'f' ? '' : 'selected'} value="m">Мужчина</option>
                         <option ${empty contact or contact.sex == 'm' ? '' : 'selected'} value="f">Женщина</option>
                     </select>
@@ -76,8 +84,8 @@
                 <label class="input-label">
                     Семейное положение
                     <select id="marital-status" class="input-field" name="marital-status">
-                        <option disabled>
-                            Ваше семейное положение
+                        <option ${empty contact or empty contact.maritalStatus ? 'selected' : ''} value="0">
+                            Не выбрано
                         </option>
                         <c:forEach var="maritalStatus" items="${maritalStatuses}">
                             <option ${empty contact or contact.maritalStatus != maritalStatus.id ? '' : 'selected'} value="${maritalStatus.id}">
@@ -116,7 +124,7 @@
                 <label class="input-label">
                     Месяц
                     <select id="month" class="input-field" name="month">
-                        <option disabled>Месяц рождения</option>
+                        <option ${month == 0 ? 'selected' : ''} value="0">Не выбран</option>
                         <c:forEach var="tempMonth" items="${months}" varStatus="loop">
                             <option ${month == (loop.index + 1) ? 'selected' : ''} value="${loop.index + 1}">${tempMonth}</option>
                         </c:forEach>

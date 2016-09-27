@@ -135,8 +135,12 @@ window.onclick = function(event) {
     }
     else if (event.target == attachmentEditModal) {
         hideModalForm(attachmentEditModal);
-    } else if (event.target == selectPhotoModal) {
+    }
+    else if (event.target == selectPhotoModal) {
         hideModalForm(selectPhotoModal);
+    }
+    else if (event.target == messageWindow) {
+        hideModalForm(messageWindow);
     }
 };
 
@@ -459,27 +463,162 @@ cancelPhotoSelectButton.onclick = function() {
 
 var contactForm = document.getElementById('contact-form');
 var submitContactButton = document.getElementById('save-contact-button');
+
+var messageWindow = document.getElementById('input-message-window');
+var inputMessages = document.getElementById('input-messages');
+var okMessageWindowButton = document.getElementById('message-ok-button');
+
+okMessageWindowButton.onclick = function() {
+    hideModalForm(messageWindow);
+};
+
 submitContactButton.onclick = function() {
-    contactForm.appendChild(createHiddenCreatedPhonesField());
-    contactForm.appendChild(createHiddenCreatedAttachmentsField());
-    contactForm.appendChild(createHiddenInput('removed-phones', JSON.stringify(removedPhones)));
-    contactForm.appendChild(createHiddenInput('removed-attachments', JSON.stringify(removedAttachments)));
-    contactForm.appendChild(createHiddenInput('updated-phones', JSON.stringify(getValuesFromAssociativeArray(updatedPhones))));
-    contactForm.appendChild(createHiddenInput('updated-attachments', JSON.stringify(getValuesFromAssociativeArray(updatedAttachments))));
-    contactForm.submit();
+    var errors = validateFormFields();
+    if (errors.length > 0) {
+        inputMessages.innerHTML = '';
+        for (var i = 0; i < errors.length; i++) {
+            var tempHeader = document.createElement("h3");
+            tempHeader.className = "error-message";
+            tempHeader.innerHTML = errors[i];
+            inputMessages.appendChild(tempHeader);
+        }
+        showModalForm(messageWindow);
+    }
+    else {
+        contactForm.appendChild(createHiddenCreatedPhonesField());
+        contactForm.appendChild(createHiddenCreatedAttachmentsField());
+        contactForm.appendChild(createHiddenInput('removed-phones', JSON.stringify(removedPhones)));
+        contactForm.appendChild(createHiddenInput('removed-attachments', JSON.stringify(removedAttachments)));
+        contactForm.appendChild(createHiddenInput('updated-phones', JSON.stringify(getValuesFromAssociativeArray(updatedPhones))));
+        contactForm.appendChild(createHiddenInput('updated-attachments', JSON.stringify(getValuesFromAssociativeArray(updatedAttachments))));
+        contactForm.submit();
+    }
 };
 
 function validateFormFields() {
-    var nationality = document.getElementById('nationality').value.trim();
-    var website = document.getElementById('website').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var job = document.getElementById('job').value.trim();
+    var errorMessages = [];
+    var message;
+    if ((message = checkFirstName()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkLastName()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkPatronymic()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkDate()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkNationality()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkWebsite()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkJob()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkEmail()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkState()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkCity()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkStreet()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkHouse()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkFlat()) != '') {
+        errorMessages.push(message);
+    }
+    if ((message = checkZipcode()) != '') {
+        errorMessages.push(message);
+    }
+    return errorMessages;
+}
+
+function checkState() {
     var state = document.getElementById('state').value.trim();
+    var STATE_SYMBOLS = "- ";
+    if (!isEmpty(state)) {
+        if (!containsOnlyCharsIgnoreCase(state, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + STATE_SYMBOLS)) {
+            return 'Страна содержит недопустимые символы';
+        }
+    }
+    return '';
+}
+
+function checkCity() {
     var city = document.getElementById('city').value.trim();
+    var CITY_SYMBOLS = "- ";
+    if (!isEmpty(city)) {
+        if (!containsOnlyCharsIgnoreCase(city, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS + CITY_SYMBOLS)) {
+            return 'Город содержит недопустимые симоволы';
+        }
+    }
+    return '';
+}
+
+function checkStreet() {
     var street = document.getElementById('street').value.trim();
+    var STREET_SYMBOLS = "- ";
+    if (!isEmpty(street)) {
+        if (!containsOnlyCharsIgnoreCase(street, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS + STREET_SYMBOLS)) {
+            return 'Улица содержит недопустимые символы';
+        }
+    }
+    return '';
+}
+
+function checkHouse() {
     var house = document.getElementById('house').value.trim();
+    if (!isEmpty(house)) {
+        if (!containsOnlyCharsIgnoreCase(house, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS)) {
+            return 'Дом содержит недопустимые символы';
+        }
+    }
+    return '';
+}
+
+function checkFlat() {
     var flat = document.getElementById('flat').value.trim();
+    if (!isEmpty(flat)) {
+        if (!containsOnlyCharsIgnoreCase(flat, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS)) {
+            return 'Квартира содержит недопустимые символы';
+        }
+    }
+    return '';
+}
+
+function checkZipcode() {
     var zipcode = document.getElementById('zipcode').value.trim();
+    if (!isEmpty(zipcode)) {
+        if (!containsOnlyCharsIgnoreCase(zipcode, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS)) {
+            return 'Индекс содержит недопустимые символы';
+        }
+    }
+    return '';
+}
+
+function checkJob() {
+    var MIN_JOB_LENGTH = 2;
+    var JOB_SYMBOLS = ":-. \"'";
+    var job = document.getElementById('job').value.trim();
+    if (!isEmpty(job)) {
+        if (job.length < MIN_JOB_LENGTH) {
+            return 'Место работы не может содержать менее ' + MIN_JOB_LENGTH + ' символов';
+        }
+        if (!containsOnlyCharsIgnoreCase(job, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER + DIGITS + JOB_SYMBOLS)) {
+            return 'Место работы содержит недопустимые символы';
+        }
+    }
+    return '';
 }
 
 function checkFirstName() {
@@ -523,6 +662,7 @@ function checkPatronymic() {
             return 'Отчество должно состоять не менее, чем из ' + MIN_PATRONYMIC_LENGTH + ' символов';
         }
     }
+    return '';
 }
 
 function checkDate() {
@@ -533,8 +673,8 @@ function checkDate() {
     var month = document.getElementById('month').value.trim();
     var year = document.getElementById('year').value.trim();
 
-    if (!isEmpty(day) || !isEmpty(month) || !isEmpty(year)) {
-        if (isEmpty(day) || isEmpty(month) || isEmpty(year)) {
+    if (!isEmpty(day) || (month != 0) || !isEmpty(year)) {
+        if (isEmpty(day) || (month == 0) || isEmpty(year)) {
             return 'Вы ввели дату рождения не полностью';
         }
         else {
@@ -551,13 +691,65 @@ function checkDate() {
                 return 'Контакту мешьше 10 лет';
             }
             var DAYS_IN_MONTH = new Date(year, month, 0).getDate();
-            if (day < 0 && day > DAYS_IN_MONTH) {
-                return 'В указанном месяце не может быть ' + day + ' дней';
+            if ((day < 0) || (day > DAYS_IN_MONTH)) {
+                return 'В указанном месяце столько дней не может быть';
             }
         }
     }
+    return '';
 }
 
+function checkNationality() {
+    var MIN_NATIONALITY_LENGTH = 4;
+    var nationality = document.getElementById('nationality').value.trim();
+    if (!isEmpty(nationality)) {
+        if (nationality.length < MIN_NATIONALITY_LENGTH) {
+            return 'Национальность должна содержать не менее ' + MIN_NATIONALITY_LENGTH + ' символов';
+        }
+        if (!containsOnlyLetters(nationality)) {
+            return 'Национальность может содержать только буквы';
+        }
+    }
+    return '';
+}
+
+function checkWebsite() {
+    var URL_SYMBOLS = ":/.?=&";
+    var MIN_WEBSITE_LENGTH = 3;
+    var website = document.getElementById('website').value.trim();
+    if (!isEmpty(website)) {
+        if (website.length < MIN_WEBSITE_LENGTH) {
+            return 'Website должен содержать не менее ' + MIN_WEBSITE_LENGTH + ' символов';
+        }
+        if (!containsOnlyCharsIgnoreCase(website, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER + URL_SYMBOLS)) {
+            return 'Website содержит недопустимые символы';
+        }
+        var DOT_INDEX = website.indexOf('.');
+        if ((DOT_INDEX == -1) || (DOT_INDEX < 2) || (DOT_INDEX >= website.length)) {
+            return 'Website имеет некорректный формат';
+        }
+    }
+    return '';
+}
+
+function checkEmail() {
+    var EMAIL_SYMBOLS = "-@.";
+    var MIN_EMAIL_LENGTH = 3;
+    var email = document.getElementById('email').value.trim();
+    if (!isEmpty(email)) {
+        if (email.length < MIN_EMAIL_LENGTH) {
+            return 'Email должен содержать не менее ' + MIN_EMAIL_LENGTH + ' символов';
+        }
+        if (!containsOnlyCharsIgnoreCase(email, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER + DIGITS + EMAIL_SYMBOLS)) {
+            return 'Email содержит недопустимые символы';
+        }
+        var AT_INDEX = email.indexOf('@');
+        if ((AT_INDEX == -1) || (AT_INDEX < 2) || (AT_INDEX >= email.length)) {
+            return 'Email имеет некорректный формат';
+        }
+    }
+    return '';
+}
 
 function isEmpty(str) {
     return (!str || 0 === str.length);
@@ -626,5 +818,7 @@ function containsOnlyCharsIgnoreCase(value, chars) {
     }
     return true;
 }
+
+
 
 
