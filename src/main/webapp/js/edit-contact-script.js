@@ -688,7 +688,7 @@ function checkDate() {
                 return 'Контакт неправдоподобно стар';
             }
             if ((year > MAX_YEAR)) {
-                return 'Контакту мешьше 10 лет';
+                return 'Контакту мешьше ' + MIN_CONTACT_AGE + ' лет';
             }
             var DAYS_IN_MONTH = new Date(year, month, 0).getDate();
             if ((day < 0) || (day > DAYS_IN_MONTH)) {
