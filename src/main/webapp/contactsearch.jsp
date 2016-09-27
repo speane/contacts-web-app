@@ -44,6 +44,7 @@
                     День
                     <input class="input-field" type="text" value="${day}" name="day">
                 </label>
+                <h5>Дополнительные сведения</h5>
                 <label class="input-label">
                     Пол
                     <select class="input-field" name="sex">
@@ -52,7 +53,6 @@
                         <option value="f">Женщина</option>
                     </select>
                 </label>
-                <h5>Дополнительные сведения</h5>
                 <label class="input-label">
                     Семейное положение
                     <select class="input-field" name="marital-status">

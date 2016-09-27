@@ -185,27 +185,27 @@ div#contact-photo-select-area img {
 }
 
 input.remove {
-    background-color: #c0392b;
-}
-
-input.remove:hover {
     background-color: #c0773a;
 }
 
-input.add {
-    background-color: #2ecc71;
+input.remove:hover {
+    background-color: #c0392b;
 }
 
-input.add:hover {
+input.add {
     background-color: #4ccca4;
 }
 
+input.add:hover {
+    background-color: #2ecc71;
+}
+
 input.edit {
-    background-color: #34495e;
+    background-color: #42595e;
 }
 
 input.edit:hover {
-    background-color: #42595e;
+    background-color: #34495e;
 }
 
 #edit-contact-button {
@@ -263,7 +263,7 @@ label span {
     border: none;
     color: white;
     border-radius: 5px;
-    padding: 17px;
+    padding: 7px;
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;

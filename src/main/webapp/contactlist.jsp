@@ -16,8 +16,8 @@
             <section>
                 <nav>
                     <div class="clearfix">
-                        <a class="nav-button" href="/app/contact-search">Search</a>
-                        <input type="submit" class="nav-button"  id="send-email-button" value="Отправить email">
+                        <a class="nav-button" href="/app/contact-search">Поиск</a>
+                        <input type="button" class="nav-button"  id="send-email-button" value="Отправить email">
                         <a class="nav-button" id="add-contact-button" href="/app/add-contact">Добавить</a>
                         <input class="nav-button" type="submit" id="delete-contact-button" value="Удалить" />
                         <input class="nav-button" type="submit" id="edit-checked-contact-button" value="Редактировать" />
