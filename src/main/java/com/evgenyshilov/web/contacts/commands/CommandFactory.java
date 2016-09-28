@@ -1,5 +1,6 @@
 package com.evgenyshilov.web.contacts.commands;
 
+import com.evgenyshilov.web.contacts.exceptions.CommandNotFoundException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.io.FileInputStream;
@@ -37,9 +38,18 @@ public class CommandFactory {
         }
     }
 
-    public Command create(String URI) throws IllegalAccessException, InstantiationException {
+    public Command create(String URI) throws CommandNotFoundException, CustomException {
         Class<? extends Command> commandClass = commands.get(URI);
-        return commandClass != null ? commandClass.newInstance() : null;
+        if (commandClass == null) {
+            throw new CommandNotFoundException();
+        }
+        try {
+            return commandClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new CustomException("Can't create command instance: ", e);
+        } catch (IllegalAccessException e) {
+            throw new CustomException("Can't access file instantiation: ", e);
+        }
     }
 
 }
