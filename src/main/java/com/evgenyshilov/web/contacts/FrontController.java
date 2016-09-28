@@ -2,10 +2,10 @@ package com.evgenyshilov.web.contacts;
 
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.commands.CommandFactory;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import com.evgenyshilov.web.contacts.resources.ApplicationResources;
 import com.evgenyshilov.web.contacts.resources.Messages;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,17 +20,16 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
 
     private CommandFactory commandFactory;
-    private Logger logger;
 
     @Override
     public void init() throws ServletException {
-
         commandFactory = new CommandFactory();
         try {
-            commandFactory.init(getServletContext().getRealPath(ApplicationConfig.getProperty("COMMAND_MAPPING_FILE_PATH")));
-        } catch (IOException | ClassNotFoundException e) {
-            logger.error(e.getMessage());
-            throw new ServletException(e.getMessage());
+            String COMMAND_MAPPING_REAL_PATH = getServletContext().getRealPath(
+                    ApplicationConfig.getProperty("COMMAND_MAPPING_FILE_PATH"));
+            commandFactory.init(COMMAND_MAPPING_REAL_PATH);
+        } catch (CustomException e) {
+            // TODO log exception
         }
     }
 
