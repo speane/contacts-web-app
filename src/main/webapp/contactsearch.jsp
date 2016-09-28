@@ -44,6 +44,20 @@
                     День
                     <input id="day" class="input-field" type="text" value="${day}" name="day">
                 </label>
+                <div class="date-params">
+                    <label class="input-label">
+                        Точная дата рождения
+                        <input checked class="date-param" type="radio" name="date-param" value="equal">
+                    </label>
+                    <label class="input-label">
+                        Старше
+                        <input class="date-param" type="radio" name="date-param" value="older">
+                    </label>
+                    <label class="input-label">
+                        Младше
+                        <input class="date-param" type="radio" name="date-param" value="younger">
+                    </label>
+                </div>
                 <h5>Дополнительные сведения</h5>
                 <label class="input-label">
                     Пол

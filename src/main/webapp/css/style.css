@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #C8F7C5;
+    background-color: #34495e;
 }
 
 .nav-button {
@@ -62,7 +62,7 @@ nav {
 }
 
 .pagination a:link, .pagination a:visited {
-    background-color: #4DAF7C;
+    background-color: #59ABE3;
     padding: 5px;
 }
 
@@ -309,4 +309,13 @@ label span {
 
 .error-message {
     text-align: center;
+}
+
+.date-params {
+    width: 90%;
+    margin: auto;
+}
+
+.date-param {
+    float: left;
 }

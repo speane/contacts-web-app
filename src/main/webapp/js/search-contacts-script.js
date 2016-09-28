@@ -56,10 +56,7 @@ function checkInputFields() {
     if ((error = checkNationality()) != '') {
         errorMessages.push(error);
     }
-    if ((error = checkYear()) != '') {
-        errorMessages.push(error);
-    }
-    if ((error = checkDay()) != '') {
+    if ((error = checkDate()) != '') {
         errorMessages.push(error);
     }
     if ((error = checkState()) != '') {
@@ -217,6 +214,40 @@ function checkZipcode() {
     if (!isEmpty(zipcode)) {
         if (!containsOnlyCharsIgnoreCase(zipcode, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS)) {
             return 'Индекс содержит недопустимые символы';
+        }
+    }
+    return '';
+}
+
+function checkDate() {
+    var MIN_YEAR = 1880;
+    var MIN_CONTACT_AGE = 10;
+    var MAX_YEAR = new Date().getFullYear() - MIN_CONTACT_AGE;
+    var day = document.getElementById('day').value.trim();
+    var month = document.getElementById('month').value.trim();
+    var year = document.getElementById('year').value.trim();
+
+    if (!isEmpty(day) || (month != 0) || !isEmpty(year)) {
+        if (isEmpty(day) || (month == 0) || isEmpty(year)) {
+            return 'Вы ввели дату рождения не полностью';
+        }
+        else {
+            if (!isNumber(year)) {
+                return 'Год может содержать только цифры';
+            }
+            if (!isNumber(day)) {
+                return 'День может содержать только цифры';
+            }
+            if ((year < MIN_YEAR)) {
+                return 'Контакт неправдоподобно стар';
+            }
+            if ((year > MAX_YEAR)) {
+                return 'Контакту мешьше ' + MIN_CONTACT_AGE + ' лет';
+            }
+            var DAYS_IN_MONTH = new Date(year, month, 0).getDate();
+            if ((day < 0) || (day > DAYS_IN_MONTH)) {
+                return 'В указанном месяце столько дней не может быть';
+            }
         }
     }
     return '';
