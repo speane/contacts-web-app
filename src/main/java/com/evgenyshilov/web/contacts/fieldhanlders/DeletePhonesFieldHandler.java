@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DeletePhonesFieldHandler implements FieldHandler {
     @Override
-    public void setField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         ArrayList<Integer> removedPhones = new JSONObjectFactory().getIntegerList(value);
         PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
         for (int id : removedPhones) {

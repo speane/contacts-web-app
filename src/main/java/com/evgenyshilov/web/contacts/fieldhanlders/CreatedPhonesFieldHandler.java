@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class CreatedPhonesFieldHandler implements FieldHandler {
     @Override
-    public void setField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         ArrayList<Phone> phones = new JSONObjectFactory().getPhoneList(value);
         contact.setPhones(phones);
     }

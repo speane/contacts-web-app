@@ -10,7 +10,7 @@ import java.sql.Date;
  */
 public class DayFieldHandler implements FieldHandler {
     @Override
-    public void setField(Contact contact, String value) {
+    public void handleField(Contact contact, String value) {
         if (contact != null) {
             if (contact.getBirthday() == null) {
                 contact.setBirthday(new Date(0));

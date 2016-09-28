@@ -7,7 +7,7 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
  */
 public class CityFieldHandler implements FieldHandler {
     @Override
-    public void setField(Contact contact, String value) {
+    public void handleField(Contact contact, String value) {
         if (contact != null) {
             contact.setCity(value);
         }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class UpdateAttachmentsFieldHandler implements FieldHandler {
     @Override
-    public void setField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         ArrayList<Attachment> updatedAttachments = new JSONObjectFactory().getAttachmentList(value);
         AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
         for (Attachment attachment : updatedAttachments) {
