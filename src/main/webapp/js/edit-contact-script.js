@@ -263,6 +263,7 @@ function showMessage(message) {
     errorMessage.className = 'error-message';
     errorMessage.innerHTML = message;
     inputMessages.appendChild(errorMessage);
+    messageWindow.style.zIndex = 5;
     showModalForm(messageWindow);
 }
 
@@ -404,16 +405,59 @@ function removeCreatedAttachment(id) {
 }
 
 saveAttachmentButton.onclick = function() {
-    // TODO check attachment fields
-    if (editAttachment) {
-        updateAttachment();
+    var errorMessages = checkAttachmentFields();
+    if (errorMessages.length > 0) {
+        showErrorMessages(errorMessages);
     }
     else {
-        createAttachment();
+        if (editAttachment) {
+            updateAttachment();
+        }
+        else {
+            createAttachment();
+        }
     }
 };
 
+function checkAttachmentFields() {
+    var errorMessages = [];
+    var error;
+    if ((error = checkFileName()) != '') {
+        errorMessages.push(error);
+    }
+    if ((error = checkCommentary(attachmentCommentaryField)) != '') {
+        errorMessages.push(error);
+    }
+    if ((error = checkAttachmentFile()) != '') {
+        errorMessages.push(error);
+    }
+    return errorMessages;
+}
 
+function checkFileName() {
+    var filename = attachmentFileNameField.value;
+    var FILENAME_SYMBOLS = '-_.';
+    if (isEmpty(filename)) {
+        return 'Укажите имя файла присоединения';
+    }
+    if (!containsOnlyCharsIgnoreCase(filename, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER + FILENAME_SYMBOLS + DIGITS)) {
+        return 'Имя файла содержит недопустимые символы';
+    }
+    return '';
+}
+
+function checkAttachmentFile() {
+    var attachmentFile = attachmentFileInput.files[0];
+    var MAX_ATTACHMENT_SIZE_MB = 50;
+    var MAX_ATTACHMENT_SIZE = MAX_ATTACHMENT_SIZE_MB * 1024 * 1024;
+    if (!attachmentFile) {
+        return 'Файл присоединения не выбран';
+    }
+    if (attachmentFile.size > MAX_ATTACHMENT_SIZE) {
+        return 'Файл присоединения должен быть не более ' + MAX_ATTACHMENT_SIZE_MB + ' МБ';
+    }
+    return '';
+}
 
 function createAttachment() {
     lastAttachmentId++;
@@ -541,19 +585,26 @@ contactPhotoSelectArea.onclick = function() {
 savePhotoButton.onclick = function() {
     var fileReader = new FileReader;
     var imageFile = photoFileInput.files[0];
+    var MAX_IMAGE_SIZE_MB = 10;
+    var MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
     fileReader.onload = function() {
         contactPhotoImage.src = this.result;
     };
     if (imageFile) {
-        fileReader.readAsDataURL(imageFile);
-        uploadedContactPhotoFileInput.parentNode.removeChild(uploadedContactPhotoFileInput);
-        photoFileInput.id = 'uploaded-contact-photo';
-        photoFileInput.name = 'upload-photo';
-        photoFileInput.style.display = 'none';
-        contactPhotoSelectArea.appendChild(photoFileInput);
-        uploadedContactPhotoFileInput = photoFileInput;
-        photoFileInput = createPhotoFileInput();
-        photoSelectForm.insertBefore(photoFileInput, applyButtons);
+        if (imageFile.size > MAX_IMAGE_SIZE) {
+            showMessage('Размер фото не может превышать ' + MAX_IMAGE_SIZE_MB + ' МБ');
+        }
+        else {
+            fileReader.readAsDataURL(imageFile);
+            uploadedContactPhotoFileInput.parentNode.removeChild(uploadedContactPhotoFileInput);
+            photoFileInput.id = 'uploaded-contact-photo';
+            photoFileInput.name = 'upload-photo';
+            photoFileInput.style.display = 'none';
+            contactPhotoSelectArea.appendChild(photoFileInput);
+            uploadedContactPhotoFileInput = photoFileInput;
+            photoFileInput = createPhotoFileInput();
+            photoSelectForm.insertBefore(photoFileInput, applyButtons);
+        }
     }
     else {
         inputMessages.innerHTML = '';
