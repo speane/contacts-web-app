@@ -15,8 +15,23 @@ function showModalForm(form) {
 
 addPhoneButton.onclick = function() {
     editPhone = false;
+    clearPhoneInputFields()
     showModalForm(phoneEditModal);
 };
+
+var countryCodeField = document.getElementById('country-code');
+var operatorCodeField = document.getElementById('operator-code');
+var numberField = document.getElementById('phone-number');
+var phoneTypeSelect = document.getElementById('phone-type-select');
+var phoneCommentary = document.getElementById('phone-commentary');
+
+function clearPhoneInputFields() {
+    countryCodeField.value = '';
+    operatorCodeField.value = '';
+    numberField.value = '';
+    phoneTypeSelect.value = phoneTypeSelect[1].value;
+    phoneCommentary.value = '';
+}
 
 var createdPhones = {};
 var removedPhones = [];
@@ -84,6 +99,7 @@ function createNewPhone() {
 
 var savePhoneButton = document.getElementById('save-phone-button');
 savePhoneButton.onclick = function() {
+    // TODO check phone fields
     if (editPhone) {
         updatePhone();
     }
@@ -91,6 +107,10 @@ savePhoneButton.onclick = function() {
         createNewPhone()
     }
 };
+
+function checkPhoneFields() {
+
+}
 
 function isAnyItemSelected(name) {
     var items = getCheckedItems(name);
@@ -196,7 +216,7 @@ document.getElementById('edit-phone-button').onclick = function() {
 
     if (checkedPhones.length > 0) {
         editPhoneId = checkedPhones[0];
-        var phoneNumber = document.getElementById('phone-number-' + editPhoneId).innerHTML;
+        var phoneNumber = document.getElementById('phone-number-' + editPhoneId).innerHTML.trim();
         document.getElementById('phone-number').value = phoneNumber.split(')', 2)[1];
         document.getElementById('country-code').value = phoneNumber.split('+', 2)[1].split('(', 2)[0];
         document.getElementById('operator-code').value = phoneNumber.split(')', 2)[0].split('(', 2)[1];
@@ -328,6 +348,7 @@ function removeCreatedAttachment(id) {
 }
 
 saveAttachmentButton.onclick = function() {
+    // TODO check attachment fields
     if (editAttachment) {
         updateAttachment();
     }
