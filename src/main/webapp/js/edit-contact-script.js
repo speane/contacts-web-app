@@ -140,6 +140,9 @@ function checkPhoneFields() {
             'Номер телефона может содержать только цифры')) != '') {
         errorMessages.push(error);
     }
+    if ((error = checkCommentary(phoneCommentary)) != '') {
+        errorMessages.push(error);
+    }
     return errorMessages;
 }
 
