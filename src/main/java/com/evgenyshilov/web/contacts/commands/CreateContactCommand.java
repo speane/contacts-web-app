@@ -1,18 +1,14 @@
 package com.evgenyshilov.web.contacts.commands;
 
-import com.evgenyshilov.web.contacts.database.dao.AttachmentDAO;
-import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.dao.PhoneDAO;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
-import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.DBHelper;
 import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -20,41 +16,42 @@ import java.util.HashMap;
  */
 public class CreateContactCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String REDIRECT_URL = "/app/contact-list";
         Contact contact = new Contact();
         request.setAttribute("contact", contact);
         ContactInputHandleCommand inputHandleCommand = new ContactInputHandleCommand();
-        inputHandleCommand.execute(request, response);
-        contact = (Contact) request.getAttribute("contact");
-        createNewContact(contact, (HashMap<Integer, FileItem>)request.getAttribute("attachment-items"), (FileItem)request.getAttribute("photo-item"));
-
-        response.sendRedirect("/app/contact-list");
+        try {
+            inputHandleCommand.execute(request, response);
+            contact = (Contact) request.getAttribute("contact");
+            HashMap<Integer, FileItem> attachmentItems =
+                    (HashMap<Integer, FileItem>) request.getAttribute("attachment-items");
+            FileItem photoItem = (FileItem)request.getAttribute("photo-item");
+            createNewContact(contact, attachmentItems, photoItem);
+            response.sendRedirect(REDIRECT_URL);
+        } catch (CustomException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
 
-    private void createNewContact(Contact contact, HashMap<Integer, FileItem> attachmentItems, FileItem photoFileItem) throws InvocationTargetException, SQLException, InstantiationException, NoSuchMethodException, IllegalAccessException {
-        ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
-        contactDAO.insert(contact);
-        int contactId = contactDAO.getLastInsertedId();
+    private void createNewContact(Contact contact, HashMap<Integer, FileItem> attachmentItems,
+                                  FileItem photoFileItem) throws CustomException {
+        DBHelper dbHelper = new DBHelper();
 
-        PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-        for (Phone phone : contact.getPhones()) {
-            phone.setContactId(contactId);
-            phoneDAO.insert(phone);
-        }
-        phoneDAO.close();
-
-        AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
-        for (Attachment attachment : contact.getAttachments()) {
-            attachment.setContactId(contactId);
-            attachmentDAO.insert(attachment);
-        }
-
-        System.out.println("--ssf--" + photoFileItem.getName());
-
-        for (FileItem item : attachmentItems.values()) {
-            System.out.println(item.getFieldName());
+        int contactId = 0;
+        try {
+            contactId = dbHelper.insertContact(contact);
+            dbHelper.insertContactPhones(contact.getPhones(), contactId);
+            for (Attachment attachment : contact.getAttachments()) {
+                attachment.setContactId(contactId);
+                int attachmentId = dbHelper.insertContactAttachment(attachment);
+            }
+        } catch (CustomException e) {
+            throw new CustomException("Can't create new contact: ", e);
         }
     }
 }

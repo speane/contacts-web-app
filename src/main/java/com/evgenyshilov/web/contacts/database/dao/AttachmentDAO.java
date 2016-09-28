@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -37,11 +38,24 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
         statement.close();
     }
 
-    public int getLastInsertId() throws SQLException {
+    public int getLastInsertId() throws CustomException {
         String query = "SELECT last_insert_id() as last_id FROM attachment";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        return resultSet.next() ? resultSet.getInt("last_id") : -1;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            return resultSet.next() ? resultSet.getInt("last_id") : -1;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get last inserted attachment id: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override
@@ -53,16 +67,30 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
     }
 
     @Override
-    public void insert(Attachment attachment) throws SQLException {
+    public void insert(Attachment attachment) throws CustomException {
         String query = "INSERT INTO attachment (`filename`, `commentary`, `upload_date`, `contact_id`) " +
                 "VALUES (?, ?, ?, ?);";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, attachment.getFilename());
-        statement.setString(2, attachment.getCommentary());
-        statement.setDate(3, attachment.getUploadDate());
-        statement.setInt(4, attachment.getContactId());
-        statement.executeUpdate();
-        statement.close();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+
+            statement.setString(1, attachment.getFilename());
+            statement.setString(2, attachment.getCommentary());
+            statement.setDate(3, attachment.getUploadDate());
+            statement.setInt(4, attachment.getContactId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new CustomException("Can't insert attachment: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     public ArrayList<Attachment> getAllByContactId(int id) throws SQLException {

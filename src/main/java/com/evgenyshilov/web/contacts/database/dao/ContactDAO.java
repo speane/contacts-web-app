@@ -136,15 +136,27 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void update(Integer key, Contact value) throws SQLException {
+    public void update(Integer key, Contact value) throws CustomException {
         String query = "UPDATE contact SET " +
                 "first_name=?, last_name=?, patronymic=?, birthday=?, sex=?, nationality_id=?, " +
                 "marital_status_id=?, website=?, email=?, job=?, state_id=?, city_id=?, " +
                 "street=?, house=?, flat=?, zip_code=?, image_filename=? WHERE id=?";
-        PreparedStatement preparedStatement = createPreparedStatement(query, value);
-        preparedStatement.setInt(18, key);
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = createPreparedContactStatement(query, value);
+            preparedStatement.setInt(18, key);
+            preparedStatement.executeUpdate();
+        } catch (CustomException | SQLException e) {
+            throw new CustomException("Can't update contact: ", e);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override
@@ -165,45 +177,72 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void insert(Contact value) throws SQLException {
+    public void insert(Contact value) throws CustomException {
         String query = "INSERT INTO contact (`first_name`, `last_name`, `patronymic`, `birthday`, " +
                 "`sex`, `nationality_id`, `marital_status_id`, `website`, `email`, `job`, `state_id`, `city_id`, " +
                 "`street`,`house`, `flat`, `zip_code`, `image_filename`) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement statement = createPreparedStatement(query, value);
-        statement.executeUpdate();
-        statement.close();
+        PreparedStatement statement = null;
+        try {
+            statement = createPreparedContactStatement(query, value);
+            statement.executeUpdate();
+        } catch (CustomException | SQLException e) {
+            throw new CustomException("Can't insert contact: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
-    public int getLastInsertedId() throws SQLException {
-        Statement statement = connection.createStatement();
-        String query = "SELECT last_insert_id() AS last_id FROM contact";
-        ResultSet resultSet = statement.executeQuery(query);
-        return resultSet.next() ? resultSet.getInt("last_id") : -1;
+    public int getLastInsertedId() throws CustomException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT last_insert_id() AS last_id FROM contact";
+            ResultSet resultSet = statement.executeQuery(query);
+            return resultSet.next() ? resultSet.getInt("last_id") : -1;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get last inserted contact id: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
-    private PreparedStatement createPreparedStatement(String query, Contact contact) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(query);
-
-        statement.setString(1, contact.getFirstName());
-        statement.setString(2, contact.getLastName());
-        statement.setString(3, contact.getPatronymic());
-        statement.setDate(4, contact.getBirthday());
-        statement.setString(5, contact.getSex());
-        System.out.println(getContactNationalityId(contact));
-        statement.setInt(6, getContactNationalityId(contact));
-        statement.setInt(7, contact.getMaritalStatus());
-        statement.setString(8, contact.getWebsite());
-        statement.setString(9, contact.getEmail());
-        statement.setString(10, contact.getJob());
-        statement.setInt(11, getContactStateId(contact));
-        statement.setInt(12, getContactCityId(contact));
-        statement.setString(13, contact.getStreet());
-        statement.setString(14, contact.getHouse());
-        statement.setString(15, contact.getFlat());
-        statement.setString(16, contact.getZipCode());
-        statement.setString(17, contact.getImageFileName());
-
+    private PreparedStatement createPreparedContactStatement(String query, Contact contact) throws CustomException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, contact.getFirstName());
+            statement.setString(2, contact.getLastName());
+            statement.setString(3, contact.getPatronymic());
+            statement.setDate(4, contact.getBirthday());
+            statement.setString(5, contact.getSex());
+            statement.setInt(6, getContactNationalityId(contact));
+            statement.setInt(7, contact.getMaritalStatus());
+            statement.setString(8, contact.getWebsite());
+            statement.setString(9, contact.getEmail());
+            statement.setString(10, contact.getJob());
+            statement.setInt(11, getContactStateId(contact));
+            statement.setInt(12, getContactCityId(contact));
+            statement.setString(13, contact.getStreet());
+            statement.setString(14, contact.getHouse());
+            statement.setString(15, contact.getFlat());
+            statement.setString(16, contact.getZipCode());
+            statement.setString(17, contact.getImageFileName());
+        } catch (SQLException e) {
+            throw new CustomException("Can't create prepared statement: ", e);
+        }
         return statement;
     }
 

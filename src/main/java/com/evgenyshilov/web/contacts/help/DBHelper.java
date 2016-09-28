@@ -1,12 +1,7 @@
 package com.evgenyshilov.web.contacts.help;
 
-import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.dao.MaritalStatusDAO;
-import com.evgenyshilov.web.contacts.database.dao.PhoneTypeDAO;
-import com.evgenyshilov.web.contacts.database.model.Contact;
-import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
-import com.evgenyshilov.web.contacts.database.model.PhoneType;
+import com.evgenyshilov.web.contacts.database.dao.*;
+import com.evgenyshilov.web.contacts.database.model.*;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.sql.SQLException;
@@ -16,6 +11,65 @@ import java.util.ArrayList;
  * Created by Evgeny Shilov on 29.09.2016.
  */
 public class DBHelper {
+    public int insertContactAttachment(Attachment attachment) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            attachmentDAO.insert(attachment);
+            return attachmentDAO.getLastInsertId();
+        } catch (CustomException e) {
+            throw new CustomException("Can't insert contact attachment: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    public int insertContact(Contact contact) throws CustomException {
+        ContactDAO contactDAO = null;
+        try {
+            contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
+            contactDAO.insert(contact);
+            return contactDAO.getLastInsertedId();
+        } catch (CustomException e) {
+            throw new CustomException("Can't insert contact: ", e);
+        } finally {
+            try {
+                if (contactDAO != null) {
+                    contactDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    public void insertContactPhones(ArrayList<Phone> phones, int id) throws CustomException {
+        PhoneDAO phoneDAO = null;
+        try {
+            phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            for (Phone phone : phones) {
+                phone.setContactId(id);
+                phoneDAO.insert(phone);
+            }
+        } catch (CustomException e) {
+            throw new CustomException("Can't insert contact phones: ", e);
+        } finally {
+            try {
+                if (phoneDAO != null) {
+                    phoneDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
     public ArrayList<Contact> getContactsFromDAO() throws CustomException {
         ContactDAO contactDAO = null;
         try {

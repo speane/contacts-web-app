@@ -26,11 +26,11 @@ public abstract class GenericDAO<PK, T> {
 
     public abstract T get(PK key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CustomException;
 
-    public abstract void update(PK key, T value) throws SQLException;
+    public abstract void update(PK key, T value) throws SQLException, CustomException;
 
     public abstract void delete(PK key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
-    public abstract void insert(T value) throws SQLException;
+    public abstract void insert(T value) throws SQLException, CustomException;
 
     public void close() throws SQLException {
         connection.close();

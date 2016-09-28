@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -56,20 +57,32 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public void insert(Phone phone) throws SQLException {
-        String query = "INSERT INTO phone (`country_code`, `operator_code`, `number`, `commentary`, `contact_id`, `phone_type_id`) " +
+    public void insert(Phone phone) throws CustomException {
+        String query = "INSERT INTO phone (`country_code`, `operator_code`, `number`, " +
+                "`commentary`, `contact_id`, `phone_type_id`) " +
                 "VALUES (?, ?, ?, ?, ?, ?);";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, phone.getCountryCode());
-        statement.setInt(2, phone.getOperatorCode());
-        statement.setInt(3, phone.getNumber());
-        statement.setString(4, phone.getCommentary());
-        statement.setInt(5, phone.getContactId());
-        System.out.println(phone.getType());
-        System.out.println(getPhoneTypeId(phone.getType()));
-        statement.setInt(6, getPhoneTypeId(phone.getType()));
-        statement.executeUpdate();
-        statement.close();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, phone.getCountryCode());
+            statement.setInt(2, phone.getOperatorCode());
+            statement.setInt(3, phone.getNumber());
+            statement.setString(4, phone.getCommentary());
+            statement.setInt(5, phone.getContactId());
+            statement.setInt(6, getPhoneTypeId(phone.getType()));
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new CustomException("Can't insert phone: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     private int getPhoneTypeId(String typeName) throws SQLException {
