@@ -66,8 +66,10 @@ public class FrontController extends HttpServlet {
 
     private String getNotFoundViewPage(HttpServletResponse response) {
         int FILE_NOT_FOUND_STATUS_CODE = 404;
+        String NOT_FOUND_VIEW_PAGE = "/notfound.jsp";
+
         response.setStatus(FILE_NOT_FOUND_STATUS_CODE);
-        return "/notfound.jsp";
+        return NOT_FOUND_VIEW_PAGE;
     }
 
     private Command getCommand(HttpServletRequest request) throws CustomException, CommandNotFoundException {

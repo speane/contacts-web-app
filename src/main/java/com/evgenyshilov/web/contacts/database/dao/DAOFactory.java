@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.*;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
@@ -30,9 +31,20 @@ public class DAOFactory {
         DAOClassMap.put(PhoneType.class, PhoneTypeDAO.class);
     }
 
-    public static GenericDAO getDAO(Class elementClass) throws IllegalAccessException,
-            InstantiationException, SQLException, NoSuchMethodException, InvocationTargetException {
-        return DAOClassMap.get(elementClass).getConstructor(Connection.class).newInstance(
-                dataSource.getConnection());
+    public static GenericDAO getDAO(Class elementClass) throws CustomException {
+        try {
+            return DAOClassMap.get(elementClass).getConstructor(Connection.class).newInstance(
+                    dataSource.getConnection());
+        } catch (InstantiationException e) {
+            throw new CustomException("Can't create DAO object: ", e);
+        } catch (IllegalAccessException e) {
+            throw new CustomException("Can't access DAO constructor: ", e);
+        } catch (InvocationTargetException e) {
+            throw new CustomException("Can't invoke DAO constructor: ", e);
+        } catch (NoSuchMethodException e) {
+            throw new CustomException("Can't find constructor: ", e);
+        } catch (SQLException e) {
+            throw new CustomException("Can't get connection to create DAO: ", e);
+        }
     }
 }
