@@ -92,6 +92,11 @@ savePhoneButton.onclick = function() {
     }
 };
 
+function isAnyItemSelected(name) {
+    var items = getCheckedItems(name);
+    return items.length > 0;
+}
+
 var editCreatedPhone = false;
 var editPhoneId;
 
@@ -156,20 +161,34 @@ function getCheckedItems(checkName) {
 }
 
 document.getElementById('remove-phone-button').onclick = function() {
-    var checkedPhones = getCheckedItems('phone-check');
-    for (var i = 0; i < checkedPhones.length; i++) {
-        var deletePhone = document.getElementById('contact-phone-' + checkedPhones[i]);
-        deletePhone.parentNode.removeChild(deletePhone);
-        removedPhones.push(checkedPhones[i]);
-    }
-    var createdCheckedPhones = getCheckedItems('created-phone-check');
+    if (isAnyItemSelected('phone-check')) {
+        var checkedPhones = getCheckedItems('phone-check');
+        for (var i = 0; i < checkedPhones.length; i++) {
+            var deletePhone = document.getElementById('contact-phone-' + checkedPhones[i]);
+            deletePhone.parentNode.removeChild(deletePhone);
+            removedPhones.push(checkedPhones[i]);
+        }
+        var createdCheckedPhones = getCheckedItems('created-phone-check');
 
-    for (var i = 0; i < createdCheckedPhones.length; i++) {
-        var deletePhone = document.getElementById('created-phone-' + createdCheckedPhones[i]);
-        deletePhone.parentNode.removeChild(deletePhone);
-        delete createdPhones[createdCheckedPhones[i]];
+        for (var i = 0; i < createdCheckedPhones.length; i++) {
+            var deletePhone = document.getElementById('created-phone-' + createdCheckedPhones[i]);
+            deletePhone.parentNode.removeChild(deletePhone);
+            delete createdPhones[createdCheckedPhones[i]];
+        }
+    }
+    else {
+        showMessage('Ни один телефон не выбран');
     }
 };
+
+function showMessage(message) {
+    inputMessages.innerHTML = '';
+    var errorMessage = document.createElement('h3');
+    errorMessage.className = 'error-message';
+    errorMessage.innerHTML = message;
+    inputMessages.appendChild(errorMessage);
+    showModalForm(messageWindow);
+}
 
 document.getElementById('edit-phone-button').onclick = function() {
     editPhone = true;
@@ -199,6 +218,9 @@ document.getElementById('edit-phone-button').onclick = function() {
             document.getElementById('phone-commentary').value = document.getElementById('created-phone-commentary-' + editPhoneId).innerHTML.trim();
             showModalForm(phoneEditModal);
             editCreatedPhone = true;
+        }
+        else {
+            showMessage('Ни один телефон не выбран');
         }
     }
 };
@@ -250,6 +272,9 @@ editAttachmentButton.onclick = function() {
         setAttachmentFields();
         showModalForm(attachmentEditModal);
     }
+    else {
+        showMessage('Ни одно присоединение не выбрано');
+    }
 };
 
 function setAttachmentEditParameters() {
@@ -277,11 +302,16 @@ function setAttachmentFields() {
 removeAttachmentButton.onclick = function() {
     var checkedAttachments = getCheckedItems('attachment-check');
     var checkedCreatedAttachments = getCheckedItems('created-attachment-check');
-    for (var i = 0; i < checkedAttachments.length; i++) {
-        removeAttachment(checkedAttachments[i]);
+    if ((checkedAttachments.length > 0) || (checkedCreatedAttachments.length > 0)) {
+        for (var i = 0; i < checkedAttachments.length; i++) {
+            removeAttachment(checkedAttachments[i]);
+        }
+        for (var i = 0; i < checkedCreatedAttachments.length; i++) {
+            removeCreatedAttachment(checkedCreatedAttachments[i]);
+        }
     }
-    for (var i = 0; i < checkedCreatedAttachments.length; i++) {
-        removeCreatedAttachment(checkedCreatedAttachments[i]);
+    else {
+        showMessage('Ни одно присоединения не выбрано')
     }
 };
 
@@ -445,6 +475,15 @@ savePhotoButton.onclick = function() {
         uploadedContactPhotoFileInput = photoFileInput;
         photoFileInput = createPhotoFileInput();
         photoSelectForm.insertBefore(photoFileInput, applyButtons);
+    }
+    else {
+        inputMessages.innerHTML = '';
+        var errorMessage = document.createElement('h3');
+        errorMessage.className = 'error-message';
+        errorMessage.innerHTML = 'Сначала выберите фото';
+        inputMessages.appendChild(errorMessage);
+        messageWindow.style.zIndex = 5;
+        showModalForm(messageWindow);
     }
 };
 
