@@ -7,7 +7,7 @@ import com.evgenyshilov.web.contacts.database.dao.PhoneDAO;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.Phone;
-import com.evgenyshilov.web.contacts.resources.ApplicationResources;
+import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ public class UpdateContactCommand implements Command {
 
         FileItem photoItem = (FileItem) request.getAttribute("photo-item");
         if (photoItem != null) {
-            File photoFile = new File(ApplicationResources.FILE_UPLOAD_PATH + File.separator + "images" + File.separator + "image_" + contactId);
+            File photoFile = new File(ApplicationConfig.getProperty("ROOT_PATH") + File.separator + "images" + File.separator + "image_" + contactId);
             photoItem.write(photoFile);
         }
 
@@ -57,7 +57,7 @@ public class UpdateContactCommand implements Command {
             attachmentDAO.insert(attachment);
             int id = attachmentDAO.getLastInsertId();
             FileItem attachmentItem = attachmentItems.get(attachment.getId());
-            attachmentItem.write(new File(ApplicationResources.FILE_UPLOAD_PATH + File.separator + "attachments" + File.separator + "attachment_" + id));
+            attachmentItem.write(new File(ApplicationConfig.getProperty("ROOT_PATH") + File.separator + "attachments" + File.separator + "attachment_" + id));
         }
 
         response.sendRedirect("/app/contact-list");

@@ -2,19 +2,15 @@ package com.evgenyshilov.web.contacts;
 
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.commands.CommandFactory;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
+import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import com.evgenyshilov.web.contacts.resources.ApplicationResources;
 import com.evgenyshilov.web.contacts.resources.Messages;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
@@ -28,17 +24,11 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        ApplicationResources.FILE_UPLOAD_PATH = getServletContext().getRealPath("/");
-        logger = LogManager.getRootLogger();
+
         commandFactory = new CommandFactory();
         try {
-            InitialContext initialContext = new InitialContext();
-            DataSource dataSource =
-                    (DataSource) initialContext.lookup(ApplicationResources.CONNECTION_POOL_DATA_SOURCE_URL);
-            DAOFactory.init(dataSource);
-
-            commandFactory.init(getServletContext().getRealPath(ApplicationResources.COMMAND_PROPERTY_FILE_NAME));
-        } catch (IOException | ClassNotFoundException | NamingException e) {
+            commandFactory.init(getServletContext().getRealPath(ApplicationConfig.getProperty("COMMAND_MAPPING_FILE_PATH")));
+        } catch (IOException | ClassNotFoundException e) {
             logger.error(e.getMessage());
             throw new ServletException(e.getMessage());
         }

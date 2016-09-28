@@ -18,9 +18,12 @@ public class PropertyFileParser {
         String SEVERAL_WHITESPACE_REGEX = "\\s+";
         String tempLine;
         while ((tempLine = reader.readLine()) != null) {
-
             String[] pair = tempLine.split(SEVERAL_WHITESPACE_REGEX);
-            resultPairs.put(pair[0], pair[1]);
+            if (pair.length >= 2) {
+                resultPairs.put(pair[0], pair[1]);
+            } else {
+
+            }
         }
 
         return resultPairs;

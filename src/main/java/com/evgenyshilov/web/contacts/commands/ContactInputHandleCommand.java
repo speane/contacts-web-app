@@ -3,7 +3,7 @@ package com.evgenyshilov.web.contacts.commands;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.fieldhanlders.FieldHandler;
 import com.evgenyshilov.web.contacts.fieldhanlders.factory.FieldHandlerFactory;
-import com.evgenyshilov.web.contacts.resources.ApplicationResources;
+import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -25,7 +25,7 @@ public class ContactInputHandleCommand implements Command {
         ServletFileUpload upload = new ServletFileUpload(factory);
         HashMap<Integer, FileItem> attachmentFiles = new HashMap<>();
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-        File uploadDir = new File(ApplicationResources.FILE_UPLOAD_PATH);
+        File uploadDir = new File(ApplicationConfig.getProperty("ROOT_PATH") + File.separator + "attachments");
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
