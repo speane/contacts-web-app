@@ -31,8 +31,8 @@
                     Шаблон сообщения
                     <select class="input-field" name="email-pattern-select" id="email-pattern-select">
                         <option value="">Свой шаблон</option>
-                        <c:forEach var="pattern" items="${patterns}" varStatus="loop">
-                            <option value="${pattern}">
+                        <c:forEach var="template" items="${templates}" varStatus="loop">
+                            <option value="${template}">
                                 Шаблон-${loop.index + 1}
                             </option>
                         </c:forEach>

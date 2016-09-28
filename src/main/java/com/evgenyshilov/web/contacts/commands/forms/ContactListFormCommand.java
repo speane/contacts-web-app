@@ -1,17 +1,15 @@
 package com.evgenyshilov.web.contacts.commands.forms;
 
 import com.evgenyshilov.web.contacts.commands.Command;
-import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.DBHelper;
 import com.evgenyshilov.web.contacts.help.transfer.PaginationDTO;
 import com.evgenyshilov.web.contacts.help.transfer.PaginationFactory;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +20,8 @@ public class ContactListFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String VIEW_URL = "/contactlist.jsp";
-        ArrayList<Contact> contacts = getContactsFromDB();
+        DBHelper dbHelper = new DBHelper();
+        ArrayList<Contact> contacts = dbHelper.getContactsFromDAO();
         try {
             setPagination(contacts, request);
         } catch (CustomException e) {
@@ -31,23 +30,7 @@ public class ContactListFormCommand implements Command {
         return VIEW_URL;
     }
 
-    private ArrayList<Contact> getContactsFromDB() throws CustomException {
-        ContactDAO contactDAO = null;
-        try {
-            contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
-            return contactDAO.getAll();
-        } catch (CustomException e) {
-            throw new CustomException("Can't get contacts from DAO: ", e);
-        } finally {
-            try {
-                if (contactDAO != null) {
-                    contactDAO.close();
-                }
-            } catch (SQLException e) {
-                // TODO log exception
-            }
-        }
-    }
+
 
     private void setPagination(ArrayList<Contact> contacts, HttpServletRequest request) throws CustomException {
         String PAGE_NUMBER_PARAMETER_NAME = "page";
