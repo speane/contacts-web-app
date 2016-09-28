@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-    <form class="centered main" method="post" action="/app/send-emails">
+    <form id="send-email-form" class="centered main" method="post" action="/app/send-emails">
         <header>
             <h1>Отправка email</h1>
         </header>
@@ -25,7 +25,7 @@
                 <header><h4>Параметры сообщения</h4></header>
                 <label class="input-label">
                     Тема сообщения
-                    <input class="input-field" type="text" name="theme-text-input">
+                    <input id="message-theme" class="input-field" type="text" name="message-theme">
                 </label>
                 <label class="input-label">
                     Шаблон сообщения
@@ -39,11 +39,28 @@
                     </select>
                 </label>
                 <label class="input-label">
+                    Вставить элемент
+                    <select class="input-field" name="pattern-element-select" id="pattern-element-select">
+                        <option value="0">Элемент шаблона</option>
+                        <c:forEach var="element" items="${patternElements}" varStatus="loop">
+                            <option value="${element}">
+                                ${element}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </label>
+                <label class="input-label">
                     Текст сообщения
-                    <textarea class="input-field" id="email-text-area" name="email-text-area" cols="40" rows="6"></textarea>
+                    <textarea id="message-text" class="input-field" name="message-text" cols="40" rows="6"></textarea>
                 </label>
             </div>
-            <input class="centered block apply-button" type="submit" id="send-email-button">
+            <div id="error-messages-modal" class="modal">
+                <div class="modal-content">
+                    <div id="input-error-messages"></div>
+                    <input class="apply-button" type="button" id="ok-messages-button" value="Ок">
+                </div>
+            </div>
+            <input class="centered block apply-button" type="button" id="send-email-button" value="Отправить">
         </section>
     </form>
     <script src="/js/send-email-script.js"></script>

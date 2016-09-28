@@ -32,6 +32,13 @@ public class EmailFormCommand implements Command {
             patterns.add("second pattern <last_name> <first_name>");
             request.setAttribute("patterns", patterns);
 
+            ArrayList<String> elements = new ArrayList<>();
+            elements.add("Имя");
+            elements.add("Фамилия");
+            elements.add("Отчество");
+            elements.add("Место работы");
+            request.setAttribute("patternElements", elements);
+
             return "/sendemail.jsp";
         } else {
             response.sendRedirect("/app/contact-list");

@@ -15,6 +15,7 @@ findContactsButton.onclick = function() {
             errorMessagesList.appendChild(tempMessage);
         }
         showModalForm(errorMessagesModal);
+        okMessagesButton.focus();
     }
     else {
         alert('nice');
