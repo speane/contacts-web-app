@@ -99,17 +99,70 @@ function createNewPhone() {
 
 var savePhoneButton = document.getElementById('save-phone-button');
 savePhoneButton.onclick = function() {
-    // TODO check phone fields
-    if (editPhone) {
-        updatePhone();
+    var errorMessages = checkPhoneFields();
+    if (errorMessages.length > 0) {
+        showErrorMessages(errorMessages);
     }
     else {
-        createNewPhone()
+        if (editPhone) {
+            updatePhone();
+        }
+        else {
+            createNewPhone()
+        }
     }
 };
 
-function checkPhoneFields() {
+function showErrorMessages(messages) {
+    inputMessages.innerHTML = '';
+    for (var i = 0; i < messages.length; i++) {
+        var errorMessage = document.createElement('h3');
+        errorMessage.className = 'error-message';
+        errorMessage.innerHTML = messages[i];
+        inputMessages.appendChild(errorMessage);
+    }
+    messageWindow.style.zIndex = 5;
+    showModalForm(messageWindow);
+}
 
+function checkPhoneFields() {
+    var errorMessages = [];
+    var error;
+    if ((error = checkNumberField(countryCodeField, 'Код страны пуст',
+            'Код страны может содержать только цифры')) != '') {
+        errorMessages.push(error);
+    }
+    if ((error = checkNumberField(operatorCodeField, 'Код оператора пуст',
+            'Код оператора может содержать только цифры')) != '') {
+        errorMessages.push(error);
+    }
+    if ((error = checkNumberField(numberField, 'Номер телефона не указан',
+            'Номер телефона может содержать только цифры')) != '') {
+        errorMessages.push(error);
+    }
+    return errorMessages;
+}
+
+function checkNumberField(field, emptyErrorMessage, notANumberErrorMessage) {
+    var fieldValue = field.value;
+    if (isEmpty(fieldValue)) {
+        return emptyErrorMessage;
+    }
+    if (!isNumber(fieldValue)) {
+        return notANumberErrorMessage;
+    }
+    return '';
+}
+
+function checkCommentary(commentaryField) {
+    var commentary = commentaryField.value;
+    var COMMENTARY_SYMBOLS = '+= /\\*,.!@#%^&()_-{}<>';
+    if (!isEmpty(commentary)) {
+        if (!containsOnlyCharsIgnoreCase(commentary, RU_ALPHABET_LOWER + EN_ALPHABET_LOWER + DIGITS + COMMENTARY_SYMBOLS)) {
+            return 'Комментарий содержит недопустимые символы';
+        }
+    }
+    return '';
 }
 
 function isAnyItemSelected(name) {
@@ -356,6 +409,8 @@ saveAttachmentButton.onclick = function() {
         createAttachment();
     }
 };
+
+
 
 function createAttachment() {
     lastAttachmentId++;
