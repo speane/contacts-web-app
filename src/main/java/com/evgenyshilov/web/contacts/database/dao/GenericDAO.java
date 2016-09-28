@@ -1,5 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
+
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,9 +22,9 @@ public abstract class GenericDAO<PK, T> {
         this.connection = connection;
     }
 
-    public abstract ArrayList<T> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    public abstract ArrayList<T> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CustomException;
 
-    public abstract T get(PK key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    public abstract T get(PK key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CustomException;
 
     public abstract void update(PK key, T value) throws SQLException;
 

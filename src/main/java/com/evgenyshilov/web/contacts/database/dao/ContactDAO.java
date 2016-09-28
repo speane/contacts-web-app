@@ -2,7 +2,9 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.database.model.ContactBuilder;
 import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -24,95 +26,112 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public ArrayList<Contact> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public ArrayList<Contact> getAll() throws CustomException {
         ArrayList<Contact> contacts = new ArrayList<>();
-        Statement statement = connection.createStatement();
-        String GET_ALL_CONTACTS_QUERY = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.id AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
-                "FROM contact " +
-                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
-                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
-                "LEFT JOIN state ON state.id = contact.state_id " +
-                "LEFT JOIN city ON city.id = contact.city_id;";
-        ResultSet contactSet = statement.executeQuery(GET_ALL_CONTACTS_QUERY);
-        while (contactSet.next()) {
-            Contact contact = new Contact();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            String GET_ALL_CONTACTS_QUERY =
+                    "SELECT contact.id AS id, first_name, last_name, patronymic, " +
+                    "birthday, sex, nationality.name AS nationality, " +
+                    "marital_status.id AS marital_status, email, website, job, state.name AS state, " +
+                    "city.name AS city, street, house, flat, zip_code, image_filename " +
+                    "FROM contact " +
+                    "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
+                    "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                    "LEFT JOIN state ON state.id = contact.state_id " +
+                    "LEFT JOIN city ON city.id = contact.city_id";
 
-            contact.setId(contactSet.getInt("id"));
-            contact.setFirstName(contactSet.getString("first_name"));
-            contact.setLastName(contactSet.getString("last_name"));
-            contact.setPatronymic(contactSet.getString("patronymic"));
-            contact.setBirthday(contactSet.getDate("birthday"));
-            contact.setSex(contactSet.getString("sex"));
-            contact.setEmail(contactSet.getString("email"));
-            contact.setWebsite(contactSet.getString("website"));
-            contact.setNationality(contactSet.getString("nationality"));
-            contact.setMaritalStatus(contactSet.getInt("marital_status"));
-            contact.setJob(contactSet.getString("job"));
-            contact.setState(contactSet.getString("state"));
-            contact.setCity(contactSet.getString("city"));
-            contact.setStreet(contactSet.getString("street"));
-            contact.setHouse(contactSet.getString("house"));
-            contact.setFlat(contactSet.getString("flat"));
-            contact.setZipCode(contactSet.getString("zip_code"));
+            ResultSet contactSet = statement.executeQuery(GET_ALL_CONTACTS_QUERY);
+            while (contactSet.next()) {
+                Contact contact = ContactBuilder.createFromResultSet(contactSet);
+                contact.setPhones(getPhonesFromDatabase(contact.getId()));
+                contacts.add(contact);
+            }
+            return contacts;
 
-            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-            contact.setPhones(phoneDAO.getAllByContactId(contact.getId()));
-            phoneDAO.close();
-
-            contacts.add(contact);
+        } catch (CustomException | SQLException e) {
+            throw new CustomException("Can't get all contacts: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
         }
-        contactSet.close();
-        statement.close();
+    }
 
-        return contacts;
+    private ArrayList<Phone> getPhonesFromDatabase(int id) throws CustomException {
+        PhoneDAO phoneDAO = null;
+        try {
+            phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            return phoneDAO.getAllByContactId(id);
+        } catch (CustomException e) {
+            throw new CustomException("Can't get phones from database: ", e);
+        } catch (SQLException e) {
+            throw new CustomException("Can't get phones from database: ", e);
+            // TODO remove this
+        } finally {
+            try {
+                if (phoneDAO != null) {
+                    phoneDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    private ArrayList<Attachment> getAttachmentsFromDatabase(int id) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            return attachmentDAO.getAllByContactId(id);
+        } catch (SQLException e) {
+            throw new CustomException("Can't get attachments from database: ", e);
+            // TODO remove this
+        } catch (CustomException e) {
+            throw new CustomException("Can't get attachments from database: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override
-    public Contact get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
-        Statement statement = connection.createStatement();
-        String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.id AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code, image_filename " +
-                "FROM contact " +
-                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
-                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
-                "LEFT JOIN state ON state.id = contact.state_id " +
-                "LEFT JOIN city ON city.id = contact.city_id " +
-                "WHERE contact.id = " + key + ";";
-        ResultSet contactResult = statement.executeQuery(query);
-        Contact contact = new Contact();
-        if (contactResult.next()) {
-            contact.setId(contactResult.getInt("id"));
-            contact.setFirstName(contactResult.getString("first_name"));
-            contact.setLastName(contactResult.getString("last_name"));
-            contact.setPatronymic(contactResult.getString("patronymic"));
-            contact.setBirthday(contactResult.getDate("birthday"));
-            contact.setSex(contactResult.getString("sex"));
-            contact.setEmail(contactResult.getString("email"));
-            contact.setWebsite(contactResult.getString("website"));
-            contact.setNationality(contactResult.getString("nationality"));
-            contact.setMaritalStatus(contactResult.getInt("marital_status"));
-            contact.setJob(contactResult.getString("job"));
-            contact.setState(contactResult.getString("state"));
-            contact.setCity(contactResult.getString("city"));
-            contact.setStreet(contactResult.getString("street"));
-            contact.setHouse(contactResult.getString("house"));
-            contact.setFlat(contactResult.getString("flat"));
-            contact.setZipCode(contactResult.getString("zip_code"));
-            contact.setImageFileName(contactResult.getString("image_filename"));
-
-            PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-            contact.setPhones(phoneDAO.getAllByContactId(contact.getId()));
-            phoneDAO.close();
-
-            AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
-            contact.setAttachments(attachmentDAO.getAllByContactId(contact.getId()));
-            attachmentDAO.close();
-
-            return contact;
-        } else {
-            return null;
+    public Contact get(Integer key) throws CustomException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            String query =
+                    "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, " +
+                    "sex, nationality.name AS nationality, " +
+                    "marital_status.id AS marital_status, email, website, job, state.name AS state, " +
+                    "city.name AS city, street, house, flat, zip_code, image_filename " +
+                    "FROM contact " +
+                    "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
+                    "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                    "LEFT JOIN state ON state.id = contact.state_id " +
+                    "LEFT JOIN city ON city.id = contact.city_id " +
+                    "WHERE contact.id = " + key;
+            ResultSet contactResult = statement.executeQuery(query);
+            if (contactResult.next()) {
+                Contact contact = ContactBuilder.createFromResultSet(contactResult);
+                contact.setPhones(getPhonesFromDatabase(contact.getId()));
+                contact.setAttachments(getAttachmentsFromDatabase(contact.getId()));
+                return contact;
+            } else {
+                return null;
+            }
+        } catch (SQLException | CustomException e) {
+            throw new CustomException("Can't get contact from database: ", e);
         }
     }
 
