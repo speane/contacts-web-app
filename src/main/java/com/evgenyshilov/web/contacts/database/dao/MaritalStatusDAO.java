@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -19,20 +20,31 @@ public class MaritalStatusDAO extends GenericDAO {
     }
 
     @Override
-    public ArrayList getAll() throws SQLException, InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
-        Statement statement = connection.createStatement();
-        String query = "SELECT id, name FROM marital_status";
-        ArrayList<MaritalStatus> maritalStatuses = new ArrayList<>();
-        ResultSet maritalStatusResultSet = statement.executeQuery(query);
-        while (maritalStatusResultSet.next()) {
-            MaritalStatus maritalStatus = new MaritalStatus();
-            maritalStatus.setId(maritalStatusResultSet.getInt("id"));
-            maritalStatus.setName(maritalStatusResultSet.getString("name"));
-            maritalStatuses.add(maritalStatus);
+    public ArrayList<MaritalStatus> getAll() throws CustomException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT id, name FROM marital_status";
+            ArrayList<MaritalStatus> maritalStatuses = new ArrayList<>();
+            ResultSet maritalStatusResultSet = statement.executeQuery(query);
+            while (maritalStatusResultSet.next()) {
+                MaritalStatus maritalStatus = new MaritalStatus();
+                maritalStatus.setId(maritalStatusResultSet.getInt("id"));
+                maritalStatus.setName(maritalStatusResultSet.getString("name"));
+                maritalStatuses.add(maritalStatus);
+            }
+            return maritalStatuses;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get all marital statuses from database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
         }
-        statement.close();
-        return maritalStatuses;
     }
 
     @Override

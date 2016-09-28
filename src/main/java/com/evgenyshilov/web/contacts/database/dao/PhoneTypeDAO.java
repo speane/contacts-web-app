@@ -1,8 +1,8 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.PhoneType;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,23 +19,35 @@ public class PhoneTypeDAO extends GenericDAO {
     }
 
     @Override
-    public ArrayList getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Statement statement = connection.createStatement();
-        String query = "SELECT id, name FROM phone_type";
-        ArrayList<PhoneType> phoneTypes = new ArrayList<>();
-        ResultSet phoneTypeResultSet = statement.executeQuery(query);
-        while (phoneTypeResultSet.next()) {
-            PhoneType phoneType = new PhoneType();
-            phoneType.setId(phoneTypeResultSet.getInt("id"));
-            phoneType.setName(phoneTypeResultSet.getString("name"));
-            phoneTypes.add(phoneType);
+    public ArrayList<PhoneType> getAll() throws CustomException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT id, name FROM phone_type";
+            ArrayList<PhoneType> phoneTypes = new ArrayList<>();
+            ResultSet phoneTypeResultSet = statement.executeQuery(query);
+            while (phoneTypeResultSet.next()) {
+                PhoneType phoneType = new PhoneType();
+                phoneType.setId(phoneTypeResultSet.getInt("id"));
+                phoneType.setName(phoneTypeResultSet.getString("name"));
+                phoneTypes.add(phoneType);
+            }
+            return phoneTypes;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get all phone types from database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
         }
-        statement.close();
-        return phoneTypes;
     }
 
     @Override
-    public Object get(Object key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Object get(Object key) {
         return null;
     }
 
