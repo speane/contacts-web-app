@@ -49,11 +49,23 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
         statement.close();
     }
 
-    public void deleteAllContactPhones(int id) throws SQLException {
+    public void deleteAllContactPhones(int id) throws CustomException {
         String query = "DELETE FROM phone WHERE contact_id = '" + id + "'";
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
-        statement.close();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new CustomException("Can't delete all contact phones: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override

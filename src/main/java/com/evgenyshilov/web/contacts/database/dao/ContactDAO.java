@@ -6,7 +6,6 @@ import com.evgenyshilov.web.contacts.database.model.ContactBuilder;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -160,20 +159,63 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void delete(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-        phoneDAO.deleteAllContactPhones(key);
-        phoneDAO.close();
+    public void delete(Integer id) throws CustomException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
 
-        AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
-        attachmentDAO.deleteAllContactAttachments(key);
-        attachmentDAO.close();
+            removeContactPhones(id);
+            removeContactAttachments(id);
 
-        String query = "DELETE FROM contact WHERE id = " + key + ";";
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
-        statement.close();
+            String query = "DELETE FROM contact WHERE id = " + id + ";";
+            statement.executeUpdate(query);
+        } catch (SQLException | CustomException e) {
+            throw new CustomException("Can't delete contact: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
 
+    private void removeContactAttachments(int contactId) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            attachmentDAO.deleteAllContactAttachments(contactId);
+        } catch (CustomException e) {
+            throw new CustomException("Can't remove all contact attachments: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    private void removeContactPhones(int contactId) throws CustomException {
+        PhoneDAO phoneDAO = null;
+        try {
+            phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            phoneDAO.deleteAllContactPhones(contactId);
+        } catch (CustomException e) {
+            throw new CustomException("Can't remove contact phones: ", e);
+        } finally {
+            try {
+                if (phoneDAO != null) {
+                    phoneDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override

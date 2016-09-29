@@ -1,14 +1,12 @@
 package com.evgenyshilov.web.contacts.commands;
 
-import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.DBHelper;
 import com.evgenyshilov.web.contacts.help.RequestParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -17,19 +15,28 @@ import java.util.ArrayList;
 public class DeleteContactsCommand implements Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
+        String REDIRECT_URL = "/app/contact-list";
         ArrayList<Integer> deleteContactIdList = new RequestParser(request).getCheckedIdList("contact-check");
-        removeContacts(deleteContactIdList);
-        response.sendRedirect("/app/contact-list");
+        try {
+            removeContacts(deleteContactIdList);
+            response.sendRedirect(REDIRECT_URL);
+        } catch (CustomException e) {
+            throw new CustomException("Can't execute contact remove command: ", e);
+        } catch (IOException e) {
+            throw new CustomException("Can't redirect response: ", e);
+        }
         return null;
     }
 
-    private void removeContacts(ArrayList<Integer> ids) throws InvocationTargetException, SQLException,
-            InstantiationException, NoSuchMethodException, IllegalAccessException {
-        ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
+    private void removeContacts(ArrayList<Integer> ids) throws CustomException {
+        DBHelper dbHelper = new DBHelper();
         for (Integer id : ids) {
-            contactDAO.delete(id);
+            try {
+                dbHelper.removeContact(id);
+            } catch (CustomException e) {
+                throw new CustomException("Can't remove contact: ", e);
+            }
         }
-        contactDAO.close();
     }
 }

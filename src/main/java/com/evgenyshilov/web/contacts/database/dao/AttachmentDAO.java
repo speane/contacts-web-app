@@ -113,10 +113,22 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
         return attachments;
     }
 
-    public void deleteAllContactAttachments(int id) throws SQLException {
-        String query = "DELETE FROM attachment WHERE contact_id = '" + id + "'";
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
-        statement.close();
+    public void deleteAllContactAttachments(int id) {
+        String query = "DELETE FROM attachment WHERE contact_id = " + id;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 }

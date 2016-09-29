@@ -11,6 +11,24 @@ import java.util.ArrayList;
  * Created by Evgeny Shilov on 29.09.2016.
  */
 public class DBHelper {
+    public void removeContact(int contactId) throws CustomException {
+        ContactDAO contactDAO = null;
+        try {
+            contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
+            contactDAO.delete(contactId);
+        } catch (CustomException e) {
+            throw new CustomException("Can't remove contact from dao: ", e);
+        } finally {
+            try {
+                if (contactDAO != null) {
+                    contactDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
     public int insertContactAttachment(Attachment attachment) throws CustomException {
         AttachmentDAO attachmentDAO = null;
         try {
