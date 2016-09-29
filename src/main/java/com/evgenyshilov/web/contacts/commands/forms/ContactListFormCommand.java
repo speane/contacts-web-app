@@ -43,7 +43,7 @@ public class ContactListFormCommand implements Command {
             String pageString = request.getParameter(PAGE_NUMBER_PARAMETER_NAME);
             int activePage = (pageString != null) ? Integer.parseInt(pageString) : 1;
 
-            PaginationDTO paginationDTO = PaginationFactory.createPagination(totalContacts,
+            PaginationDTO paginationDTO = new PaginationFactory().createPagination(totalContacts,
                     CONTACTS_PER_PAGE, activePage);
 
             activePage = paginationDTO.getActivePage();

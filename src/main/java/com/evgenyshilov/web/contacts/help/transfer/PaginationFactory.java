@@ -5,7 +5,7 @@ package com.evgenyshilov.web.contacts.help.transfer;
  */
 public class PaginationFactory {
 
-    public static PaginationDTO createPagination(int totalItems, int itemsPerPage, int activePage) {
+    public PaginationDTO createPagination(int totalItems, int itemsPerPage, int activePage) {
         final int SIDE_PAGES_NUMBER = 5;
         PaginationDTO paginationDTO = new PaginationDTO();
 
