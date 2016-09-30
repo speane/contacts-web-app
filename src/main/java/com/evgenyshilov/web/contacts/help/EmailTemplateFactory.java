@@ -18,10 +18,11 @@ public class EmailTemplateFactory {
 
     public ArrayList<String> getAllEmailTemplates() {
         ArrayList<String> templates = new ArrayList<>();
+        EmailTemplateElementsFactory elementsFactory = new EmailTemplateElementsFactory();
         ST tempST;
         int i = 1;
-        while ((tempST = groupFile.getInstanceOf("t" + i)) != null) {
-            templates.add(tempST.toString());
+        while ((tempST = groupFile.getInstanceOf("t" + i++)) != null) {
+            templates.add(elementsFactory.getTranslatedTemplateString(tempST));
         }
         return templates;
     }

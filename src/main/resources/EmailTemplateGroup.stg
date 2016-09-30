@@ -1,7 +1,7 @@
-t1(arg1,arg2) ::= <<
-С днем рождения, <arg1> <arg2>!!!
+t1(first_name,last_name) ::= <<
+С днем рождения, <first_name> <last_name>!!!
 >>
 
-t2(arg1,arg2,arg3) ::= <<
-Здравствуйте, уважаемый <arg1> <arg2> <arg3>!
+t2(first_name,last_name,patronymic) ::= <<
+Здравствуйте, уважаемый <last_name> <first_name> <patronymic>!
 >>

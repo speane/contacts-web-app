@@ -9,6 +9,7 @@ import com.evgenyshilov.web.contacts.help.EmailTemplateElementsFactory;
 import com.evgenyshilov.web.contacts.help.EmailTemplateFactory;
 import com.evgenyshilov.web.contacts.help.RequestParser;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
+import com.evgenyshilov.web.contacts.resources.RussianEnglishTranslator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,15 +28,20 @@ public class EmailFormCommand implements Command {
         ArrayList<Contact> recipients = null;
         try {
             recipients = getRecipients(request);
+
+            System.out.println(recipients);
+
             if (recipients.size() > 0) {
                 request.setAttribute("recipients", recipients);
 
                 EmailTemplateFactory templateFactory = new EmailTemplateFactory(
                         ApplicationConfig.getProperty("EMAIL_TEMPLATE_GROUP_FILENAME"));
+
                 request.setAttribute("templates", templateFactory.getAllEmailTemplates());
 
                 EmailTemplateElementsFactory elementsFactory = new EmailTemplateElementsFactory();
-                request.setAttribute("elements", elementsFactory.getElements());
+                request.setAttribute("elements",
+                        new RussianEnglishTranslator().getRussianList(elementsFactory.getElements()));
 
                 return EMAIL_VIEW_PAGE;
             } else {

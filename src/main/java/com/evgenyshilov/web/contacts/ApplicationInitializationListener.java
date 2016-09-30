@@ -2,7 +2,9 @@ package com.evgenyshilov.web.contacts;
 
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.PropertyFileParser;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
+import com.evgenyshilov.web.contacts.resources.RussianEnglishTranslator;
 import com.evgenyshilov.web.contacts.tasks.SendEmailJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -32,6 +34,7 @@ public class ApplicationInitializationListener implements ServletContextListener
         ServletContext context = servletContextEvent.getServletContext();
         try {
             setApplicationProperties(context);
+            loadRussianLocalization(context);
             initDAOFactory();
             initScheduler();
         } catch (CustomException e) {
@@ -77,6 +80,16 @@ public class ApplicationInitializationListener implements ServletContextListener
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             throw new CustomException("Can't init scheduler: ", e);
+        }
+    }
+
+    private void loadRussianLocalization(ServletContext context) throws CustomException {
+        String LOCALIZATION_PATH = "/WEB-INF/properties/russian.localization";
+        try {
+            String realPath = context.getRealPath(LOCALIZATION_PATH);
+            RussianEnglishTranslator.loadDictionary(new PropertyFileParser().parse(realPath));
+        } catch (IOException e) {
+            throw new CustomException("Can't load russian localization: ", e);
         }
     }
 

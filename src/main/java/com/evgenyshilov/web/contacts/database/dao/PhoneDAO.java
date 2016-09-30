@@ -96,6 +96,7 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
             statement.setString(4, phone.getCommentary());
             statement.setInt(5, phone.getContactId());
             statement.setInt(6, getPhoneTypeId(phone.getType()));
+            return statement;
         } catch (SQLException e) {
             throw new CustomException("Can't prepare statement: ", e);
         }

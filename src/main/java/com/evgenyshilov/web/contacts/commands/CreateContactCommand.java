@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class CreateContactCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String REDIRECT_URL = "/app/contact-list";
         Contact contact = new Contact();
         request.setAttribute("contact", contact);
@@ -29,10 +29,8 @@ public class CreateContactCommand implements Command {
             FileItem photoItem = (FileItem)request.getAttribute("photo-item");
             createNewContact(contact, attachmentItems, photoItem);
             response.sendRedirect(REDIRECT_URL);
-        } catch (CustomException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (CustomException | IOException e) {
+            throw new CustomException("Can't execute create contact command: ", e);
         }
 
         return null;
@@ -41,7 +39,6 @@ public class CreateContactCommand implements Command {
     private void createNewContact(Contact contact, HashMap<Integer, FileItem> attachmentItems,
                                   FileItem photoFileItem) throws CustomException {
         DBHelper dbHelper = new DBHelper();
-
         int contactId = 0;
         try {
             contactId = dbHelper.insertContact(contact);

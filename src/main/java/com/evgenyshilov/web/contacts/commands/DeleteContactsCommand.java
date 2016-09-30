@@ -21,10 +21,8 @@ public class DeleteContactsCommand implements Command {
         try {
             removeContacts(deleteContactIdList);
             response.sendRedirect(REDIRECT_URL);
-        } catch (CustomException e) {
+        } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute contact remove command: ", e);
-        } catch (IOException e) {
-            throw new CustomException("Can't redirect response: ", e);
         }
         return null;
     }

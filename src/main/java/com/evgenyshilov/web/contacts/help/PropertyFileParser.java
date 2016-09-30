@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class PropertyFileParser {
 
     public HashMap<String, String> parse(String fileName) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
         HashMap<String, String> resultPairs = new HashMap<>();
 
         String SEVERAL_WHITESPACE_REGEX = "\\s+";
@@ -21,11 +21,8 @@ public class PropertyFileParser {
             String[] pair = tempLine.split(SEVERAL_WHITESPACE_REGEX);
             if (pair.length >= 2) {
                 resultPairs.put(pair[0], pair[1]);
-            } else {
-
             }
         }
-
         return resultPairs;
     }
 }

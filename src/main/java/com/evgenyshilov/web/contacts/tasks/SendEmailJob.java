@@ -1,18 +1,8 @@
 package com.evgenyshilov.web.contacts.tasks;
 
-import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.model.Contact;
-import com.evgenyshilov.web.contacts.email.EmailSender;
-import org.joda.time.DateTime;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-
-import javax.mail.MessagingException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Created by Evgeny Shilov on 25.09.2016.
@@ -20,7 +10,7 @@ import java.util.ArrayList;
 public class SendEmailJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        EmailSender emailSender = new EmailSender();
+        /*EmailSender emailSender = new EmailSender();
         try {
             ContactDAO contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
             ArrayList<Contact> todayBirthDayContacts = new ArrayList<>();
@@ -48,6 +38,6 @@ public class SendEmailJob implements Job {
             emailSender.sendEmail("avtolubitel225@gmail.com", mailText);
         } catch (IllegalAccessException | InstantiationException | SQLException | NoSuchMethodException | InvocationTargetException | MessagingException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

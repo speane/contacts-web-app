@@ -117,24 +117,37 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
         }
     }
 
-    public ArrayList<Attachment> getAllByContactId(int id) throws SQLException {
-        Statement statement = connection.createStatement();
+    public ArrayList<Attachment> getAllByContactId(int id) throws CustomException {
         String query = "SELECT id, filename, upload_date, commentary " +
                 "FROM attachment " +
                 "WHERE contact_id = " + id + ";";
-        ResultSet attachmentSet = statement.executeQuery(query);
 
-        ArrayList<Attachment> attachments = new ArrayList<>();
-        while (attachmentSet.next()) {
-            Attachment attachment = new Attachment();
-            attachment.setId(attachmentSet.getInt("id"));
-            attachment.setFilename(attachmentSet.getString("filename"));
-            attachment.setCommentary(attachmentSet.getString("commentary"));
-            attachment.setUploadDate(attachmentSet.getDate("upload_date"));
-            attachments.add(attachment);
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet attachmentSet = statement.executeQuery(query);
+            ArrayList<Attachment> attachments = new ArrayList<>();
+            while (attachmentSet.next()) {
+                Attachment attachment = new Attachment();
+                attachment.setId(attachmentSet.getInt("id"));
+                attachment.setFilename(attachmentSet.getString("filename"));
+                attachment.setCommentary(attachmentSet.getString("commentary"));
+                attachment.setUploadDate(attachmentSet.getDate("upload_date"));
+                attachments.add(attachment);
+            }
+            return attachments;
+
+        } catch (SQLException e) {
+            throw new CustomException("Can't get all attachments by contact id: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
         }
-        statement.close();
-        return attachments;
     }
 
     public void deleteAllContactAttachments(int id) throws CustomException {

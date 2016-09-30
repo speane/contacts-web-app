@@ -42,7 +42,7 @@
                     Вставить элемент
                     <select class="input-field" name="pattern-element-select" id="pattern-element-select">
                         <option value="0">Элемент шаблона</option>
-                        <c:forEach var="element" items="${patternElements}" varStatus="loop">
+                        <c:forEach var="element" items="${elements}" varStatus="loop">
                             <option value="${element}">
                                 ${element}
                             </option>
