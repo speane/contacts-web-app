@@ -27,26 +27,44 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public void update(Integer key, Phone phone) throws SQLException {
+    public void update(Integer key, Phone phone) throws CustomException {
         String query = "UPDATE phone SET country_code=?, operator_code=?, number=?, " +
                 "commentary=?, contact_id=?, phone_type_id=? WHERE id=" + key;
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, phone.getCountryCode());
-        preparedStatement.setInt(2, phone.getOperatorCode());
-        preparedStatement.setInt(3, phone.getNumber());
-        preparedStatement.setString(4, phone.getCommentary());
-        preparedStatement.setInt(5, phone.getContactId());
-        preparedStatement.setInt(6, getPhoneTypeId(phone.getType()));
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = prepareStatement(query, phone);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new CustomException("Can't update phone in database: ", e);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override
-    public void delete(Integer key) throws SQLException {
+    public void delete(Integer key) throws CustomException {
         String query = "DELETE FROM phone WHERE id = " + key;
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
-        statement.close();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new CustomException("Can't delete phone from database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     public void deleteAllContactPhones(int id) throws CustomException {
@@ -68,11 +86,7 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
         }
     }
 
-    @Override
-    public void insert(Phone phone) throws CustomException {
-        String query = "INSERT INTO phone (`country_code`, `operator_code`, `number`, " +
-                "`commentary`, `contact_id`, `phone_type_id`) " +
-                "VALUES (?, ?, ?, ?, ?, ?);";
+    private PreparedStatement prepareStatement(String query, Phone phone) throws CustomException {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
@@ -82,7 +96,19 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
             statement.setString(4, phone.getCommentary());
             statement.setInt(5, phone.getContactId());
             statement.setInt(6, getPhoneTypeId(phone.getType()));
+        } catch (SQLException e) {
+            throw new CustomException("Can't prepare statement: ", e);
+        }
+    }
 
+    @Override
+    public void insert(Phone phone) throws CustomException {
+        String query = "INSERT INTO phone (`country_code`, `operator_code`, `number`, " +
+                "`commentary`, `contact_id`, `phone_type_id`) " +
+                "VALUES (?, ?, ?, ?, ?, ?);";
+        PreparedStatement statement = null;
+        try {
+            statement = prepareStatement(query, phone);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new CustomException("Can't insert phone: ", e);

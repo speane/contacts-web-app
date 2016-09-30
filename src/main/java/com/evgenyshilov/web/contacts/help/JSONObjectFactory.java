@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.help;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * Created by Evgeny Shilov on 24.09.2016.
  */
 public class JSONObjectFactory {
-    public ArrayList<Attachment> getAttachmentList(String JSONAttachmentListString) throws ParseException {
+    public ArrayList<Attachment> getAttachmentList(String JSONAttachmentListString) throws CustomException {
         ArrayList<Attachment> attachments = new ArrayList<>();
         JSONParser parser = new JSONParser();
         try {
@@ -28,13 +29,13 @@ public class JSONObjectFactory {
                 attachment.setUploadDate(new Date(DateTime.now().getMillis()));
                 attachments.add(attachment);
             }
-        } finally {
-            System.err.println("error");
+        } catch (ParseException e) {
+            throw new CustomException("Can't get attachments list from json: ", e);
         }
         return attachments;
     }
 
-    public ArrayList<Phone> getPhoneList(String JSONPhoneListString) throws ParseException {
+    public ArrayList<Phone> getPhoneList(String JSONPhoneListString) throws CustomException {
         ArrayList<Phone> phones = new ArrayList<>();
         JSONParser parser = new JSONParser();
         try {
@@ -49,20 +50,24 @@ public class JSONObjectFactory {
                 phone.setType((String) object.get("type"));
                 phones.add(phone);
             }
-        } finally {
-            System.out.println("finally");
+        } catch (ParseException e) {
+            throw new CustomException("Can't get phone list from json: ", e);
         }
         return phones;
     }
 
-    public ArrayList<Integer> getIntegerList(String JSONIntegerListString) throws ParseException {
+    public ArrayList<Integer> getIntegerList(String JSONIntegerListString) throws CustomException {
         ArrayList<Integer> list = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        JSONArray array = (JSONArray) parser.parse(JSONIntegerListString);
-        for (Object number : array) {
-            list.add(Integer.parseInt((String) number));
-        }
+        try {
+            JSONArray array = (JSONArray) parser.parse(JSONIntegerListString);
+            for (Object number : array) {
+                list.add(Integer.parseInt((String) number));
+            }
 
-        return list;
+            return list;
+        } catch (ParseException e) {
+            throw new CustomException("Can't get integer list from json: ", e);
+        }
     }
 }

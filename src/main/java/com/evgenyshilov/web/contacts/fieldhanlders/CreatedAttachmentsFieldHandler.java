@@ -2,11 +2,9 @@ package com.evgenyshilov.web.contacts.fieldhanlders;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.JSONObjectFactory;
-import org.json.simple.parser.ParseException;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -14,8 +12,13 @@ import java.util.ArrayList;
  */
 public class CreatedAttachmentsFieldHandler implements FieldHandler {
     @Override
-    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        ArrayList<Attachment> createdAttachments = new JSONObjectFactory().getAttachmentList(value);
-        contact.setAttachments(createdAttachments);
+    public void handleField(Contact contact, String value) throws CustomException {
+        ArrayList<Attachment> createdAttachments = null;
+        try {
+            createdAttachments = new JSONObjectFactory().getAttachmentList(value);
+            contact.setAttachments(createdAttachments);
+        } catch (CustomException e) {
+            throw new CustomException("Can't handle created attachments request field: ", e);
+        }
     }
 }

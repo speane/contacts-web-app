@@ -142,6 +142,71 @@ public class DBHelper {
         }
     }
 
+    public void updatePhone(int id, Phone phone) throws CustomException {
+        PhoneDAO phoneDAO = null;
+        try {
+            phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            phoneDAO.update(id, phone);
+        } catch (CustomException e) {
+            throw new CustomException("Can't update phone with dao: ", e);
+        } finally {
+            try {
+                if (phoneDAO != null) {
+                    phoneDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    public void updateAttachment(int id, Attachment attachment) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            attachmentDAO.update(id, attachment);
+        } catch (CustomException e) {
+            throw new CustomException("Can't update attachment: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    public void removePhone(int id) throws CustomException {
+        PhoneDAO phoneDAO = null;
+        try {
+            phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
+            phoneDAO.delete(id);
+        } catch (CustomException e) {
+            throw new CustomException("Can't remove contact phone: ", e);
+        }
+    }
+
+    public void removeAttachment(int id) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            attachmentDAO.delete(id);
+        } catch (CustomException e) {
+            throw new CustomException("Can't remove attachment: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+
+    }
+
     public int insertAttachment(Attachment attachment) throws CustomException {
         AttachmentDAO attachmentDAO = null;
         try {

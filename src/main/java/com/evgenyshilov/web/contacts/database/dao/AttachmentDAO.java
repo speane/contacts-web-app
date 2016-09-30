@@ -27,15 +27,27 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
     }
 
     @Override
-    public void update(Integer key, Attachment attachment) throws SQLException {
+    public void update(Integer key, Attachment attachment) throws CustomException {
         String query = "UPDATE attachment SET " +
                 "filename=?, commentary=? WHERE id=?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, attachment.getFilename());
-        statement.setString(2, attachment.getCommentary());
-        statement.setInt(3, key);
-        statement.executeUpdate();
-        statement.close();
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, attachment.getFilename());
+            statement.setString(2, attachment.getCommentary());
+            statement.setInt(3, key);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new CustomException("Can't update attachment in database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     public int getLastInsertId() throws CustomException {
@@ -59,11 +71,23 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
     }
 
     @Override
-    public void delete(Integer key) throws SQLException {
+    public void delete(Integer key) throws CustomException {
         String query = "DELETE FROM attachment WHERE id = " + key;
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
-        statement.close();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new CustomException("Can't delete attachment: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
     }
 
     @Override
@@ -113,14 +137,14 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
         return attachments;
     }
 
-    public void deleteAllContactAttachments(int id) {
+    public void deleteAllContactAttachments(int id) throws CustomException {
         String query = "DELETE FROM attachment WHERE contact_id = " + id;
         Statement statement = null;
         try {
             statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new CustomException("Can't delete all attachments: ", e);
         } finally {
             try {
                 if (statement != null) {

@@ -1,14 +1,11 @@
 package com.evgenyshilov.web.contacts.fieldhanlders;
 
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.dao.PhoneDAO;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.DBHelper;
 import com.evgenyshilov.web.contacts.help.JSONObjectFactory;
-import org.json.simple.parser.ParseException;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,13 +13,17 @@ import java.util.ArrayList;
  */
 public class UpdatePhonesFieldHandler implements FieldHandler {
     @Override
-    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        ArrayList<Phone> updatedPhones = new JSONObjectFactory().getPhoneList(value);
-        PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-        for (Phone phone : updatedPhones) {
-            phone.setContactId(contact.getId());
-            phoneDAO.update(phone.getId(), phone);
+    public void handleField(Contact contact, String value) throws CustomException {
+        DBHelper dbHelper = new DBHelper();
+        ArrayList<Phone> updatedPhones = null;
+        try {
+            updatedPhones = new JSONObjectFactory().getPhoneList(value);
+            for (Phone phone : updatedPhones) {
+                phone.setContactId(contact.getId());
+                dbHelper.updatePhone(phone.getId(), phone);
+            }
+        } catch (CustomException e) {
+            throw new CustomException("Can't handle updated phones: ", e);
         }
-        phoneDAO.close();
     }
 }

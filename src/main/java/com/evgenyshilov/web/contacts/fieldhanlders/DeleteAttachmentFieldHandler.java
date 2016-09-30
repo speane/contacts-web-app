@@ -1,14 +1,10 @@
 package com.evgenyshilov.web.contacts.fieldhanlders;
 
-import com.evgenyshilov.web.contacts.database.dao.AttachmentDAO;
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.DBHelper;
 import com.evgenyshilov.web.contacts.help.JSONObjectFactory;
-import org.json.simple.parser.ParseException;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,12 +12,15 @@ import java.util.ArrayList;
  */
 public class DeleteAttachmentFieldHandler implements FieldHandler {
     @Override
-    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        ArrayList<Integer> removedAttachments = new JSONObjectFactory().getIntegerList(value);
-        AttachmentDAO attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
-        for (int id : removedAttachments) {
-            attachmentDAO.delete(id);
+    public void handleField(Contact contact, String value) throws CustomException {
+        DBHelper dbHelper = new DBHelper();
+        try {
+            ArrayList<Integer> removedAttachments = new JSONObjectFactory().getIntegerList(value);
+            for (int id : removedAttachments) {
+                dbHelper.removeAttachment(id);
+            }
+        } catch (CustomException e) {
+            throw new CustomException("Can't handle removed attachments: ", e);
         }
-        attachmentDAO.close();
     }
 }

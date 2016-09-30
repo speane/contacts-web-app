@@ -1,14 +1,10 @@
 package com.evgenyshilov.web.contacts.fieldhanlders;
 
-import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
-import com.evgenyshilov.web.contacts.database.dao.PhoneDAO;
 import com.evgenyshilov.web.contacts.database.model.Contact;
-import com.evgenyshilov.web.contacts.database.model.Phone;
+import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.DBHelper;
 import com.evgenyshilov.web.contacts.help.JSONObjectFactory;
-import org.json.simple.parser.ParseException;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,12 +12,16 @@ import java.util.ArrayList;
  */
 public class DeletePhonesFieldHandler implements FieldHandler {
     @Override
-    public void handleField(Contact contact, String value) throws ParseException, SQLException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        ArrayList<Integer> removedPhones = new JSONObjectFactory().getIntegerList(value);
-        PhoneDAO phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
-        for (int id : removedPhones) {
-            phoneDAO.delete(id);
+    public void handleField(Contact contact, String value) throws CustomException {
+        DBHelper dbHelper = new DBHelper();
+        ArrayList<Integer> removedPhones = null;
+        try {
+            removedPhones = new JSONObjectFactory().getIntegerList(value);
+            for (int id : removedPhones) {
+                dbHelper.removePhone(id);
+            }
+        } catch (CustomException e) {
+            throw new CustomException("Can't handle removed phones: ", e);
         }
-        phoneDAO.close();
     }
 }
