@@ -142,6 +142,25 @@ public class DBHelper {
         }
     }
 
+    public int insertAttachment(Attachment attachment) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            attachmentDAO.insert(attachment);
+            return attachmentDAO.getLastInsertId();
+        } catch (CustomException e) {
+            throw new CustomException("Can't insert attachment with dao: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
     public Contact getContactFromDAO(int id) throws CustomException {
         ContactDAO contactDAO = null;
         try {

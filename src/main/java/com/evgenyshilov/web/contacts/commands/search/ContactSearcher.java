@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class ContactSearcher {
     public ArrayList<Contact> searchContacts(SearchParamsDTO params) {
+        ArrayList<Contact> contacts = new ArrayList<>();
         return null;
     }
 }

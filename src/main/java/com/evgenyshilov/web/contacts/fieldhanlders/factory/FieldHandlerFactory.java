@@ -14,7 +14,7 @@ public class FieldHandlerFactory {
         fieldHandlerMap = new HashMap<>();
         fieldHandlerMap.put("first-name", new FirstNameFieldHandler());
         fieldHandlerMap.put("last-name", new LastNameFieldHandler());
-        fieldHandlerMap.put("patronymic", new PatronymicFieldHanlder());
+        fieldHandlerMap.put("patronymic", new PatronymicFieldHandler());
         fieldHandlerMap.put("day", new DayFieldHandler());
         fieldHandlerMap.put("month", new MonthFieldHandler());
         fieldHandlerMap.put("year", new YearFieldHanlder());
