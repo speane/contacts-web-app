@@ -3,7 +3,6 @@ package com.evgenyshilov.web.contacts.database.dao;
 import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,8 +47,7 @@ public class MaritalStatusDAO extends GenericDAO {
     }
 
     @Override
-    public Object get(Object key) throws SQLException, InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+    public Object get(Object key) {
         return null;
     }
 
@@ -59,7 +57,7 @@ public class MaritalStatusDAO extends GenericDAO {
     }
 
     @Override
-    public void delete(Object key) throws SQLException {
+    public void delete(Object key) {
 
     }
 

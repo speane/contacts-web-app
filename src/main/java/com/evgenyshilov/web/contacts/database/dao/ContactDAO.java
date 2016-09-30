@@ -67,11 +67,8 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         try {
             phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
             return phoneDAO.getAllByContactId(id);
-        } catch (CustomException e) {
+        } catch (CustomException | SQLException e) {
             throw new CustomException("Can't get phones from database: ", e);
-        } catch (SQLException e) {
-            throw new CustomException("Can't get phones from database: ", e);
-            // TODO remove this
         } finally {
             try {
                 if (phoneDAO != null) {
@@ -88,11 +85,9 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         try {
             attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
             return attachmentDAO.getAllByContactId(id);
-        } catch (SQLException e) {
-            throw new CustomException("Can't get attachments from database: ", e);
-            // TODO remove this
         } catch (CustomException e) {
             throw new CustomException("Can't get attachments from database: ", e);
+            // TODO remove this
         } finally {
             try {
                 if (attachmentDAO != null) {
@@ -370,92 +365,136 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         return contacts;
     }
 
-    private int getContactCityId(Contact contact) throws SQLException {
-        int cityId;
-        if ((cityId = getCityId(contact.getCity())) != -1) {
-            return cityId;
-        }
-        else {
-            String insertQuery = "INSERT INTO city (name) VALUES (\"" + contact.getCity() + "\");";
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(insertQuery);
-            statement.close();
-            return getCityId(contact.getCity());
+    private int getContactCityId(Contact contact) throws CustomException {
+        Statement statement = null;
+        try {
+            int cityId;
+
+            if ((cityId = getCityId(contact.getCity())) != -1) {
+                return cityId;
+            }
+            else {
+                statement = connection.createStatement();
+                String insertQuery = "INSERT INTO city (name) VALUES (\"" + contact.getCity() + "\");";
+                statement.executeUpdate(insertQuery);
+                return getCityId(contact.getCity());
+            }
+        } catch (SQLException | CustomException e) {
+            throw new CustomException("Can't get contact city id: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
         }
     }
 
-    private int getCityId(String city) throws SQLException {
+    private int getCityId(String city) throws CustomException {
         String query = "SELECT id FROM city WHERE name = \"" + city + "\" LIMIT 1;";
-        System.out.println(query);
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        int id;
-        if (resultSet.next()) {
-            id = resultSet.getInt("id");
-        }
-        else {
-            id = -1;
-        }
-        statement.close();
-        return id;
-    }
-
-    private int getContactStateId(Contact contact) throws SQLException {
-        int stateId;
-        if ((stateId = getStateId(contact.getState())) != -1) {
-            return stateId;
-        }
-        else {
-            String insertQuery = "INSERT INTO state (name) VALUES (\"" + contact.getState() + "\");";
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(insertQuery);
-            statement.close();
-            return getStateId(contact.getState());
+        try {
+            return getIdFromQuery(query);
+        } catch (CustomException e) {
+            throw new CustomException("Can't get city id from database: ", e);
         }
     }
 
-    private int getStateId(String state) throws SQLException {
+    private int getContactStateId(Contact contact) throws CustomException {
+        Statement statement = null;
+        try {
+            int stateId;
+            if ((stateId = getStateId(contact.getState())) != -1) {
+                return stateId;
+            }
+            else {
+                String insertQuery = "INSERT INTO state (name) VALUES (\"" + contact.getState() + "\");";
+                statement = connection.createStatement();
+                statement.executeUpdate(insertQuery);
+                return getStateId(contact.getState());
+            }
+        } catch (CustomException | SQLException e) {
+            throw new CustomException("Can't get contact state id from database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    private int getIdFromQuery(String query) throws CustomException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            int id;
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+            else {
+                id = -1;
+            }
+            return id;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get id from query: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    private int getStateId(String state) throws CustomException {
         String query = "SELECT id FROM state WHERE name = \"" + state + "\" LIMIT 1;";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        int id;
-        if (resultSet.next()) {
-            id = resultSet.getInt("id");
-        }
-        else {
-            id = -1;
-        }
-        statement.close();
-        return id;
-    }
-
-    private int getContactNationalityId(Contact contact) throws SQLException {
-        int nationalityId;
-        if ((nationalityId = getNationalityId(contact.getNationality())) != -1) {
-            return nationalityId;
-        }
-        else {
-            String insertQuery = "INSERT INTO nationality (name) VALUES (\"" + contact.getNationality() + "\");";
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(insertQuery);
-            statement.close();
-            return getNationalityId(contact.getNationality());
+        try {
+            return getIdFromQuery(query);
+        } catch (CustomException e) {
+            throw new CustomException("Can't get state id from database: ", e);
         }
     }
 
-    private int getNationalityId(String nationality) throws SQLException {
+    private int getContactNationalityId(Contact contact) throws CustomException {
+        Statement statement = null;
+        try {
+            int nationalityId;
+            if ((nationalityId = getNationalityId(contact.getNationality())) != -1) {
+                return nationalityId;
+            }
+            else {
+                statement = connection.createStatement();
+                String insertQuery = "INSERT INTO nationality (name) VALUES (\"" + contact.getNationality() + "\");";
+                statement.executeUpdate(insertQuery);
+                return getNationalityId(contact.getNationality());
+            }
+        } catch (SQLException e) {
+            throw new CustomException("Can't get contact nationality by id: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    private int getNationalityId(String nationality) throws CustomException {
         String query = "SELECT id FROM nationality WHERE name = \"" + nationality + "\" LIMIT 1;";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        int id;
-        if (resultSet.next()) {
-            id = resultSet.getInt("id");
+        try {
+            return getIdFromQuery(query);
+        } catch (CustomException e) {
+            throw new CustomException("Can't get nationality id from database: ", e);
         }
-        else {
-            id = -1;
-        }
-        statement.close();
-        return id;
     }
 
 

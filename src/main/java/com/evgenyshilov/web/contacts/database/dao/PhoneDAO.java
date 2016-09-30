@@ -3,7 +3,6 @@ package com.evgenyshilov.web.contacts.database.dao;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,12 +16,12 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public ArrayList<Phone> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public ArrayList<Phone> getAll() {
         return null;
     }
 
     @Override
-    public Phone get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Phone get(Integer key) {
         return null;
     }
 
@@ -124,31 +123,41 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
         }
     }
 
-    private int getPhoneTypeId(String typeName) throws SQLException {
+    private int getPhoneTypeId(String typeName) throws CustomException {
         String query = "SELECT id FROM phone_type WHERE name = '" + typeName + "'";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        return resultSet.next() ? resultSet.getInt("id") : -1;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            return resultSet.next() ? resultSet.getInt("id") : -1;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get phone type id from database: ", e);
+        }
     }
 
-    public ArrayList<Phone> getAllByContactId(int id) throws SQLException {
-        Statement statement = connection.createStatement();
+    public ArrayList<Phone> getAllByContactId(int id) throws CustomException {
         String query = "SELECT phone.id, country_code, operator_code, number, phone_type.name AS type, commentary " +
                 "FROM phone " +
                 "JOIN phone_type ON phone_type.id = phone.phone_type_id " +
                 "WHERE contact_id = " + id + ";";
-        ResultSet phoneResultSet = statement.executeQuery(query);
-        ArrayList<Phone> phones = new ArrayList<>();
-        while (phoneResultSet.next()) {
-            Phone phone = new Phone();
-            phone.setId(phoneResultSet.getInt("id"));
-            phone.setCountryCode(phoneResultSet.getInt("country_code"));
-            phone.setOperatorCode(phoneResultSet.getInt("operator_code"));
-            phone.setNumber(phoneResultSet.getInt("number"));
-            phone.setType(phoneResultSet.getString("type"));
-            phone.setCommentary(phoneResultSet.getString("commentary"));
-            phones.add(phone);
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet phoneResultSet = statement.executeQuery(query);
+            ArrayList<Phone> phones = new ArrayList<>();
+            while (phoneResultSet.next()) {
+                Phone phone = new Phone();
+                phone.setId(phoneResultSet.getInt("id"));
+                phone.setCountryCode(phoneResultSet.getInt("country_code"));
+                phone.setOperatorCode(phoneResultSet.getInt("operator_code"));
+                phone.setNumber(phoneResultSet.getInt("number"));
+                phone.setType(phoneResultSet.getString("type"));
+                phone.setCommentary(phoneResultSet.getString("commentary"));
+                phones.add(phone);
+            }
+            return phones;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get all phones by contact id: ", e);
         }
-        return phones;
     }
 }

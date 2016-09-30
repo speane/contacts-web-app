@@ -57,7 +57,7 @@ public class PhoneTypeDAO extends GenericDAO {
     }
 
     @Override
-    public void delete(Object key) throws SQLException {
+    public void delete(Object key) {
 
     }
 
