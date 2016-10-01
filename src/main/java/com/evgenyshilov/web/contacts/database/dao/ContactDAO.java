@@ -13,14 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 12.09.2016.
  */
-public class ContactDAO extends GenericDAO<Integer, Contact> {
-
-    private static final String ID_FIELD_NAME = "id";
-    private static final String FIRST_NAME_FIELD_NAME = "first_name";
-    private static final String LAST_NAME_FIELD_NAME = "last_name";
-    private static final String JOB_FIELD_NAME = "job";
-    private static final String BIRTHDAY_FIELD_NAME = "birthday";
-
+public class ContactDAO extends GenericDAO<Long, Contact> {
     public ContactDAO(Connection connection) {
         super(connection);
     }
@@ -101,7 +94,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public Contact get(Integer key) throws CustomException {
+    public Contact get(Long key) throws CustomException {
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -131,7 +124,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void update(Integer key, Contact value) throws CustomException {
+    public void update(Long key, Contact value) throws CustomException {
         String query = "UPDATE contact SET " +
                 "first_name=?, last_name=?, patronymic=?, birthday=?, sex=?, nationality_id=?, " +
                 "marital_status_id=?, website=?, email=?, job=?, state_id=?, city_id=?, " +
@@ -139,7 +132,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = createPreparedContactStatement(query, value);
-            preparedStatement.setInt(18, key);
+            preparedStatement.setLong(18, key);
             preparedStatement.executeUpdate();
         } catch (CustomException | SQLException e) {
             throw new CustomException("Can't update contact: ", e);
@@ -155,7 +148,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     @Override
-    public void delete(Integer id) throws CustomException {
+    public void delete(Long id) throws CustomException {
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -178,7 +171,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private void removeContactAttachments(int contactId) throws CustomException {
+    private void removeContactAttachments(long contactId) throws CustomException {
         AttachmentDAO attachmentDAO = null;
         try {
             attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
@@ -196,7 +189,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private void removeContactPhones(int contactId) throws CustomException {
+    private void removeContactPhones(long contactId) throws CustomException {
         PhoneDAO phoneDAO = null;
         try {
             phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
@@ -322,16 +315,19 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     private Long getContactCityId(Contact contact) throws CustomException {
         Statement statement = null;
         try {
-            Long cityId;
-
-            if ((cityId = getCityId(contact.getCity())) != null) {
-                return cityId;
-            }
-            else {
-                statement = connection.createStatement();
-                String insertQuery = "INSERT INTO city (name) VALUES (\"" + contact.getCity() + "\");";
-                statement.executeUpdate(insertQuery);
-                return getCityId(contact.getCity());
+            if (!StringUtils.isEmpty(contact.getCity())) {
+                Long cityId;
+                if ((cityId = getCityId(contact.getCity())) != null) {
+                    return cityId;
+                }
+                else {
+                    statement = connection.createStatement();
+                    String insertQuery = "INSERT INTO city (name) VALUES (\"" + contact.getCity() + "\");";
+                    statement.executeUpdate(insertQuery);
+                    return getCityId(contact.getCity());
+                }
+            } else {
+                return null;
             }
         } catch (SQLException | CustomException e) {
             throw new CustomException("Can't get contact city id: ", e);
@@ -358,15 +354,19 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     private Long getContactStateId(Contact contact) throws CustomException {
         Statement statement = null;
         try {
-            Long stateId;
-            if ((stateId = getStateId(contact.getState())) != null) {
-                return stateId;
-            }
-            else {
-                String insertQuery = "INSERT INTO state (name) VALUES (\"" + contact.getState() + "\");";
-                statement = connection.createStatement();
-                statement.executeUpdate(insertQuery);
-                return getStateId(contact.getState());
+            if (!StringUtils.isEmpty(contact.getState())) {
+                Long stateId;
+                if ((stateId = getStateId(contact.getState())) != null) {
+                    return stateId;
+                }
+                else {
+                    String insertQuery = "INSERT INTO state (name) VALUES (\"" + contact.getState() + "\");";
+                    statement = connection.createStatement();
+                    statement.executeUpdate(insertQuery);
+                    return getStateId(contact.getState());
+                }
+            } else {
+                return null;
             }
         } catch (CustomException | SQLException e) {
             throw new CustomException("Can't get contact state id from database: ", e);
@@ -419,15 +419,19 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     private Long getContactNationalityId(Contact contact) throws CustomException {
         Statement statement = null;
         try {
-            Long nationalityId;
-            if ((nationalityId = getNationalityId(contact.getNationality())) != null) {
-                return nationalityId;
-            }
-            else {
-                statement = connection.createStatement();
-                String insertQuery = "INSERT INTO nationality (name) VALUES (\"" + contact.getNationality() + "\");";
-                statement.executeUpdate(insertQuery);
-                return getNationalityId(contact.getNationality());
+            if (!StringUtils.isEmpty(contact.getNationality())) {
+                Long nationalityId;
+                if ((nationalityId = getNationalityId(contact.getNationality())) != null) {
+                    return nationalityId;
+                }
+                else {
+                    statement = connection.createStatement();
+                    String insertQuery = "INSERT INTO nationality (name) VALUES (\"" + contact.getNationality() + "\");";
+                    statement.executeUpdate(insertQuery);
+                    return getNationalityId(contact.getNationality());
+                }
+            } else {
+                return null;
             }
         } catch (SQLException e) {
             throw new CustomException("Can't get contact nationality by id: ", e);

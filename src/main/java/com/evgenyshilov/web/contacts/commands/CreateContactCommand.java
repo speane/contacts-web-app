@@ -4,10 +4,14 @@ import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.DBHelper;
+import com.evgenyshilov.web.contacts.help.FileItemWriter;
+import com.evgenyshilov.web.contacts.help.FileNamingUtils;
+import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -24,9 +28,9 @@ public class CreateContactCommand implements Command {
         try {
             inputHandleCommand.execute(request, response);
             contact = (Contact) request.getAttribute("contact");
-            HashMap<Integer, FileItem> attachmentItems =
-                    (HashMap<Integer, FileItem>) request.getAttribute("attachment-items");
-            FileItem photoItem = (FileItem)request.getAttribute("photo-item");
+            HashMap<Long, FileItem> attachmentItems =
+                    (HashMap<Long, FileItem>) request.getAttribute("attachment-items");
+            FileItem photoItem = (FileItem) request.getAttribute("photo-item");
             createNewContact(contact, attachmentItems, photoItem);
             response.sendRedirect(REDIRECT_URL);
         } catch (CustomException | IOException e) {
@@ -36,19 +40,32 @@ public class CreateContactCommand implements Command {
         return null;
     }
 
-    private void createNewContact(Contact contact, HashMap<Integer, FileItem> attachmentItems,
+    private void createNewContact(Contact contact, HashMap<Long, FileItem> attachmentItems,
                                   FileItem photoFileItem) throws CustomException {
         DBHelper dbHelper = new DBHelper();
+        FileItemWriter fileItemWriter = new FileItemWriter();
+        String attachmentPath = ApplicationConfig.getProperty("ROOT_PATH") + File.separator +
+                "attachments" + File.separator + "attachment_";
+        String photoPath = ApplicationConfig.getProperty("ROOT_PATH") + File.separator +
+                "images" + File.separator + "image";
         long contactId = 0;
         try {
+            String uniquePhotoPath = FileNamingUtils.getUniqueFilePath(photoPath);
+            File photoFile = new File(uniquePhotoPath);
+            photoFileItem.write(photoFile);
+            contact.setImageFileName(photoFile.getName());
             contactId = dbHelper.insertContact(contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
             for (Attachment attachment : contact.getAttachments()) {
+                FileItem attachmentItem = attachmentItems.get(attachment.getId());
                 attachment.setContactId(contactId);
                 int attachmentId = dbHelper.insertContactAttachment(attachment);
+                fileItemWriter.writeFileItem(attachmentItem, attachmentPath + attachmentId);
             }
-        } catch (CustomException e) {
+        } catch (Exception e) {
             throw new CustomException("Can't create new contact: ", e);
         }
     }
+
+
 }

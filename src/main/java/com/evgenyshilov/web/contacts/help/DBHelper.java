@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by Evgeny Shilov on 29.09.2016.
  */
 public class DBHelper {
-    public void removeContact(int contactId) throws CustomException {
+    public void removeContact(long contactId) throws CustomException {
         ContactDAO contactDAO = null;
         try {
             contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
@@ -185,6 +185,14 @@ public class DBHelper {
             phoneDAO.delete(id);
         } catch (CustomException e) {
             throw new CustomException("Can't remove contact phone: ", e);
+        } finally {
+            try {
+                if (phoneDAO != null) {
+                    phoneDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
         }
     }
 
@@ -226,13 +234,31 @@ public class DBHelper {
         }
     }
 
-    public Contact getContactFromDAO(int id) throws CustomException {
+    public Contact getContactFromDAO(long id) throws CustomException {
         ContactDAO contactDAO = null;
         try {
             contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
             return contactDAO.get(id);
         } catch (CustomException e) {
             throw new CustomException("Can't get contact from dao: ", e);
+        } finally {
+            try {
+                if (contactDAO != null) {
+                    contactDAO.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    public void updateContact(long id, Contact contact) throws CustomException {
+        ContactDAO contactDAO = null;
+        try {
+            contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
+            contactDAO.update(id, contact);
+        } catch (CustomException e) {
+            throw new CustomException("Can't update contact with dao: ", e);
         } finally {
             try {
                 if (contactDAO != null) {

@@ -66,7 +66,7 @@ public class PhoneDAO extends GenericDAO<Long, Phone> {
         }
     }
 
-    public void deleteAllContactPhones(int id) throws CustomException {
+    public void deleteAllContactPhones(long id) throws CustomException {
         String query = "DELETE FROM phone WHERE contact_id = '" + id + "'";
         Statement statement = null;
         try {

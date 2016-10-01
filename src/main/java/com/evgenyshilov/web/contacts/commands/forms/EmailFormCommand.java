@@ -63,9 +63,9 @@ public class EmailFormCommand implements Command {
         ArrayList<Contact> recipients = new ArrayList<>();
         ContactDAO contactDAO = null;
         try {
-            ArrayList<Integer> checkedContacts = requestParser.getCheckedIdList("contact-check");
+            ArrayList<Long> checkedContacts = requestParser.getCheckedIdList("contact-check");
             contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
-            for (Integer id : checkedContacts) {
+            for (Long id : checkedContacts) {
                 Contact contact = contactDAO.get(id);
                 recipients.add(contact);
             }

@@ -149,7 +149,7 @@ public class AttachmentDAO extends GenericDAO<Long, Attachment> {
         }
     }
 
-    public void deleteAllContactAttachments(int id) throws CustomException {
+    public void deleteAllContactAttachments(long id) throws CustomException {
         String query = "DELETE FROM attachment WHERE contact_id = " + id;
         Statement statement = null;
         try {

@@ -22,7 +22,7 @@ import java.util.List;
 public class ContactInputHandleCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
-        HashMap<Integer, FileItem> attachmentFiles = new HashMap<>();
+        HashMap<Long, FileItem> attachmentFiles = new HashMap<>();
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
@@ -52,10 +52,10 @@ public class ContactInputHandleCommand implements Command {
     }
 
     private void processFormFileItem(HttpServletRequest request,
-                                     HashMap<Integer, FileItem> attachmentFiles, FileItem item) throws CustomException {
+                                     HashMap<Long, FileItem> attachmentFiles, FileItem item) throws CustomException {
         String inputFieldName = item.getFieldName();
         if (inputFieldName.startsWith("attachment")) {
-            int createdAttachmentIndex = 0;
+            long createdAttachmentIndex = 0;
             try {
                 createdAttachmentIndex = getAttachmentIndex(inputFieldName);
             } catch (CustomException e) {

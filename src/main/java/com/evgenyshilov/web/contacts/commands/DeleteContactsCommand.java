@@ -17,7 +17,7 @@ public class DeleteContactsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String REDIRECT_URL = "/app/contact-list";
-        ArrayList<Integer> deleteContactIdList = new RequestParser(request).getCheckedIdList("contact-check");
+        ArrayList<Long> deleteContactIdList = new RequestParser(request).getCheckedIdList("contact-check");
         try {
             removeContacts(deleteContactIdList);
             response.sendRedirect(REDIRECT_URL);
@@ -27,9 +27,9 @@ public class DeleteContactsCommand implements Command {
         return null;
     }
 
-    private void removeContacts(ArrayList<Integer> ids) throws CustomException {
+    private void removeContacts(ArrayList<Long> ids) throws CustomException {
         DBHelper dbHelper = new DBHelper();
-        for (Integer id : ids) {
+        for (Long id : ids) {
             try {
                 dbHelper.removeContact(id);
             } catch (CustomException e) {

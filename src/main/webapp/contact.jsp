@@ -73,8 +73,8 @@
                     Пол
                     <select id="sex" class="input-field" name="sex">
                         <option ${empty contact or empty contact.sex ? 'selected' : ''} value="x">Не выбран</option>
-                        <option ${empty contact or contact.sex == 'f' ? '' : 'selected'} value="m">Мужчина</option>
-                        <option ${empty contact or contact.sex == 'm' ? '' : 'selected'} value="f">Женщина</option>
+                        <option ${not empty contact and contact.sex == 'm' ? 'selected' : ''} value="m">Мужчина</option>
+                        <option ${not empty contact and contact.sex == 'f' ? 'selected' : ''} value="f">Женщина</option>
                     </select>
                 </label>
                 <label class="input-label">

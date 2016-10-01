@@ -14,13 +14,13 @@ public class RequestParser {
         this.request = request;
     }
 
-    public ArrayList<Integer> getCheckedIdList(String checkboxGroupName) {
+    public ArrayList<Long> getCheckedIdList(String checkboxGroupName) {
         String[] checkedValues = request.getParameterValues(checkboxGroupName);
-        ArrayList<Integer> checkedIdList = new ArrayList<>();
+        ArrayList<Long> checkedIdList = new ArrayList<>();
 
         if (checkedValues != null) {
             for (String value : checkedValues) {
-                checkedIdList.add(Integer.parseInt(value));
+                checkedIdList.add(Long.parseLong(value));
             }
         }
 

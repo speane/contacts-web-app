@@ -4,6 +4,7 @@ import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.DBHelper;
+import com.evgenyshilov.web.contacts.help.FileNamingUtils;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
 
@@ -25,15 +26,14 @@ public class UpdateContactCommand implements Command {
         try {
             int contactId = getContactIdFromRequest(request);
             Contact contact = dbHelper.getContactFromDAO(contactId);
-            processInputFields(contact, request, response);
-            writeContactPhotoFileFromRequest(request, contactId);
+            contact = processInputFields(contact, request, response);
+            String imageFileName = writeContactPhotoFileFromRequest(request);
             writeAttachmentsFromRequest(request, contact);
-
-            contact.setImageFileName("image_" + contact.getId());
-
+            contact.setImageFileName(imageFileName);
+            dbHelper.updateContact(contactId, contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
-            response.sendRedirect(REDIRECT_URL);
 
+            response.sendRedirect(REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't update contact: ", e);
         }
@@ -79,18 +79,21 @@ public class UpdateContactCommand implements Command {
         }
     }
 
-    private void writeContactPhotoFileFromRequest(HttpServletRequest request, int contactId) throws CustomException {
+    private String writeContactPhotoFileFromRequest(HttpServletRequest request) throws CustomException {
         FileItem photoItem = (FileItem) request.getAttribute("photo-item");
         if (photoItem != null) {
             String photoFilePath = ApplicationConfig.getProperty("ROOT_PATH") + File.separator + "images" +
-                    File.separator + "image_" + contactId;
+                    File.separator + "image";
+            photoFilePath = FileNamingUtils.getUniqueFilePath(photoFilePath);
             File photoFile = new File(photoFilePath);
             try {
                 photoItem.write(photoFile);
+                return photoFile.getName();
             } catch (Exception e) {
                 throw new CustomException("Can't write photo file from request: ", e);
             }
         }
+        return null;
     }
 
     private int getContactIdFromRequest(HttpServletRequest request) throws CustomException {

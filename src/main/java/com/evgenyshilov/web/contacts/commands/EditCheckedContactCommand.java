@@ -16,9 +16,9 @@ public class EditCheckedContactCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String redirectURL;
-        ArrayList<Integer> checkedIds = new RequestParser(request).getCheckedIdList("contact-check");
+        ArrayList<Long> checkedIds = new RequestParser(request).getCheckedIdList("contact-check");
         if (!checkedIds.isEmpty()) {
-            int checkedContactId = checkedIds.get(0);
+            long checkedContactId = checkedIds.get(0);
             request.setAttribute("id", checkedContactId);
             redirectURL = "/app/edit-contact?id=" + checkedContactId;
         } else {
