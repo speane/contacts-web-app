@@ -32,7 +32,6 @@ public class UpdateContactCommand implements Command {
             if (imageFileName != null) {
                 contact.setImageFileName(imageFileName);
             }
-            contact.setImageFileName(imageFileName);
             dbHelper.updateContact(contactId, contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
 
