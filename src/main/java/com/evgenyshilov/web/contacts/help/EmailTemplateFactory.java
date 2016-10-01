@@ -22,7 +22,7 @@ public class EmailTemplateFactory {
         ST tempST;
         int i = 1;
         while ((tempST = groupFile.getInstanceOf("t" + i++)) != null) {
-            templates.add(elementsFactory.getTranslatedTemplateString(tempST));
+            templates.add(elementsFactory.getRussianTemplateString(tempST));
         }
         return templates;
     }

@@ -9,7 +9,7 @@ import com.evgenyshilov.web.contacts.help.EmailTemplateElementsFactory;
 import com.evgenyshilov.web.contacts.help.EmailTemplateFactory;
 import com.evgenyshilov.web.contacts.help.RequestParser;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
-import com.evgenyshilov.web.contacts.resources.RussianEnglishTranslator;
+import com.evgenyshilov.web.contacts.help.RussianEnglishTranslator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +28,6 @@ public class EmailFormCommand implements Command {
         ArrayList<Contact> recipients = null;
         try {
             recipients = getRecipients(request);
-
-            System.out.println(recipients);
 
             if (recipients.size() > 0) {
                 request.setAttribute("recipients", recipients);

@@ -1,7 +1,6 @@
 package com.evgenyshilov.web.contacts.help;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
-import com.evgenyshilov.web.contacts.resources.RussianEnglishTranslator;
 import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class EmailTemplateElementsFactory {
         return elements;
     }
 
-    public String getTranslatedTemplateString(ST template) {
+    public String getRussianTemplateString(ST template) {
         for (String templateElement : getElements()) {
             try {
                 template.add(templateElement, "<" + new RussianEnglishTranslator().getRussian(templateElement) + ">");
@@ -32,6 +31,16 @@ public class EmailTemplateElementsFactory {
         }
         return template.render();
     }
+
+    public String translateTemplateToEnglish(String template) {
+        RussianEnglishTranslator translator = new RussianEnglishTranslator();
+        template = template.replaceAll("<" + translator.getRussian(FIRST_NAME) + ">", "<" + FIRST_NAME + ">");
+        template = template.replaceAll("<" + translator.getRussian(LAST_NAME) + ">", "<" + LAST_NAME + ">");
+        template = template.replaceAll("<" + translator.getRussian(PATRONYMIC) + ">", "<" + PATRONYMIC + ">");
+
+        return template;
+    }
+
 
     public String buildTemplateWithContactFields(ST template, Contact contact) {
         setAttribute(template, FIRST_NAME, contact.getFirstName());

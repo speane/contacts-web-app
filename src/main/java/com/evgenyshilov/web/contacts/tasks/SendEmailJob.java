@@ -64,7 +64,8 @@ public class SendEmailJob implements Job {
             mailText = template.render();
         }
         try {
-            sender.sendEmail(email, mailText);
+            String SUBJECT = "Birthdays";
+            sender.sendEmail(email, mailText, SUBJECT);
         } catch (CustomException e) {
             throw new CustomException("Can't send email: ", e);
         }

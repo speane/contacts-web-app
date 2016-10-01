@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.resources;
+package com.evgenyshilov.web.contacts.help;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
@@ -31,6 +31,4 @@ public class RussianEnglishTranslator {
         }
         return ruWords;
     }
-
-
 }

@@ -4,6 +4,8 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.email.EmailSender;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.DBHelper;
+import com.evgenyshilov.web.contacts.help.EmailTemplateElementsFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.stringtemplate.v4.ST;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +19,14 @@ import java.util.ArrayList;
 public class SendEmailCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
-        String REDIRECT_URL = "/contactlist.jsp";
-        String emailTemplate = request.getParameter("email-text-area");
-        ArrayList<Contact> recipients = null;
         try {
+            request.setCharacterEncoding("UTF-8");
+            String REDIRECT_URL = "/app/contact-list";
+            String emailTemplate = request.getParameter("message-text");
+            String emailSubject = request.getParameter("message-theme");
+            ArrayList<Contact> recipients;
             recipients = getRecipientsIdsFromRequest(request);
-            sendEmails(recipients, emailTemplate);
+            sendEmails(recipients, emailTemplate, emailSubject);
             response.sendRedirect(REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute send email command: ", e);
@@ -38,7 +42,9 @@ public class SendEmailCommand implements Command {
             for (String idString : request.getParameterValues("recipient-id")) {
                 int contactId = Integer.parseInt(idString);
                 Contact contact = dbHelper.getContactFromDAO(contactId);
-                recipients.add(contact);
+                if (!StringUtils.isEmpty(contact.getEmail())) {
+                    recipients.add(contact);
+                }
             }
             return recipients;
         } catch (NumberFormatException | CustomException e) {
@@ -47,15 +53,16 @@ public class SendEmailCommand implements Command {
 
     }
 
-    private void sendEmails(ArrayList<Contact> recipients, String template) throws CustomException {
+    private void sendEmails(ArrayList<Contact> recipients, String template, String subject) throws CustomException {
         EmailSender emailSender = new EmailSender();
+        EmailTemplateElementsFactory elementsFactory = new EmailTemplateElementsFactory();
+        template = elementsFactory.translateTemplateToEnglish(template);
         try {
             for (Contact recipient : recipients) {
+
                 ST emailTemplate = new ST(template);
-                emailTemplate.add("first_name", recipient.getFirstName());
-                emailTemplate.add("last_name", recipient.getLastName());
-                emailTemplate.add("patronymic", recipient.getPatronymic());
-                emailSender.sendEmail(recipient.getEmail(), emailTemplate.render());
+                String mailText = elementsFactory.buildTemplateWithContactFields(emailTemplate, recipient);
+                emailSender.sendEmail(recipient.getEmail(), mailText, subject);
             }
         } catch (CustomException e) {
             throw new CustomException("Can't send emails: ", e);
