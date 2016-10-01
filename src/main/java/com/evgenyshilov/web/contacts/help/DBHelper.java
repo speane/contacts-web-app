@@ -67,7 +67,7 @@ public class DBHelper {
         }
     }
 
-    public void insertContactPhones(ArrayList<Phone> phones, int id) throws CustomException {
+    public void insertContactPhones(ArrayList<Phone> phones, long id) throws CustomException {
         PhoneDAO phoneDAO = null;
         try {
             phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
@@ -142,7 +142,7 @@ public class DBHelper {
         }
     }
 
-    public void updatePhone(int id, Phone phone) throws CustomException {
+    public void updatePhone(long id, Phone phone) throws CustomException {
         PhoneDAO phoneDAO = null;
         try {
             phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
@@ -160,7 +160,7 @@ public class DBHelper {
         }
     }
 
-    public void updateAttachment(int id, Attachment attachment) throws CustomException {
+    public void updateAttachment(long id, Attachment attachment) throws CustomException {
         AttachmentDAO attachmentDAO = null;
         try {
             attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
@@ -178,7 +178,7 @@ public class DBHelper {
         }
     }
 
-    public void removePhone(int id) throws CustomException {
+    public void removePhone(long id) throws CustomException {
         PhoneDAO phoneDAO = null;
         try {
             phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
@@ -188,7 +188,7 @@ public class DBHelper {
         }
     }
 
-    public void removeAttachment(int id) throws CustomException {
+    public void removeAttachment(long id) throws CustomException {
         AttachmentDAO attachmentDAO = null;
         try {
             attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);

@@ -3,31 +3,30 @@ package com.evgenyshilov.web.contacts.database.dao;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 
 /**
  * Created by Evgeny Shilov on 18.09.2016.
  */
-public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
+public class AttachmentDAO extends GenericDAO<Long, Attachment> {
 
     public AttachmentDAO(Connection connection) {
         super(connection);
     }
 
     @Override
-    public ArrayList<Attachment> getAll() throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public ArrayList<Attachment> getAll() {
         return null;
     }
 
     @Override
-    public Attachment get(Integer key) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Attachment get(Long key) {
         return null;
     }
 
     @Override
-    public void update(Integer key, Attachment attachment) throws CustomException {
+    public void update(Long key, Attachment attachment) throws CustomException {
         String query = "UPDATE attachment SET " +
                 "filename=?, commentary=? WHERE id=?";
         PreparedStatement statement = null;
@@ -35,7 +34,7 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
             statement = connection.prepareStatement(query);
             statement.setString(1, attachment.getFilename());
             statement.setString(2, attachment.getCommentary());
-            statement.setInt(3, key);
+            statement.setLong(3, key);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new CustomException("Can't update attachment in database: ", e);
@@ -71,7 +70,7 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
     }
 
     @Override
-    public void delete(Integer key) throws CustomException {
+    public void delete(Long key) throws CustomException {
         String query = "DELETE FROM attachment WHERE id = " + key;
         Statement statement = null;
         try {
@@ -101,7 +100,7 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
             statement.setString(1, attachment.getFilename());
             statement.setString(2, attachment.getCommentary());
             statement.setDate(3, attachment.getUploadDate());
-            statement.setInt(4, attachment.getContactId());
+            statement.setLong(4, attachment.getContactId());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -117,7 +116,7 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
         }
     }
 
-    public ArrayList<Attachment> getAllByContactId(int id) throws CustomException {
+    public ArrayList<Attachment> getAllByContactId(long id) throws CustomException {
         String query = "SELECT id, filename, upload_date, commentary " +
                 "FROM attachment " +
                 "WHERE contact_id = " + id + ";";
@@ -129,7 +128,7 @@ public class AttachmentDAO extends GenericDAO<Integer, Attachment> {
             ArrayList<Attachment> attachments = new ArrayList<>();
             while (attachmentSet.next()) {
                 Attachment attachment = new Attachment();
-                attachment.setId(attachmentSet.getInt("id"));
+                attachment.setId(attachmentSet.getLong("id"));
                 attachment.setFilename(attachmentSet.getString("filename"));
                 attachment.setCommentary(attachmentSet.getString("commentary"));
                 attachment.setUploadDate(attachmentSet.getDate("upload_date"));

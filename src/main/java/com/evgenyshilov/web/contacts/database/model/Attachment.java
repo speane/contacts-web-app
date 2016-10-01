@@ -8,17 +8,17 @@ import java.sql.Date;
  */
 public class Attachment implements Serializable {
 
-    private int id;
+    private Long id;
     private String filename;
     private Date uploadDate;
     private String commentary;
-    private int contactId;
+    private Long contactId;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,11 +46,11 @@ public class Attachment implements Serializable {
         this.commentary = commentary;
     }
 
-    public int getContactId() {
+    public Long getContactId() {
         return contactId;
     }
 
-    public void setContactId(int contactId) {
+    public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
 }

@@ -23,6 +23,7 @@
     var addPhoneButton = document.getElementById('add-phone-button');
     var savePhoneButton = document.getElementById('save-phone-button');
     var editPhoneButton = document.getElementById('edit-phone-button');
+    var removePhoneButton = document.getElementById('remove-phone-button');
 
     var createdPhones = {};
     var removedPhones = [];
@@ -234,7 +235,9 @@
         return checked;
     }
 
-    document.getElementById('remove-phone-button').onclick = function () {
+
+
+    removePhoneButton.onclick = function () {
         if (isAnyItemSelected('phone-check')) {
             var checkedPhones = getCheckedItems('phone-check');
             var deletePhone;
@@ -244,6 +247,8 @@
                 deletePhone.parentNode.removeChild(deletePhone);
                 removedPhones.push(checkedPhones[i]);
             }
+        }
+        else if (isAnyItemSelected('created-phone-check')) {
             var createdCheckedPhones = getCheckedItems('created-phone-check');
 
             for (i = 0; i < createdCheckedPhones.length; i++) {

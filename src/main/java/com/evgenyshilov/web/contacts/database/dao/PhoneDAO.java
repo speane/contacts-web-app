@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 18.09.2016.
  */
-public class PhoneDAO extends GenericDAO<Integer, Phone> {
+public class PhoneDAO extends GenericDAO<Long, Phone> {
 
     public PhoneDAO(Connection connection) {
         super(connection);
@@ -21,12 +21,12 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public Phone get(Integer key) {
+    public Phone get(Long key) {
         return null;
     }
 
     @Override
-    public void update(Integer key, Phone phone) throws CustomException {
+    public void update(Long key, Phone phone) throws CustomException {
         String query = "UPDATE phone SET country_code=?, operator_code=?, number=?, " +
                 "commentary=?, contact_id=?, phone_type_id=? WHERE id=" + key;
         PreparedStatement preparedStatement = null;
@@ -47,7 +47,7 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
     }
 
     @Override
-    public void delete(Integer key) throws CustomException {
+    public void delete(Long key) throws CustomException {
         String query = "DELETE FROM phone WHERE id = " + key;
         Statement statement = null;
         try {
@@ -89,11 +89,11 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
-            statement.setInt(1, phone.getCountryCode());
-            statement.setInt(2, phone.getOperatorCode());
-            statement.setInt(3, phone.getNumber());
+            statement.setString(1, phone.getCountryCode());
+            statement.setString(2, phone.getOperatorCode());
+            statement.setString(3, phone.getNumber());
             statement.setString(4, phone.getCommentary());
-            statement.setInt(5, phone.getContactId());
+            statement.setLong(5, phone.getContactId());
             statement.setInt(6, getPhoneTypeId(phone.getType()));
             return statement;
         } catch (SQLException e) {
@@ -135,7 +135,7 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
         }
     }
 
-    public ArrayList<Phone> getAllByContactId(int id) throws CustomException {
+    public ArrayList<Phone> getAllByContactId(long id) throws CustomException {
         String query = "SELECT phone.id, country_code, operator_code, number, phone_type.name AS type, commentary " +
                 "FROM phone " +
                 "JOIN phone_type ON phone_type.id = phone.phone_type_id " +
@@ -147,10 +147,10 @@ public class PhoneDAO extends GenericDAO<Integer, Phone> {
             ArrayList<Phone> phones = new ArrayList<>();
             while (phoneResultSet.next()) {
                 Phone phone = new Phone();
-                phone.setId(phoneResultSet.getInt("id"));
-                phone.setCountryCode(phoneResultSet.getInt("country_code"));
-                phone.setOperatorCode(phoneResultSet.getInt("operator_code"));
-                phone.setNumber(phoneResultSet.getInt("number"));
+                phone.setId(phoneResultSet.getLong("id"));
+                phone.setCountryCode(phoneResultSet.getString("country_code"));
+                phone.setOperatorCode(phoneResultSet.getString("operator_code"));
+                phone.setNumber(phoneResultSet.getString("number"));
                 phone.setType(phoneResultSet.getString("type"));
                 phone.setCommentary(phoneResultSet.getString("commentary"));
                 phones.add(phone);

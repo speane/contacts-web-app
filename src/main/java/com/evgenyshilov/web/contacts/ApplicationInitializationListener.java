@@ -88,7 +88,7 @@ public class ApplicationInitializationListener implements ServletContextListener
         try {
             String realPath = context.getRealPath(LOCALIZATION_PATH);
             RussianEnglishTranslator.loadDictionary(new PropertyFileParser().parse(realPath));
-        } catch (IOException e) {
+        } catch (CustomException e) {
             throw new CustomException("Can't load russian localization: ", e);
         }
     }

@@ -7,35 +7,35 @@ import java.io.Serializable;
  */
 public class Phone implements Serializable {
 
-    private int id;
-    private int countryCode;
-    private int operatorCode;
-    private int number;
+    private Long id;
+    private String countryCode;
+    private String operatorCode;
+    private String number;
     private String type;
     private String commentary;
-    private int contactId;
+    private Long contactId;
 
-    public int getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(int countryCode) {
+    public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
-    public int getOperatorCode() {
+    public String getOperatorCode() {
         return operatorCode;
     }
 
-    public void setOperatorCode(int operatorCode) {
+    public void setOperatorCode(String operatorCode) {
         this.operatorCode = operatorCode;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -55,19 +55,19 @@ public class Phone implements Serializable {
         this.commentary = commentary;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getContactId() {
+    public Long getContactId() {
         return contactId;
     }
 
-    public void setContactId(int contactId) {
+    public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
 }

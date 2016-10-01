@@ -62,12 +62,12 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private ArrayList<Phone> getPhonesFromDatabase(int id) throws CustomException {
+    private ArrayList<Phone> getPhonesFromDatabase(long id) throws CustomException {
         PhoneDAO phoneDAO = null;
         try {
             phoneDAO = (PhoneDAO) DAOFactory.getDAO(Phone.class);
             return phoneDAO.getAllByContactId(id);
-        } catch (CustomException | SQLException e) {
+        } catch (CustomException e) {
             throw new CustomException("Can't get phones from database: ", e);
         } finally {
             try {
@@ -80,7 +80,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private ArrayList<Attachment> getAttachmentsFromDatabase(int id) throws CustomException {
+    private ArrayList<Attachment> getAttachmentsFromDatabase(long id) throws CustomException {
         AttachmentDAO attachmentDAO = null;
         try {
             attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
@@ -266,7 +266,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             statement.setDate(4, contact.getBirthday());
             statement.setString(5, contact.getSex());
             statement.setInt(6, getContactNationalityId(contact));
-            statement.setInt(7, contact.getMaritalStatus());
+            statement.setLong(7, contact.getMaritalStatus());
             statement.setString(8, contact.getWebsite());
             statement.setString(9, contact.getEmail());
             statement.setString(10, contact.getJob());
@@ -342,7 +342,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         ArrayList<Contact> contacts = new ArrayList<>();
         while (contactResult.next()) {
             Contact contact = new Contact();
-            contact.setId(contactResult.getInt("id"));
+            contact.setId(contactResult.getLong("id"));
             contact.setFirstName(contactResult.getString("first_name"));
             contact.setLastName(contactResult.getString("last_name"));
             contact.setPatronymic(contactResult.getString("patronymic"));
@@ -351,7 +351,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
             contact.setEmail(contactResult.getString("email"));
             contact.setWebsite(contactResult.getString("website"));
             contact.setNationality(contactResult.getString("nationality"));
-            contact.setMaritalStatus(contactResult.getInt("marital_status"));
+            contact.setMaritalStatus(contactResult.getLong("marital_status"));
             contact.setJob(contactResult.getString("job"));
             contact.setState(contactResult.getString("state"));
             contact.setCity(contactResult.getString("city"));

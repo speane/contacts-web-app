@@ -39,7 +39,7 @@ public class CreateContactCommand implements Command {
     private void createNewContact(Contact contact, HashMap<Integer, FileItem> attachmentItems,
                                   FileItem photoFileItem) throws CustomException {
         DBHelper dbHelper = new DBHelper();
-        int contactId = 0;
+        long contactId = 0;
         try {
             contactId = dbHelper.insertContact(contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);

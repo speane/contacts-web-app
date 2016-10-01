@@ -51,13 +51,12 @@ public class FrontController extends HttpServlet {
             Command command = getCommand(request);
             viewPageURL = command.execute(request, response);
         } catch (CustomException e) {
+            System.out.println(e);
             // TODO log exception
             // TODO exception manage
         } catch (CommandNotFoundException e) {
             // TODO log exception
             viewPageURL = getNotFoundViewPage(response);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         if (viewPageURL != null) {
             request.getRequestDispatcher(viewPageURL).forward(request, response);

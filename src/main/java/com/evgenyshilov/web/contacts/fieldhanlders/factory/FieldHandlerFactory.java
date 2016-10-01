@@ -17,8 +17,8 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("patronymic", new PatronymicFieldHandler());
         fieldHandlerMap.put("day", new DayFieldHandler());
         fieldHandlerMap.put("month", new MonthFieldHandler());
-        fieldHandlerMap.put("year", new YearFieldHanlder());
-        fieldHandlerMap.put("sex", new SexFieldHanlder());
+        fieldHandlerMap.put("year", new YearFieldHandler());
+        fieldHandlerMap.put("sex", new SexFieldHandler());
         fieldHandlerMap.put("marital-status", new MaritalStatusFieldHandler());
         fieldHandlerMap.put("nationality", new NationalityFieldHandler());
         fieldHandlerMap.put("website", new WebsiteFieldHandler());

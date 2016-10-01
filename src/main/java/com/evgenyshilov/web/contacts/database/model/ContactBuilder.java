@@ -12,7 +12,7 @@ public class ContactBuilder {
     public static Contact createFromResultSet(ResultSet contactSet) throws CustomException {
         Contact contact = new Contact();
         try {
-            contact.setId(contactSet.getInt("id"));
+            contact.setId(contactSet.getLong("id"));
             contact.setFirstName(contactSet.getString("first_name"));
             contact.setLastName(contactSet.getString("last_name"));
             contact.setPatronymic(contactSet.getString("patronymic"));
@@ -21,7 +21,7 @@ public class ContactBuilder {
             contact.setEmail(contactSet.getString("email"));
             contact.setWebsite(contactSet.getString("website"));
             contact.setNationality(contactSet.getString("nationality"));
-            contact.setMaritalStatus(contactSet.getInt("marital_status"));
+            contact.setMaritalStatus(contactSet.getLong("marital_status"));
             contact.setJob(contactSet.getString("job"));
             contact.setState(contactSet.getString("state"));
             contact.setCity(contactSet.getString("city"));

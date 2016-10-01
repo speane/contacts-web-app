@@ -9,14 +9,14 @@ import java.util.ArrayList;
  */
 public class Contact implements Serializable {
 
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String patronymic;
     private Date birthday;
     private String sex;
     private String nationality;
-    private int maritalStatus;
+    private Long maritalStatus;
     private String website;
     private String email;
     private String job;
@@ -78,11 +78,11 @@ public class Contact implements Serializable {
         this.zipCode = zipCode;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -134,11 +134,11 @@ public class Contact implements Serializable {
         this.nationality = nationality;
     }
 
-    public int getMaritalStatus() {
+    public Long getMaritalStatus() {
         return maritalStatus;
     }
 
-    public void setMaritalStatus(int maritalStatus) {
+    public void setMaritalStatus(Long maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 

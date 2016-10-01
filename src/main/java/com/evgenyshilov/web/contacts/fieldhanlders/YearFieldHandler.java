@@ -10,27 +10,27 @@ import java.sql.Date;
 /**
  * Created by Evgeny Shilov on 24.09.2016.
  */
-public class DayFieldHandler implements FieldHandler {
+public class YearFieldHandler implements FieldHandler {
     @Override
     public void handleField(Contact contact, String value) throws CustomException {
         if (contact != null) {
-            try {
-                if (!StringUtils.isEmpty(value)) {
-                    int day = Integer.parseInt(value);
+            if (!StringUtils.isEmpty(value)) {
+                try {
+                    int year = Integer.parseInt(value);
                     if (contact.getBirthday() == null) {
                         contact.setBirthday(new Date(0));
                     }
-                    contact.setBirthday(setDateDay(contact.getBirthday(), day));
+                    contact.setBirthday(setDateYear(contact.getBirthday(), year));
+                } catch (NumberFormatException e) {
+                    throw new CustomException("Can't handle year field: ", e);
                 }
-            } catch (NumberFormatException e) {
-                throw new CustomException("Can't handle day field: ", e);
             }
         }
     }
 
-    private Date setDateDay(Date date, int day) {
+    private Date setDateYear(Date date, int year) {
         DateTime dateTime = new DateTime(date.getTime());
-        dateTime = dateTime.withDayOfMonth(day);
+        dateTime = dateTime.withYear(year);
         return new Date(dateTime.getMillis());
     }
 }
