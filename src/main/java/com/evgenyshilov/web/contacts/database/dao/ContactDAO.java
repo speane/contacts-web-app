@@ -5,6 +5,7 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.ContactBuilder;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -257,120 +258,73 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
     }
 
     private PreparedStatement createPreparedContactStatement(String query, Contact contact) throws CustomException {
-        PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, contact.getFirstName());
-            statement.setString(2, contact.getLastName());
-            statement.setString(3, contact.getPatronymic());
-            statement.setDate(4, contact.getBirthday());
-            statement.setString(5, contact.getSex());
-            statement.setInt(6, getContactNationalityId(contact));
-            statement.setLong(7, contact.getMaritalStatus());
-            statement.setString(8, contact.getWebsite());
-            statement.setString(9, contact.getEmail());
-            statement.setString(10, contact.getJob());
-            statement.setInt(11, getContactStateId(contact));
-            statement.setInt(12, getContactCityId(contact));
-            statement.setString(13, contact.getStreet());
-            statement.setString(14, contact.getHouse());
-            statement.setString(15, contact.getFlat());
-            statement.setString(16, contact.getZipCode());
-            statement.setString(17, contact.getImageFileName());
+            PreparedStatement statement = connection.prepareStatement(query);
+            setStatementStringValue(statement, 1, contact.getFirstName());
+            setStatementStringValue(statement, 2, contact.getLastName());
+            setStatementStringValue(statement, 3, contact.getPatronymic());
+            setStatementDateValue(statement, 4, contact.getBirthday());
+            setStatementStringValue(statement, 5, contact.getSex());
+            setStatementLongValue(statement, 6, getContactNationalityId(contact));
+            setStatementLongValue(statement, 7, contact.getMaritalStatus());
+            setStatementStringValue(statement, 8, contact.getWebsite());
+            setStatementStringValue(statement, 9, contact.getEmail());
+            setStatementStringValue(statement, 10, contact.getJob());
+            setStatementLongValue(statement, 11, getContactStateId(contact));
+            setStatementLongValue(statement, 12, getContactCityId(contact));
+            setStatementStringValue(statement, 13, contact.getStreet());
+            setStatementStringValue(statement, 14, contact.getHouse());
+            setStatementStringValue(statement, 15, contact.getFlat());
+            setStatementStringValue(statement, 16, contact.getZipCode());
+            setStatementStringValue(statement, 17, contact.getImageFileName());
+            return statement;
         } catch (SQLException e) {
             throw new CustomException("Can't create prepared statement: ", e);
         }
-        return statement;
     }
 
-    public ArrayList<Contact> getAllByParams(String firstName, String lastName, String patronymic,
-                                             Date birthday, boolean older, String sex,
-                                             String maritalStatus, String nationality,
-                                             String state, String city, String house, String flat) throws SQLException {
-        String query = "SELECT contact.id AS id, first_name, last_name, patronymic, birthday, sex, nationality.name AS nationality, " +
-                "marital_status.id AS marital_status, email, website, job, state.name AS state, city.name AS city, street, house, flat, zip_code " +
-                "FROM contact " +
-                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
-                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
-                "LEFT JOIN state ON state.id = contact.state_id " +
-                "LEFT JOIN city ON city.id = contact.city_id " +
-                "WHERE TRUE";
-        if (!firstName.equals("")) {
-            query += " AND first_name LIKE '" + firstName + "'";
-        }
-        if (!lastName.equals("")) {
-            query += " AND last_name LIKE '" + lastName + "'";
-        }
-        if (!patronymic.equals("")) {
-            query += " AND patronymic LIKE '" + patronymic + "'";
-        }
-        if (true) {
-            query += " AND birthday ";
-            if (older) {
-                query += ">";
+    private void setStatementDateValue(PreparedStatement statement, int index, Date value) throws CustomException {
+        try {
+            if (value != null) {
+                statement.setDate(index, value);
             } else {
-                query += "<";
+                statement.setNull(index, Types.DATE);
             }
-            query += " '" + birthday + "'";
+        } catch (SQLException e) {
+            throw new CustomException("Can't set statement date value: ", e);
         }
-        if (!sex.equals("")) {
-            query += " AND sex = '" + sex + "'";
-        }
-        if (!maritalStatus.equals("")) {
-            query += " AND marital_status LIKE '" + maritalStatus + "'";
-        }
-        if (!nationality.equals("")) {
-            query += " AND nationality LIKE '" + nationality + "'";
-        }
-        if (!state.equals("")) {
-            query += " AND state LIKE '" + state + "'";
-        }
-        if (!city.equals("")) {
-            query += " AND city LIKE '" + city + "'";
-        }
-        if (!house.equals("")) {
-            query += " AND house LIKE '" + house + "'";
-        }
-        if (!flat.equals("")) {
-            query += " AND flat LIKE '" + flat + "'";
-        }
-        query += ";";
-
-        Statement statement = connection.createStatement();
-        System.out.println(query);
-        ResultSet contactResult = statement.executeQuery(query);
-        ArrayList<Contact> contacts = new ArrayList<>();
-        while (contactResult.next()) {
-            Contact contact = new Contact();
-            contact.setId(contactResult.getLong("id"));
-            contact.setFirstName(contactResult.getString("first_name"));
-            contact.setLastName(contactResult.getString("last_name"));
-            contact.setPatronymic(contactResult.getString("patronymic"));
-            contact.setBirthday(contactResult.getDate("birthday"));
-            contact.setSex(contactResult.getString("sex"));
-            contact.setEmail(contactResult.getString("email"));
-            contact.setWebsite(contactResult.getString("website"));
-            contact.setNationality(contactResult.getString("nationality"));
-            contact.setMaritalStatus(contactResult.getLong("marital_status"));
-            contact.setJob(contactResult.getString("job"));
-            contact.setState(contactResult.getString("state"));
-            contact.setCity(contactResult.getString("city"));
-            contact.setStreet(contactResult.getString("street"));
-            contact.setHouse(contactResult.getString("house"));
-            contact.setFlat(contactResult.getString("flat"));
-            contact.setZipCode(contactResult.getString("zip_code"));
-
-            contacts.add(contact);
-        }
-        return contacts;
     }
 
-    private int getContactCityId(Contact contact) throws CustomException {
+    private void setStatementStringValue(PreparedStatement statement, int index, String value) throws CustomException {
+        try {
+            if (!StringUtils.isEmpty(value)) {
+                statement.setString(index, value);
+            } else {
+                statement.setNull(index, Types.VARCHAR);
+            }
+        } catch (SQLException e) {
+            throw new CustomException("Can't set statement string value: ", e);
+        }
+    }
+
+    private void setStatementLongValue(PreparedStatement statement, int index, Long value) throws CustomException {
+        try {
+            if (value != null) {
+                statement.setLong(index, value);
+            } else {
+                statement.setNull(index, Types.BIGINT);
+            }
+        } catch (SQLException e) {
+            throw new CustomException("Can't set statement long value: " ,e);
+        }
+    }
+
+    private Long getContactCityId(Contact contact) throws CustomException {
         Statement statement = null;
         try {
-            int cityId;
+            Long cityId;
 
-            if ((cityId = getCityId(contact.getCity())) != -1) {
+            if ((cityId = getCityId(contact.getCity())) != null) {
                 return cityId;
             }
             else {
@@ -392,7 +346,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private int getCityId(String city) throws CustomException {
+    private Long getCityId(String city) throws CustomException {
         String query = "SELECT id FROM city WHERE name = \"" + city + "\" LIMIT 1;";
         try {
             return getIdFromQuery(query);
@@ -401,11 +355,11 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private int getContactStateId(Contact contact) throws CustomException {
+    private Long getContactStateId(Contact contact) throws CustomException {
         Statement statement = null;
         try {
-            int stateId;
-            if ((stateId = getStateId(contact.getState())) != -1) {
+            Long stateId;
+            if ((stateId = getStateId(contact.getState())) != null) {
                 return stateId;
             }
             else {
@@ -427,17 +381,17 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private int getIdFromQuery(String query) throws CustomException {
+    private Long getIdFromQuery(String query) throws CustomException {
         Statement statement = null;
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            int id;
+            Long id;
             if (resultSet.next()) {
-                id = resultSet.getInt("id");
+                id = resultSet.getLong("id");
             }
             else {
-                id = -1;
+                id = null;
             }
             return id;
         } catch (SQLException e) {
@@ -453,7 +407,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private int getStateId(String state) throws CustomException {
+    private Long getStateId(String state) throws CustomException {
         String query = "SELECT id FROM state WHERE name = \"" + state + "\" LIMIT 1;";
         try {
             return getIdFromQuery(query);
@@ -462,11 +416,11 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private int getContactNationalityId(Contact contact) throws CustomException {
+    private Long getContactNationalityId(Contact contact) throws CustomException {
         Statement statement = null;
         try {
-            int nationalityId;
-            if ((nationalityId = getNationalityId(contact.getNationality())) != -1) {
+            Long nationalityId;
+            if ((nationalityId = getNationalityId(contact.getNationality())) != null) {
                 return nationalityId;
             }
             else {
@@ -488,7 +442,7 @@ public class ContactDAO extends GenericDAO<Integer, Contact> {
         }
     }
 
-    private int getNationalityId(String nationality) throws CustomException {
+    private Long getNationalityId(String nationality) throws CustomException {
         String query = "SELECT id FROM nationality WHERE name = \"" + nationality + "\" LIMIT 1;";
         try {
             return getIdFromQuery(query);

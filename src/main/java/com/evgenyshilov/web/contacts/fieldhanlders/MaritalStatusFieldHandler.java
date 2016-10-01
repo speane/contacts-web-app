@@ -13,7 +13,9 @@ public class MaritalStatusFieldHandler implements FieldHandler {
             long maritalStatus = Long.parseLong(value);
             if (maritalStatus != 0) {
                 contact.setMaritalStatus(maritalStatus);
-                System.out.println(maritalStatus);
+            }
+            else {
+                contact.setMaritalStatus(null);
             }
         } catch (NumberFormatException e) {
             throw new CustomException("Can't handle marital status field: ", e);
