@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.StatementUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 18.09.2016.
  */
-public class PhoneDAO extends GenericDAO<Long, Phone> {
+public class PhoneDAO extends BaseDAO<Long, Phone> {
 
     public PhoneDAO(Connection connection) {
         super(connection);
@@ -89,12 +90,12 @@ public class PhoneDAO extends GenericDAO<Long, Phone> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
-            statement.setString(1, phone.getCountryCode());
-            statement.setString(2, phone.getOperatorCode());
-            statement.setString(3, phone.getNumber());
-            statement.setString(4, phone.getCommentary());
-            statement.setLong(5, phone.getContactId());
-            statement.setInt(6, getPhoneTypeId(phone.getType()));
+            StatementUtils.setStatementStringValue(statement, 1, phone.getCountryCode());
+            StatementUtils.setStatementStringValue(statement, 2, phone.getOperatorCode());
+            StatementUtils.setStatementStringValue(statement, 3, phone.getNumber());
+            StatementUtils.setStatementStringValue(statement, 4, phone.getCommentary());
+            StatementUtils.setStatementLongValue(statement, 5, phone.getContactId());
+            StatementUtils.setStatementLongValue(statement, 6, getPhoneTypeId(phone.getType()));
             return statement;
         } catch (SQLException e) {
             throw new CustomException("Can't prepare statement: ", e);
@@ -123,13 +124,13 @@ public class PhoneDAO extends GenericDAO<Long, Phone> {
         }
     }
 
-    private int getPhoneTypeId(String typeName) throws CustomException {
+    private Long getPhoneTypeId(String typeName) throws CustomException {
         String query = "SELECT id FROM phone_type WHERE name = '" + typeName + "'";
         Statement statement = null;
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            return resultSet.next() ? resultSet.getInt("id") : -1;
+            return resultSet.next() ? resultSet.getLong("id") : null;
         } catch (SQLException e) {
             throw new CustomException("Can't get phone type id from database: ", e);
         }

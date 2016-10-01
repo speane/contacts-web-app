@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class CreateContactCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
-        String REDIRECT_URL = "/app/contact-list";
+        String REDIRECT_URL = "/app/edit-contact?id=";
         Contact contact = new Contact();
         request.setAttribute("contact", contact);
         ContactInputHandleCommand inputHandleCommand = new ContactInputHandleCommand();
@@ -31,8 +31,8 @@ public class CreateContactCommand implements Command {
             HashMap<Long, FileItem> attachmentItems =
                     (HashMap<Long, FileItem>) request.getAttribute("attachment-items");
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");
-            createNewContact(contact, attachmentItems, photoItem);
-            response.sendRedirect(REDIRECT_URL);
+            long contactId = createNewContact(contact, attachmentItems, photoItem);
+            response.sendRedirect(REDIRECT_URL + contactId);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute create contact command: ", e);
         }
@@ -40,7 +40,7 @@ public class CreateContactCommand implements Command {
         return null;
     }
 
-    private void createNewContact(Contact contact, HashMap<Long, FileItem> attachmentItems,
+    private Long createNewContact(Contact contact, HashMap<Long, FileItem> attachmentItems,
                                   FileItem photoFileItem) throws CustomException {
         DBHelper dbHelper = new DBHelper();
         FileItemWriter fileItemWriter = new FileItemWriter();
@@ -62,6 +62,7 @@ public class CreateContactCommand implements Command {
                 int attachmentId = dbHelper.insertContactAttachment(attachment);
                 fileItemWriter.writeFileItem(attachmentItem, attachmentPath + attachmentId);
             }
+            return contactId;
         } catch (Exception e) {
             throw new CustomException("Can't create new contact: ", e);
         }

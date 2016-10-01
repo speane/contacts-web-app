@@ -9,15 +9,15 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 12.09.2016.
  */
-public abstract class GenericDAO<PK, T> {
+public abstract class BaseDAO<PK, T> {
 
     protected Connection connection;
 
-    public GenericDAO() {
+    public BaseDAO() {
 
     }
 
-    public GenericDAO(Connection connection) {
+    public BaseDAO(Connection connection) {
         this.connection = connection;
     }
 

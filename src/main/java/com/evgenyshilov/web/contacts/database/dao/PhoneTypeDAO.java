@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 21.09.2016.
  */
-public class PhoneTypeDAO extends GenericDAO {
+public class PhoneTypeDAO extends BaseDAO {
 
     public PhoneTypeDAO(Connection connection) {
         super(connection);

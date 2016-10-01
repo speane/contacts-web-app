@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.StatementUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 18.09.2016.
  */
-public class AttachmentDAO extends GenericDAO<Long, Attachment> {
+public class AttachmentDAO extends BaseDAO<Long, Attachment> {
 
     public AttachmentDAO(Connection connection) {
         super(connection);
@@ -32,9 +33,8 @@ public class AttachmentDAO extends GenericDAO<Long, Attachment> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
-            statement.setString(1, attachment.getFilename());
-            statement.setString(2, attachment.getCommentary());
-            statement.setLong(3, key);
+            StatementUtils.setStatementStringValue(statement, 2, attachment.getCommentary());
+            StatementUtils.setStatementLongValue(statement, 3, key);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new CustomException("Can't update attachment in database: ", e);
@@ -97,10 +97,10 @@ public class AttachmentDAO extends GenericDAO<Long, Attachment> {
         try {
             statement = connection.prepareStatement(query);
 
-            statement.setString(1, attachment.getFilename());
-            statement.setString(2, attachment.getCommentary());
-            statement.setDate(3, attachment.getUploadDate());
-            statement.setLong(4, attachment.getContactId());
+            StatementUtils.setStatementStringValue(statement, 1, attachment.getFilename());
+            StatementUtils.setStatementStringValue(statement, 2, attachment.getCommentary());
+            StatementUtils.setStatementDateValue(statement, 3, attachment.getUploadDate());
+            StatementUtils.setStatementLongValue(statement, 4, attachment.getContactId());
 
             statement.executeUpdate();
         } catch (SQLException e) {

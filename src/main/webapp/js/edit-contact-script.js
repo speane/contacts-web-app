@@ -52,6 +52,7 @@
             else {
                 createNewPhone()
             }
+            hideModalForm(phoneEditModal);
         }
     };
 
@@ -234,8 +235,6 @@
         }
         return checked;
     }
-
-
 
     removePhoneButton.onclick = function () {
         if (isAnyItemSelected('phone-check')) {
@@ -423,6 +422,7 @@
             else {
                 createAttachment();
             }
+            hideModalForm(attachmentEditModal);
         }
     };
 
@@ -611,6 +611,7 @@
                 uploadedContactPhotoFileInput = photoFileInput;
                 photoFileInput = createPhotoFileInput();
                 photoSelectForm.insertBefore(photoFileInput, applyButtons);
+                hideModalForm(selectPhotoModal);
             }
         }
         else {

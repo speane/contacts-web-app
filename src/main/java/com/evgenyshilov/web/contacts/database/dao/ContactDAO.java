@@ -5,6 +5,7 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.ContactBuilder;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.StatementUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.*;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 12.09.2016.
  */
-public class ContactDAO extends GenericDAO<Long, Contact> {
+public class ContactDAO extends BaseDAO<Long, Contact> {
     public ContactDAO(Connection connection) {
         super(connection);
     }
@@ -253,62 +254,26 @@ public class ContactDAO extends GenericDAO<Long, Contact> {
     private PreparedStatement createPreparedContactStatement(String query, Contact contact) throws CustomException {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            setStatementStringValue(statement, 1, contact.getFirstName());
-            setStatementStringValue(statement, 2, contact.getLastName());
-            setStatementStringValue(statement, 3, contact.getPatronymic());
-            setStatementDateValue(statement, 4, contact.getBirthday());
-            setStatementStringValue(statement, 5, contact.getSex());
-            setStatementLongValue(statement, 6, getContactNationalityId(contact));
-            setStatementLongValue(statement, 7, contact.getMaritalStatus());
-            setStatementStringValue(statement, 8, contact.getWebsite());
-            setStatementStringValue(statement, 9, contact.getEmail());
-            setStatementStringValue(statement, 10, contact.getJob());
-            setStatementLongValue(statement, 11, getContactStateId(contact));
-            setStatementLongValue(statement, 12, getContactCityId(contact));
-            setStatementStringValue(statement, 13, contact.getStreet());
-            setStatementStringValue(statement, 14, contact.getHouse());
-            setStatementStringValue(statement, 15, contact.getFlat());
-            setStatementStringValue(statement, 16, contact.getZipCode());
-            setStatementStringValue(statement, 17, contact.getImageFileName());
+            StatementUtils.setStatementStringValue(statement, 1, contact.getFirstName());
+            StatementUtils.setStatementStringValue(statement, 2, contact.getLastName());
+            StatementUtils.setStatementStringValue(statement, 3, contact.getPatronymic());
+            StatementUtils.setStatementDateValue(statement, 4, contact.getBirthday());
+            StatementUtils.setStatementStringValue(statement, 5, contact.getSex());
+            StatementUtils.setStatementLongValue(statement, 6, getContactNationalityId(contact));
+            StatementUtils.setStatementLongValue(statement, 7, contact.getMaritalStatus());
+            StatementUtils.setStatementStringValue(statement, 8, contact.getWebsite());
+            StatementUtils.setStatementStringValue(statement, 9, contact.getEmail());
+            StatementUtils.setStatementStringValue(statement, 10, contact.getJob());
+            StatementUtils.setStatementLongValue(statement, 11, getContactStateId(contact));
+            StatementUtils.setStatementLongValue(statement, 12, getContactCityId(contact));
+            StatementUtils.setStatementStringValue(statement, 13, contact.getStreet());
+            StatementUtils.setStatementStringValue(statement, 14, contact.getHouse());
+            StatementUtils.setStatementStringValue(statement, 15, contact.getFlat());
+            StatementUtils.setStatementStringValue(statement, 16, contact.getZipCode());
+            StatementUtils.setStatementStringValue(statement, 17, contact.getImageFileName());
             return statement;
         } catch (SQLException e) {
             throw new CustomException("Can't create prepared statement: ", e);
-        }
-    }
-
-    private void setStatementDateValue(PreparedStatement statement, int index, Date value) throws CustomException {
-        try {
-            if (value != null) {
-                statement.setDate(index, value);
-            } else {
-                statement.setNull(index, Types.DATE);
-            }
-        } catch (SQLException e) {
-            throw new CustomException("Can't set statement date value: ", e);
-        }
-    }
-
-    private void setStatementStringValue(PreparedStatement statement, int index, String value) throws CustomException {
-        try {
-            if (!StringUtils.isEmpty(value)) {
-                statement.setString(index, value);
-            } else {
-                statement.setNull(index, Types.VARCHAR);
-            }
-        } catch (SQLException e) {
-            throw new CustomException("Can't set statement string value: ", e);
-        }
-    }
-
-    private void setStatementLongValue(PreparedStatement statement, int index, Long value) throws CustomException {
-        try {
-            if (value != null) {
-                statement.setLong(index, value);
-            } else {
-                statement.setNull(index, Types.BIGINT);
-            }
-        } catch (SQLException e) {
-            throw new CustomException("Can't set statement long value: " ,e);
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class DAOFactory {
 
-    private static HashMap<Class<?>, Class<? extends GenericDAO>> DAOClassMap;
+    private static HashMap<Class<?>, Class<? extends BaseDAO>> DAOClassMap;
     private static DataSource dataSource;
 
     public static void init(DataSource dataSource) {
@@ -31,7 +31,7 @@ public class DAOFactory {
         DAOClassMap.put(PhoneType.class, PhoneTypeDAO.class);
     }
 
-    public static GenericDAO getDAO(Class elementClass) throws CustomException {
+    public static BaseDAO getDAO(Class elementClass) throws CustomException {
         try {
             return DAOClassMap.get(elementClass).getConstructor(Connection.class).newInstance(
                     dataSource.getConnection());

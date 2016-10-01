@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by Evgeny Shilov on 21.09.2016.
  */
-public class MaritalStatusDAO extends GenericDAO {
+public class MaritalStatusDAO extends BaseDAO {
 
     public MaritalStatusDAO(Connection connection) {
         super(connection);
