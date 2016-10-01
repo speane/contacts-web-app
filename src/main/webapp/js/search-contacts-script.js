@@ -80,40 +80,6 @@ function checkInputFields() {
     return errorMessages;
 }
 
-function checkYear() {
-    var year = document.getElementById('year').value.trim();
-    var MIN_YEAR_VALUE = 1880;
-    var MIN_CONTACT_AGE = 10;
-    var MAX_YEAR_VALUE = new Date().getFullYear() - MIN_CONTACT_AGE;
-    if (!isEmpty(year)) {
-        if (!isNumber(year)) {
-            return 'Год может содержать только цифры';
-        }
-        if (year < MIN_YEAR_VALUE) {
-            return 'Искомый контакт неправдоподобно стар';
-        }
-        if (year > MAX_YEAR_VALUE) {
-            return 'Искомому контакту менее ' + MIN_CONTACT_AGE + ' лет';
-        }
-    }
-    return '';
-}
-
-function checkDay() {
-    var day = document.getElementById('day').value.trim();
-    var MIN_DAY_VALUE = 1;
-    var MAX_DAY_VALUE = 31;
-    if (!isEmpty(day)) {
-        if (!isNumber(day)) {
-            return 'День может содержать только цифры';
-        }
-        if ((day < MIN_DAY_VALUE) || (day > MAX_DAY_VALUE)) {
-            return 'Ни в одном месяце не может быть такого дня';
-        }
-    }
-    return '';
-}
-
 function checkFirstName() {
     var MIN_NAME_LENGTH = 3;
     var firstName = document.getElementById('first-name').value.trim();
@@ -270,11 +236,6 @@ function checkNationality() {
 var EN_ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
 var RU_ALPHABET_LOWER = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 var DIGITS = "1234567890";
-
-function containsLettersDigitsHyphen(value) {
-    var HYPHEN = "-";
-    return containsOnlyCharsIgnoreCase(value, EN_ALPHABET_LOWER + RU_ALPHABET_LOWER + DIGITS + HYPHEN)
-}
 
 function isNumber(value) {
     return containsOnlyCharsIgnoreCase(value, DIGITS);

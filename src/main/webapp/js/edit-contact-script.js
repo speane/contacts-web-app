@@ -1,11 +1,4 @@
 (function () {
-    var phoneEditModal = document.getElementById('phone-edit-modal');
-
-    var addPhoneButton = document.getElementById('add-phone-button');
-
-    var editPhone = false;
-
-
     function hideModalForm(form) {
         form.style.display = "none";
     }
@@ -14,17 +7,52 @@
         form.style.display = "block";
     }
 
-    addPhoneButton.onclick = function () {
-        editPhone = false;
-        clearPhoneInputFields();
-        showModalForm(phoneEditModal);
-    };
+    function isAnyItemSelected(name) {
+        var items = getCheckedItems(name);
+        return items.length > 0;
+    }
+
+    var phoneEditModal = document.getElementById('phone-edit-modal');
 
     var countryCodeField = document.getElementById('country-code');
     var operatorCodeField = document.getElementById('operator-code');
     var numberField = document.getElementById('phone-number');
     var phoneTypeSelect = document.getElementById('phone-type-select');
     var phoneCommentary = document.getElementById('phone-commentary');
+
+    var addPhoneButton = document.getElementById('add-phone-button');
+    var savePhoneButton = document.getElementById('save-phone-button');
+    var editPhoneButton = document.getElementById('edit-phone-button');
+
+    var createdPhones = {};
+    var removedPhones = [];
+    var updatedPhones = {};
+
+    var editPhoneId;
+    var lastCreatedPhoneId = 0;
+    var editCreatedPhone = false;
+    var editPhone = false;
+
+    addPhoneButton.onclick = function () {
+        editPhone = false;
+        clearPhoneInputFields();
+        showModalForm(phoneEditModal);
+    };
+
+    savePhoneButton.onclick = function () {
+        var errorMessages = checkPhoneFields();
+        if (errorMessages.length > 0) {
+            showErrorMessages(errorMessages);
+        }
+        else {
+            if (editPhone) {
+                updatePhone();
+            }
+            else {
+                createNewPhone()
+            }
+        }
+    };
 
     function clearPhoneInputFields() {
         countryCodeField.value = '';
@@ -33,11 +61,6 @@
         phoneTypeSelect.value = phoneTypeSelect[1].value;
         phoneCommentary.value = '';
     }
-
-    var createdPhones = {};
-    var removedPhones = [];
-
-    var lastCreatedPhoneId = 0;
 
     function createNewPhone() {
         lastCreatedPhoneId++;
@@ -98,22 +121,6 @@
         document.getElementById('phone-list').appendChild(newPhone);
     }
 
-    var savePhoneButton = document.getElementById('save-phone-button');
-    savePhoneButton.onclick = function () {
-        var errorMessages = checkPhoneFields();
-        if (errorMessages.length > 0) {
-            showErrorMessages(errorMessages);
-        }
-        else {
-            if (editPhone) {
-                updatePhone();
-            }
-            else {
-                createNewPhone()
-            }
-        }
-    };
-
     function showErrorMessages(messages) {
         inputMessages.innerHTML = '';
         for (var i = 0; i < messages.length; i++) {
@@ -168,16 +175,6 @@
         }
         return '';
     }
-
-    function isAnyItemSelected(name) {
-        var items = getCheckedItems(name);
-        return items.length > 0;
-    }
-
-    var editCreatedPhone = false;
-    var editPhoneId;
-
-    var updatedPhones = {};
 
     function updatePhone() {
         if (editCreatedPhone) {
@@ -240,15 +237,17 @@
     document.getElementById('remove-phone-button').onclick = function () {
         if (isAnyItemSelected('phone-check')) {
             var checkedPhones = getCheckedItems('phone-check');
-            for (var i = 0; i < checkedPhones.length; i++) {
-                var deletePhone = document.getElementById('contact-phone-' + checkedPhones[i]);
+            var deletePhone;
+            var i;
+            for (i = 0; i < checkedPhones.length; i++) {
+                deletePhone = document.getElementById('contact-phone-' + checkedPhones[i]);
                 deletePhone.parentNode.removeChild(deletePhone);
                 removedPhones.push(checkedPhones[i]);
             }
             var createdCheckedPhones = getCheckedItems('created-phone-check');
 
-            for (var i = 0; i < createdCheckedPhones.length; i++) {
-                var deletePhone = document.getElementById('created-phone-' + createdCheckedPhones[i]);
+            for (i = 0; i < createdCheckedPhones.length; i++) {
+                deletePhone = document.getElementById('created-phone-' + createdCheckedPhones[i]);
                 deletePhone.parentNode.removeChild(deletePhone);
                 delete createdPhones[createdCheckedPhones[i]];
             }
@@ -268,13 +267,14 @@
         showModalForm(messageWindow);
     }
 
-    document.getElementById('edit-phone-button').onclick = function () {
+    editPhoneButton.onclick = function () {
         editPhone = true;
         var checkedPhones = getCheckedItems('phone-check');
+        var phoneNumber;
 
         if (checkedPhones.length > 0) {
             editPhoneId = checkedPhones[0];
-            var phoneNumber = document.getElementById('phone-number-' + editPhoneId).innerHTML.trim();
+            phoneNumber = document.getElementById('phone-number-' + editPhoneId).innerHTML.trim();
             document.getElementById('phone-number').value = phoneNumber.split(')', 2)[1];
             document.getElementById('country-code').value = phoneNumber.split('+', 2)[1].split('(', 2)[0];
             document.getElementById('operator-code').value = phoneNumber.split(')', 2)[0].split('(', 2)[1];
@@ -288,7 +288,7 @@
             var checkedCreatedPhones = getCheckedItems("created-phone-check");
             if (checkedCreatedPhones.length > 0) {
                 editPhoneId = checkedCreatedPhones[0];
-                var phoneNumber = document.getElementById('created-phone-number-' + editPhoneId).innerHTML;
+                phoneNumber = document.getElementById('created-phone-number-' + editPhoneId).innerHTML;
                 document.getElementById('phone-number').value = phoneNumber.split(')', 2)[1];
                 document.getElementById('country-code').value = phoneNumber.split('+', 2)[1].split('(', 2)[0];
                 document.getElementById('operator-code').value = phoneNumber.split(')', 2)[0].split('(', 2)[1];
@@ -381,10 +381,11 @@
         var checkedAttachments = getCheckedItems('attachment-check');
         var checkedCreatedAttachments = getCheckedItems('created-attachment-check');
         if ((checkedAttachments.length > 0) || (checkedCreatedAttachments.length > 0)) {
-            for (var i = 0; i < checkedAttachments.length; i++) {
+            var i;
+            for (i = 0; i < checkedAttachments.length; i++) {
                 removeAttachment(checkedAttachments[i]);
             }
-            for (var i = 0; i < checkedCreatedAttachments.length; i++) {
+            for (i = 0; i < checkedCreatedAttachments.length; i++) {
                 removeCreatedAttachment(checkedCreatedAttachments[i]);
             }
         }
