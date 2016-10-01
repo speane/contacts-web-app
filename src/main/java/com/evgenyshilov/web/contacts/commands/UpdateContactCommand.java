@@ -27,8 +27,11 @@ public class UpdateContactCommand implements Command {
             int contactId = getContactIdFromRequest(request);
             Contact contact = dbHelper.getContactFromDAO(contactId);
             contact = processInputFields(contact, request, response);
-            String imageFileName = writeContactPhotoFileFromRequest(request);
             writeAttachmentsFromRequest(request, contact);
+            String imageFileName = writeContactPhotoFileFromRequest(request);
+            if (imageFileName != null) {
+                contact.setImageFileName(imageFileName);
+            }
             contact.setImageFileName(imageFileName);
             dbHelper.updateContact(contactId, contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
