@@ -106,8 +106,9 @@ public class ApplicationInitializationListener implements ServletContextListener
     private void setApplicationProperties(ServletContext context) throws CustomException {
         String PROPERTY_FILE_NAME = "/WEB-INF/properties/config.properties";
         Properties applicationProperties = new Properties();
+        FileInputStream fileInputStream = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream(context.getRealPath(PROPERTY_FILE_NAME));
+            fileInputStream = new FileInputStream(context.getRealPath(PROPERTY_FILE_NAME));
             applicationProperties.load(fileInputStream);
             applicationProperties.setProperty("ROOT_PATH", context.getRealPath("/"));
             ApplicationConfig.initConfig(applicationProperties);
@@ -115,6 +116,14 @@ public class ApplicationInitializationListener implements ServletContextListener
             throw new CustomException("Can't create input stream for properties file: ", e);
         } catch (IOException e) {
             throw new CustomException("Can't load properties from file input stream: ", e);
+        } finally {
+            try {
+                if (fileInputStream != null) {
+                    fileInputStream.close();
+                }
+            } catch (IOException e) {
+                // TODO log exception
+            }
         }
     }
 }

@@ -53,4 +53,9 @@ public class Attachment implements Serializable {
     public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("filename: %s upload_data: %s, commentary: %s", filename, uploadDate, commentary);
+    }
 }

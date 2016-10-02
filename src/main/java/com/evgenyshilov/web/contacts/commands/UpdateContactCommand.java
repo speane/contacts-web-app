@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.commands;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.files.FileNamingUtils;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
@@ -27,6 +28,9 @@ public class UpdateContactCommand implements Command {
             int contactId = getContactIdFromRequest(request);
             Contact contact = dbHelper.getContactFromDAO(contactId);
             contact = processInputFields(contact, request, response);
+
+            LogHelper.info(String.format("Request to update contact with id: %s and params: %s", contactId, contact));
+
             writeAttachmentsFromRequest(request, contact);
             String imageFileName = writeContactPhotoFileFromRequest(request);
             if (imageFileName != null) {

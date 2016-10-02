@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.commands;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.email.EmailSender;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.email.EmailTemplateElementsFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,7 @@ public class SendEmailCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         try {
             request.setCharacterEncoding("UTF-8");
+            logRequest(request);
             String REDIRECT_URL = "/app/contact-list";
             String emailTemplate = request.getParameter("message-text");
             String emailSubject = request.getParameter("message-theme");
@@ -36,11 +38,21 @@ public class SendEmailCommand implements Command {
         return null;
     }
 
+    private void logRequest(HttpServletRequest request) {
+        String emailTemplate = request.getParameter("message-text");
+        String emailSubject = request.getParameter("message-theme");
+
+        String[] recipientStringIds = request.getParameterValues("recipient-id");
+                LogHelper.info(String.format("Send email request with Subject: %s MailText: %s to contact with ids: %s",
+                        emailSubject, emailTemplate, recipientStringIds == null ? "[]" : recipientStringIds));
+    }
+
     private void setActionMessage(HttpServletRequest request, ArrayList<Contact> recipients) {
         String message = "Сообщения контактам: ";
         for (Contact contact : recipients) {
             message += String.format("'%s %s (%s)' \n", contact.getLastName(), contact.getFirstName(), contact.getEmail());
         }
+        message += " были отправлены";
         request.getSession().setAttribute("action-message", message);
     }
 

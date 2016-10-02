@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.commands.search;
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,9 @@ public class SearchContactCommand implements Command {
         String VIEW_URL = "/contactlist.jsp";
         try {
             SearchParams searchParams = new SearchParamsDTOBuilder().createFromRequest(request);
+
+            LogHelper.info("Search contact request with search parameters: " + searchParams.toString());
+
             ArrayList<Contact> contacts = new ContactSearcher().searchContacts(searchParams);
             request.setAttribute("contacts", contacts);
         } catch (CustomException e) {

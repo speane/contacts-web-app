@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.commands.forms;
 
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.utils.MonthListBuilder;
 
@@ -15,6 +16,7 @@ public class AddContactFormCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
+        LogHelper.info("Add new contact page request");
         String VIEW_URL = "/contact.jsp";
         DBHelper dbHelper = new DBHelper();
         MonthListBuilder monthListBuilder = new MonthListBuilder();

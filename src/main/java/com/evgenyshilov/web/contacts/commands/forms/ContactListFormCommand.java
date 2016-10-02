@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.commands.forms;
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.pagination.PaginationBuilder;
 
@@ -15,9 +16,9 @@ import java.util.ArrayList;
  * Created by Evgeny Shilov on 11.09.2016.
  */
 public class ContactListFormCommand implements Command {
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
+        LogHelper.info("Contact list page request");
         String VIEW_URL = "/contactlist.jsp";
         DBHelper dbHelper = new DBHelper();
         PaginationBuilder builder = new PaginationBuilder();
@@ -34,7 +35,6 @@ public class ContactListFormCommand implements Command {
     private void processActionMessage(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String actionMessage = (String) session.getAttribute("action-message");
-        System.out.println(actionMessage);
         if (actionMessage != null) {
             session.removeAttribute("action-message");
         }

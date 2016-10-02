@@ -70,4 +70,9 @@ public class Phone implements Serializable {
     public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("+%s(%s)%s commentary: %s", countryCode, operatorCode, number, commentary);
+    }
 }

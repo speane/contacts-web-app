@@ -4,6 +4,7 @@ import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.ContactIdNotSpecifiedException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.utils.MonthListBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -23,16 +24,15 @@ public class EditContactFormCommand implements Command {
         DBHelper dbHelper = new DBHelper();
         try {
             contactId = getContactId(request);
+
+            LogHelper.info(String.format("Edit contact with id = %d request", contactId));
+
             Contact contact = dbHelper.getContactFromDAO(contactId);
             request.setAttribute("contact", contact);
-        } catch (ContactIdNotSpecifiedException | CustomException e) {
-            // TODO log exception
-        }
-        try {
             request.setAttribute("maritalStatuses", dbHelper.getMaritalStatuses());
             request.setAttribute("months", new MonthListBuilder().getMonthList());
             request.setAttribute("phoneTypes", dbHelper.getPhoneTypes());
-        } catch (CustomException e) {
+        } catch (CustomException | ContactIdNotSpecifiedException e) {
             throw new CustomException("Can't create contact form: ", e);
         }
         return VIEW_URL;

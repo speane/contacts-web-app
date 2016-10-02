@@ -189,4 +189,13 @@ public class Contact implements Serializable {
     public void setImageFileName(String imageFileName) {
         this.imageFileName = imageFileName;
     }
+
+    @Override
+    public String toString() {
+        return String.format("first_name: %s last_name: %s patronymic: %s birthday: %s sex: %s nationality: %s " +
+                "marital_status: %s website: %s email: %s job: %s state: %s city: %s house: %s flat: %s zipcode: %s " +
+                "image_filename: %s phones: %s attachments: %s", firstName, lastName, patronymic, birthday, sex,
+                nationality, maritalStatus, website, email, job, sex, city, house, flat, zipCode, imageFileName,
+                phones, attachments);
+    }
 }

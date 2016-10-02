@@ -5,6 +5,7 @@ import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.email.EmailTemplateElementsFactory;
 import com.evgenyshilov.web.contacts.help.email.EmailTemplateFactory;
 import com.evgenyshilov.web.contacts.help.utils.RequestParser;
@@ -62,6 +63,9 @@ public class EmailFormCommand implements Command {
         ContactDAO contactDAO = null;
         try {
             ArrayList<Long> checkedContacts = requestParser.getCheckedIdList("contact-check");
+
+            LogHelper.info(String.format("Send email request to contacts with ids: %s", checkedContacts.toString()));
+
             contactDAO = (ContactDAO) DAOFactory.getDAO(Contact.class);
             for (Long id : checkedContacts) {
                 Contact contact = contactDAO.get(id);

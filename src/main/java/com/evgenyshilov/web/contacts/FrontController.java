@@ -3,7 +3,10 @@ package com.evgenyshilov.web.contacts;
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.commands.CommandFactory;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +21,7 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
 
     private CommandFactory commandFactory;
+    private Logger logger = LogManager.getRootLogger();
 
     @Override
     public void init() throws ServletException {
@@ -27,7 +31,7 @@ public class FrontController extends HttpServlet {
                     ApplicationConfig.getProperty("COMMAND_MAPPING_FILE_PATH"));
             commandFactory.init(COMMAND_MAPPING_REAL_PATH);
         } catch (CustomException e) {
-            // TODO log exception
+            LogHelper.error("Unable to init front controller servlet: ", e);
         }
     }
 
@@ -54,9 +58,8 @@ public class FrontController extends HttpServlet {
                 viewPageURL = getNotFoundViewPage(response);
             }
         } catch (Exception e) {
-            System.out.println(e);
-            // TODO log exception
-            // TODO exception manage
+            LogHelper.error("Application error: ", e);
+            viewPageURL = "/error.jsp";
         }
         if (viewPageURL != null) {
             request.getRequestDispatcher(viewPageURL).forward(request, response);

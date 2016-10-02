@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.commands;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.files.FileItemWriter;
 import com.evgenyshilov.web.contacts.help.files.FileNamingUtils;
@@ -28,6 +29,9 @@ public class CreateContactCommand implements Command {
         try {
             inputHandleCommand.execute(request, response);
             contact = (Contact) request.getAttribute("contact");
+
+            LogHelper.info(String.format("Create contact request with parameters: %s", contact));
+
             HashMap<Long, FileItem> attachmentItems =
                     (HashMap<Long, FileItem>) request.getAttribute("attachment-items");
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");

@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.commands;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.utils.RequestParser;
 
@@ -19,6 +20,9 @@ public class DeleteContactsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String REDIRECT_URL = "/app/contact-list";
         ArrayList<Long> deleteContactIdList = new RequestParser(request).getCheckedIdList("contact-check");
+
+        LogHelper.info(String.format("Request to remove contacts with ids: %s", deleteContactIdList));
+
         try {
             setActionMessage(request, getRemovedContactsList(deleteContactIdList));
             removeContacts(deleteContactIdList);

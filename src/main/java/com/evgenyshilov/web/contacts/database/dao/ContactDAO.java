@@ -446,8 +446,6 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
         query += createSearchStringPart("flat", params.getFlat());
         query += createSearchStringPart("zip_code", params.getZipcode());
 
-        System.out.println(query);
-
         Statement statement = null;
         try {
             statement = connection.createStatement();
