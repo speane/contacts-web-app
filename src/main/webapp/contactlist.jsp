@@ -110,6 +110,6 @@
         </form>
         <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
         <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <script src="/js/contact-list-script.js"></script>
+        <script src="${pageContext.request.contextPath}/js/contact-list-script.js"></script>
     </body>
 </html>
