@@ -25,6 +25,7 @@ public class EditContactFormCommand implements Command {
         try {
             contactId = getContactId(request);
 
+
             LogHelper.info(String.format("Edit contact with id = %d request", contactId));
 
             Contact contact = dbHelper.getContactFromDAO(contactId);

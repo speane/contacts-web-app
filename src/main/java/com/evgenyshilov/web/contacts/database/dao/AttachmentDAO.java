@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.utils.StatementUtils;
 
 import java.sql.*;
@@ -44,7 +45,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -64,7 +65,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -84,7 +85,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -111,7 +112,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -144,7 +145,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -163,7 +164,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }

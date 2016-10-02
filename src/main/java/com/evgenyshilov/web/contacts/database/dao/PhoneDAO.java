@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.utils.StatementUtils;
 
 import java.sql.*;
@@ -42,7 +43,7 @@ public class PhoneDAO extends BaseDAO<Long, Phone> {
                     preparedStatement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close statement: ", e);
             }
         }
     }
@@ -62,7 +63,7 @@ public class PhoneDAO extends BaseDAO<Long, Phone> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close statement: ", e);
             }
         }
     }
@@ -81,7 +82,7 @@ public class PhoneDAO extends BaseDAO<Long, Phone> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close statement: ", e);
             }
         }
     }
@@ -119,7 +120,7 @@ public class PhoneDAO extends BaseDAO<Long, Phone> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close statement: ", e);
             }
         }
     }

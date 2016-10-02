@@ -33,7 +33,7 @@ public class DeleteContactsCommand implements Command {
         return null;
     }
 
-    private ArrayList<Contact> getRemovedContactsList(ArrayList<Long> ids) {
+    private ArrayList<Contact> getRemovedContactsList(ArrayList<Long> ids) throws CustomException {
         ArrayList<Contact> removedContacts = new ArrayList<>();
         DBHelper dbHelper = new DBHelper();
         for (Long id : ids) {
@@ -43,7 +43,7 @@ public class DeleteContactsCommand implements Command {
                     removedContacts.add(contact);
                 }
             } catch (CustomException e) {
-                // TODO log exception
+                throw new CustomException("Can't get removed contacts list: ", e);
             }
         }
         return removedContacts;

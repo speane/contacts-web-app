@@ -5,14 +5,14 @@ import com.evgenyshilov.web.contacts.commands.CommandFactory;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+//import org.apache.logging.log4j.LogManager;
 
 /**
  * Created by Evgeny Shilov on 11.09.2016.
@@ -21,7 +21,6 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
 
     private CommandFactory commandFactory;
-    private Logger logger = LogManager.getRootLogger();
 
     @Override
     public void init() throws ServletException {
@@ -62,6 +61,7 @@ public class FrontController extends HttpServlet {
             viewPageURL = "/error.jsp";
         }
         if (viewPageURL != null) {
+            LogHelper.info(String.format("Redirecting to %s", viewPageURL));
             request.getRequestDispatcher(viewPageURL).forward(request, response);
         }
     }

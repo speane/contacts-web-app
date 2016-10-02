@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.PhoneType;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,7 +42,7 @@ public class PhoneTypeDAO extends BaseDAO {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close statement: ", e);
             }
         }
     }

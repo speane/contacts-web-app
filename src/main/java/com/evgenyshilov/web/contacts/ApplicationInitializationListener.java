@@ -2,9 +2,10 @@ package com.evgenyshilov.web.contacts;
 
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.files.PropertyFileParser;
-import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import com.evgenyshilov.web.contacts.help.utils.RussianEnglishTranslator;
+import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import com.evgenyshilov.web.contacts.tasks.SendEmailJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -37,8 +38,8 @@ public class ApplicationInitializationListener implements ServletContextListener
             loadRussianLocalization(context);
             initDAOFactory();
             initScheduler();
-        } catch (CustomException e) {
-            // TODO log exception
+        } catch (Exception e) {
+            LogHelper.error("Can't init application: ", e);
         }
     }
 
@@ -46,8 +47,8 @@ public class ApplicationInitializationListener implements ServletContextListener
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         try {
             shutDownScheduler();
-        } catch (CustomException e) {
-            // TODO log exception
+        } catch (Exception e) {
+            LogHelper.error("Can't destroy application: ", e);
         }
     }
 
@@ -65,15 +66,19 @@ public class ApplicationInitializationListener implements ServletContextListener
 
         try {
             SchedulerFactory factory = new StdSchedulerFactory();
+
             scheduler = factory.getScheduler();
 
             JobDetail job = JobBuilder.newJob(SendEmailJob.class)
                     .withIdentity(JOB_NAME, JOB_GROUP)
                     .build();
 
+            int hour = Integer.parseInt(ApplicationConfig.getProperty("SEND_EMAIL_HOUR"));
+            int minute = Integer.parseInt(ApplicationConfig.getProperty("SEND_EMAIL_MINUTE"));
+
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity(JOB_NAME, JOB_GROUP)
-                    .withSchedule(dailyAtHourAndMinute(1, 2))
+                    .withSchedule(dailyAtHourAndMinute(hour, minute))
                     .build();
 
             scheduler.start();
@@ -122,7 +127,7 @@ public class ApplicationInitializationListener implements ServletContextListener
                     fileInputStream.close();
                 }
             } catch (IOException e) {
-                // TODO log exception
+                LogHelper.error("Can't close file input stream: ", e);
             }
         }
     }

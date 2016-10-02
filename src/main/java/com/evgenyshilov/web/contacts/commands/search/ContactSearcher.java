@@ -4,6 +4,7 @@ import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ContactSearcher {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close contact dao: ", e);
             }
         }
     }

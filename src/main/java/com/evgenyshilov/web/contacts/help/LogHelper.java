@@ -1,13 +1,14 @@
 package com.evgenyshilov.web.contacts.help;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Evgeny Shilov on 02.10.2016.
  */
 public class LogHelper {
-    private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LoggerFactory.getLogger(LogHelper.class);
 
     public static void info(String message) {
         logger.info(message);

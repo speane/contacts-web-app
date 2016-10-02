@@ -7,6 +7,7 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.ContactBuilder;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.utils.StatementUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,7 +55,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -72,7 +73,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     phoneDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close phone dao: ", e);
             }
         }
     }
@@ -84,14 +85,13 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
             return attachmentDAO.getAllByContactId(id);
         } catch (CustomException e) {
             throw new CustomException("Can't get attachments from database: ", e);
-            // TODO remove this
         } finally {
             try {
                 if (attachmentDAO != null) {
                     attachmentDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close attachment dao: ", e);
             }
         }
     }
@@ -145,7 +145,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     preparedStatement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -169,7 +169,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -187,7 +187,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     attachmentDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -205,7 +205,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     phoneDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -228,7 +228,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -248,7 +248,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -304,7 +304,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -343,7 +343,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -369,7 +369,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -408,7 +408,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }
@@ -463,7 +463,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.commands;
 
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,7 +28,7 @@ public class CommandFactory {
                     Class<? extends Command> commandClass = Class.forName(commandClassName).asSubclass(Command.class);
                     commands.put(key, commandClass);
                 } catch (ClassNotFoundException e) {
-                    // TODO log exception
+                    LogHelper.error(String.format("Can't find class %s", commandClassName), e);
                 }
             }
         } catch (FileNotFoundException e) {

@@ -6,7 +6,7 @@
     <display-name>Archetype Created Web Application</display-name>
     <context-param>
         <param-name>quartz:config-file</param-name>
-        <param-value>/some/path/my_quartz.properties</param-value>
+        <param-value>quartz.properties</param-value>
     </context-param>
     <context-param>
         <param-name>quartz:shutdown-on-unload</param-name>
@@ -29,13 +29,19 @@
         <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
 
-
     <listener>
         <listener-class>com.evgenyshilov.web.contacts.ApplicationInitializationListener</listener-class>
     </listener>
-    <listener>
-        <listener-class>com.evgenyshilov.web.contacts.tasks.SchedulerListener</listener-class>
-    </listener>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
 
     <resource-ref>
         <description>DB Connection</description>

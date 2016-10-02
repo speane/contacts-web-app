@@ -4,6 +4,7 @@ import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.email.EmailSender;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.exceptions.PropertyNotFoundException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.email.EmailTemplateElementsFactory;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
@@ -26,8 +27,8 @@ public class SendEmailJob implements Job {
         try {
             ArrayList<Contact> contactsWithBirthday = getContactsWithBirthday();
             sendEmail(contactsWithBirthday);
-        } catch (CustomException | PropertyNotFoundException e) {
-            // TODO log exception
+        } catch (Exception e) {
+            LogHelper.error("Can't execute send email job: ", e);
         }
     }
 
@@ -65,6 +66,9 @@ public class SendEmailJob implements Job {
         }
         try {
             String SUBJECT = "Birthdays";
+
+            LogHelper.info(String.format("Send email on schedule Subject: %s Text: %s", SUBJECT, mailText));
+
             sender.sendEmail(email, mailText, SUBJECT);
         } catch (CustomException e) {
             throw new CustomException("Can't send email: ", e);
@@ -72,10 +76,10 @@ public class SendEmailJob implements Job {
     }
 
     private ST getTemplate(ArrayList<Contact> contactsWithBirthday) throws PropertyNotFoundException {
-        String ST_GROUP_FILE_PATH = ApplicationConfig.getProperty("SCHEDULE_TEMPLATE_GROUP_PATH");
+        String ST_GROUP_FILENAME = ApplicationConfig.getProperty("SCHEDULE_TEMPLATE_GROUP_FILENAME");
         STGroup stGroup;
-        if (!StringUtils.isEmpty(ST_GROUP_FILE_PATH)) {
-            stGroup = new STGroupFile(ST_GROUP_FILE_PATH);
+        if (!StringUtils.isEmpty(ST_GROUP_FILENAME)) {
+            stGroup = new STGroupFile(ST_GROUP_FILENAME);
         } else {
             throw new PropertyNotFoundException("Can't find schedule template file path property");
         }

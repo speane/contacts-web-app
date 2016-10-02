@@ -9,8 +9,8 @@ import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.email.EmailTemplateElementsFactory;
 import com.evgenyshilov.web.contacts.help.email.EmailTemplateFactory;
 import com.evgenyshilov.web.contacts.help.utils.RequestParser;
-import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import com.evgenyshilov.web.contacts.help.utils.RussianEnglishTranslator;
+import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +44,7 @@ public class EmailFormCommand implements Command {
 
                 return EMAIL_VIEW_PAGE;
             } else {
-                // TODO log redirection
+                LogHelper.info(String.format("Redirection to %s", CONTACT_LIST_URL));
                 try {
                     response.sendRedirect(CONTACT_LIST_URL);
                 } catch (IOException e) {
@@ -80,7 +80,7 @@ public class EmailFormCommand implements Command {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close contactDAO: ", e);
             }
         }
 

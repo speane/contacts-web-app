@@ -2,6 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.MaritalStatus;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,7 +42,7 @@ public class MaritalStatusDAO extends BaseDAO {
                     statement.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Can't close statement: ", e);
             }
         }
     }

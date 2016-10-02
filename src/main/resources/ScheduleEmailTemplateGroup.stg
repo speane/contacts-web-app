@@ -1,0 +1,7 @@
+Birthday(first_name, last_name, patronymic) ::= <<
+<first_name> <last_name>
+>>
+
+NoBirthday() ::= <<
+Сегодня никто не празднует день рождения
+>>

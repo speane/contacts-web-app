@@ -3,6 +3,7 @@ package com.evgenyshilov.web.contacts.help.database;
 import com.evgenyshilov.web.contacts.database.dao.*;
 import com.evgenyshilov.web.contacts.database.model.*;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class DBHelper {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close contact dao: ", e);
             }
         }
     }
@@ -43,7 +44,7 @@ public class DBHelper {
                     attachmentDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close attachment dao: ", e);
             }
         }
     }
@@ -62,7 +63,7 @@ public class DBHelper {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close contact dao: ", e);
             }
         }
     }
@@ -83,7 +84,7 @@ public class DBHelper {
                     phoneDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close phone dao: ", e);
             }
         }
     }
@@ -101,7 +102,7 @@ public class DBHelper {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close contact dao: ", e);
             }
         }
     }
@@ -119,7 +120,7 @@ public class DBHelper {
                     maritalStatusDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close marital status dao: ", e);
             }
         }
     }
@@ -137,7 +138,7 @@ public class DBHelper {
                     phoneTypeDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close phone type dao: ", e);
             }
         }
     }
@@ -155,7 +156,7 @@ public class DBHelper {
                     phoneDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close phone dao: ", e);
             }
         }
     }
@@ -173,7 +174,7 @@ public class DBHelper {
                     attachmentDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close attachment dao: ", e);
             }
         }
     }
@@ -191,7 +192,7 @@ public class DBHelper {
                     phoneDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close phone dao: ", e);
             }
         }
     }
@@ -209,7 +210,7 @@ public class DBHelper {
                     attachmentDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close attachment dao: ", e);
             }
         }
 
@@ -229,7 +230,7 @@ public class DBHelper {
                     attachmentDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close attachment dao: ", e);
             }
         }
     }
@@ -247,7 +248,7 @@ public class DBHelper {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close contact dao: ", e);
             }
         }
     }
@@ -265,7 +266,7 @@ public class DBHelper {
                     contactDAO.close();
                 }
             } catch (SQLException e) {
-                // TODO log exception
+                LogHelper.error("Unable to close contact dao: ", e);
             }
         }
     }
