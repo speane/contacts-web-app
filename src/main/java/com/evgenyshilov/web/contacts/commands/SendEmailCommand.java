@@ -43,8 +43,14 @@ public class SendEmailCommand implements Command {
         String emailSubject = request.getParameter("message-theme");
 
         String[] recipientStringIds = request.getParameterValues("recipient-id");
-                LogHelper.info(String.format("Send email request with Subject: %s MailText: %s to contact with ids: %s",
-                        emailSubject, emailTemplate, recipientStringIds == null ? "[]" : recipientStringIds));
+        String recipients = "";
+        if (recipientStringIds != null) {
+            for (String id : recipientStringIds) {
+                recipients += String.format(" '%s'", id);
+            }
+        }
+        LogHelper.info(String.format("Send email request with Subject: %s MailText: %s to contact with ids: [%s]",
+                emailSubject, emailTemplate, recipients));
     }
 
     private void setActionMessage(HttpServletRequest request, ArrayList<Contact> recipients) {
