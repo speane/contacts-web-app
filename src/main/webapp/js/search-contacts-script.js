@@ -18,8 +18,7 @@ findContactsButton.onclick = function() {
         okMessagesButton.focus();
     }
     else {
-        alert('nice');
-        //searchForm.submit();
+        searchForm.submit();
     }
 };
 

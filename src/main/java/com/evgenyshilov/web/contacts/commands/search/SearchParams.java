@@ -5,14 +5,14 @@ import java.sql.Date;
 /**
  * Created by Evgeny Shilov on 29.09.2016.
  */
-public class SearchParamsDTO {
+public class SearchParams {
     private String firstName;
     private String lastName;
     private String patronymic;
     private Date birthday;
     private DateSearchParam dateSearchParam;
     private String sex;
-    private int maritalStatus;
+    private Long maritalStatus;
     private String nationality;
     private String state;
     private String city;
@@ -69,11 +69,11 @@ public class SearchParamsDTO {
         this.sex = sex;
     }
 
-    public int getMaritalStatus() {
+    public Long getMaritalStatus() {
         return maritalStatus;
     }
 
-    public void setMaritalStatus(int maritalStatus) {
+    public void setMaritalStatus(Long maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
 

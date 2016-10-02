@@ -22,6 +22,7 @@
             <section>
                 <nav>
                     <div class="clearfix">
+                        <a class="nav-button" href="/app/contact-list">Все контакты</a>
                         <a class="nav-button" href="/app/contact-search">Поиск</a>
                         <input type="button" class="nav-button"  id="send-email-button" value="Отправить email">
                         <a class="nav-button" id="add-contact-button" href="/app/add-contact">Добавить</a>
@@ -63,7 +64,7 @@
                     </c:forEach>
                 </div>
                 <div class="pagination">
-                    <c:if test="${pagination != null}">
+                    <c:if test="${not empty pagination}">
                         <div class="center">
                             <ul class="pagination">
                                 <c:if test="${pagination.activePage > pagination.startPage}">

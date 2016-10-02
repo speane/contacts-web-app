@@ -3,8 +3,8 @@ package com.evgenyshilov.web.contacts.commands;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.DBHelper;
-import com.evgenyshilov.web.contacts.help.FileNamingUtils;
+import com.evgenyshilov.web.contacts.help.database.DBHelper;
+import com.evgenyshilov.web.contacts.help.files.FileNamingUtils;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
 

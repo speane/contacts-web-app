@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.utils;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;

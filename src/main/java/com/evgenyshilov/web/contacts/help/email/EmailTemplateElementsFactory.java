@@ -1,6 +1,7 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.email;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.help.utils.RussianEnglishTranslator;
 import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.utils;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Phone;

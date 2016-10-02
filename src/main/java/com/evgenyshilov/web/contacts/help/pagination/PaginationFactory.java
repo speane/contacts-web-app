@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help.transfer;
+package com.evgenyshilov.web.contacts.help.pagination;
 
 /**
  * Created by Evgeny Shilov on 13.09.2016.

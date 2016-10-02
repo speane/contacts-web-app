@@ -2,8 +2,8 @@ package com.evgenyshilov.web.contacts.commands.forms;
 
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.DBHelper;
-import com.evgenyshilov.web.contacts.help.MonthListBuilder;
+import com.evgenyshilov.web.contacts.help.database.DBHelper;
+import com.evgenyshilov.web.contacts.help.utils.MonthListBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help.transfer;
+package com.evgenyshilov.web.contacts.help.pagination;
 
 import java.io.Serializable;
 

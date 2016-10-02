@@ -4,8 +4,8 @@ import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.ContactIdNotSpecifiedException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.DBHelper;
-import com.evgenyshilov.web.contacts.help.MonthListBuilder;
+import com.evgenyshilov.web.contacts.help.database.DBHelper;
+import com.evgenyshilov.web.contacts.help.utils.MonthListBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;

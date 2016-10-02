@@ -1,11 +1,13 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
+import com.evgenyshilov.web.contacts.commands.search.DateSearchParam;
+import com.evgenyshilov.web.contacts.commands.search.SearchParams;
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.ContactBuilder;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.StatementUtils;
+import com.evgenyshilov.web.contacts.help.utils.StatementUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.*;
@@ -420,5 +422,91 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
         }
     }
 
+    public ArrayList<Contact> getContactsByParams(SearchParams params) throws CustomException {
+        String query = "SELECT contact.id AS id, first_name, last_name, patronymic, " +
+                "birthday, sex, nationality.name AS nationality, " +
+                "marital_status.id AS marital_status, email, website, job, state.name AS state, " +
+                "city.name AS city, street, house, flat, zip_code, image_filename " +
+                "FROM contact " +
+                "LEFT JOIN nationality ON nationality.id = contact.nationality_id " +
+                "LEFT JOIN marital_status ON marital_status.id = contact.marital_status_id " +
+                "LEFT JOIN state ON state.id = contact.state_id " +
+                "LEFT JOIN city ON city.id = contact.city_id WHERE TRUE";
+        query += createSearchStringPart("first_name", params.getFirstName());
+        query += createSearchStringPart("last_name", params.getLastName());
+        query += createSearchStringPart("patronymic", params.getPatronymic());
+        query += createSearchDatePart("birthday", params.getBirthday(), params.getDateSearchParam());
+        query += createSearchSexPart(params.getSex());
+        query += createSearchIdPart("marital_status", params.getMaritalStatus());
+        query += createSearchStringPart("nationality", params.getNationality());
+        query += createSearchStringPart("state", params.getState());
+        query += createSearchStringPart("city", params.getCity());
+        query += createSearchStringPart("street", params.getStreet());
+        query += createSearchStringPart("house", params.getHouse());
+        query += createSearchStringPart("flat", params.getFlat());
+        query += createSearchStringPart("zip_code", params.getZipcode());
 
+        System.out.println(query);
+
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            ArrayList<Contact> contacts = new ArrayList<>();
+            while (resultSet.next()) {
+                contacts.add(ContactBuilder.createFromResultSet(resultSet));
+            }
+            return contacts;
+        } catch (SQLException e) {
+            throw new CustomException("Can't get contacts by params from database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                // TODO log exception
+            }
+        }
+    }
+
+    private String createSearchStringPart(String paramName, String paramValue) {
+        return !StringUtils.isEmpty(paramValue) ? String.format(" AND %s LIKE '%s'", paramName, paramValue) : "";
+    }
+
+    private String createSearchDatePart(String paramName, Date date, DateSearchParam searchParam) {
+        if (date != null) {
+            String dateSearchString = " AND " + paramName;
+            switch (searchParam) {
+                case OLDER:
+                    dateSearchString += " < ";
+                    break;
+                case YOUNGER:
+                    dateSearchString += " > ";
+                    break;
+                case EQUAL:
+                    dateSearchString += " = ";
+                    break;
+                default:
+                    break;
+            }
+            dateSearchString += "'" + date.toString() + "'";
+            return dateSearchString;
+        }
+        return "";
+    }
+
+    private String createSearchSexPart(String sex) {
+        if (StringUtils.equals(sex, "f") || StringUtils.equals(sex, "m")) {
+            return createSearchStringPart("sex", sex);
+        }
+        return "";
+    }
+
+    private String createSearchIdPart(String paramName, Long paramValue) {
+        if (paramValue != null && paramValue != 0) {
+            return String.format(" AND %s = %d", paramName, paramValue);
+        }
+        return "";
+    }
 }

@@ -3,7 +3,6 @@ package com.evgenyshilov.web.contacts.commands.search;
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.transfer.PaginationFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +17,9 @@ public class SearchContactCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String VIEW_URL = "/contactlist.jsp";
         try {
-            SearchParamsDTO searchParamsDTO = new SearchParamsDTOBuilder().createFromRequest(request);
-            ArrayList<Contact> contacts = new ContactSearcher().searchContacts(searchParamsDTO);
+            SearchParams searchParams = new SearchParamsDTOBuilder().createFromRequest(request);
+            ArrayList<Contact> contacts = new ContactSearcher().searchContacts(searchParams);
             request.setAttribute("contacts", contacts);
-            request.setAttribute("pagination", new PaginationFactory().createPagination(contacts.size(), 1, 1));
         } catch (CustomException e) {
             throw new CustomException("Can't execute search command: ", e);
         }

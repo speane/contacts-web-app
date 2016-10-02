@@ -2,9 +2,9 @@ package com.evgenyshilov.web.contacts;
 
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.PropertyFileParser;
+import com.evgenyshilov.web.contacts.help.files.PropertyFileParser;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
-import com.evgenyshilov.web.contacts.help.RussianEnglishTranslator;
+import com.evgenyshilov.web.contacts.help.utils.RussianEnglishTranslator;
 import com.evgenyshilov.web.contacts.tasks.SendEmailJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;

@@ -1,7 +1,7 @@
 package com.evgenyshilov.web.contacts.commands;
 
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.RequestParser;
+import com.evgenyshilov.web.contacts.help.utils.RequestParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

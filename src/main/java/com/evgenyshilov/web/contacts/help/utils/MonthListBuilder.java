@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.utils;
 
 import java.util.ArrayList;
 

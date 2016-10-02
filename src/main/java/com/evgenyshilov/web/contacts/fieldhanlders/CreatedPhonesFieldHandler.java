@@ -3,7 +3,7 @@ package com.evgenyshilov.web.contacts.fieldhanlders;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.database.model.Phone;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.JSONObjectFactory;
+import com.evgenyshilov.web.contacts.help.utils.JSONObjectFactory;
 
 import java.util.ArrayList;
 

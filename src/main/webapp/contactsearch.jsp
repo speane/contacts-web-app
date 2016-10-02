@@ -36,7 +36,7 @@
                     <select id="month" class="input-field" name="month">
                         <option selected value="0">Не выбран</option>
                         <c:forEach var="tempMonth" items="${months}" varStatus="loop">
-                            <option value="${loop.index}">${tempMonth}</option>
+                            <option value="${loop.index + 1}">${tempMonth}</option>
                         </c:forEach>
                     </select>
                 </label>
@@ -114,7 +114,7 @@
                     <input class="apply-button" type="button" id="ok-messages-button" value="Ок">
                 </div>
             </div>
-            <button class="centered block apply-button" type="button" id="find-contacts-button">Найти</button>
+            <input type="button" class="centered block apply-button" id="find-contacts-button" value="Найти">
         </section>
     </form>
     <script type="application/javascript" src="/js/search-contacts-script.js"></script>

@@ -5,27 +5,29 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 
 /**
  * Created by Evgeny Shilov on 29.09.2016.
  */
 public class SearchParamsDTOBuilder {
-    public SearchParamsDTO createFromRequest(HttpServletRequest request) throws CustomException {
-        SearchParamsDTO paramsDTO = new SearchParamsDTO();
-
-        paramsDTO.setFirstName(request.getParameter("first-name"));
-        paramsDTO.setLastName(request.getParameter("last-name"));
-        paramsDTO.setPatronymic(request.getParameter("patronymic"));
+    public SearchParams createFromRequest(HttpServletRequest request) throws CustomException {
+        SearchParams paramsDTO = new SearchParams();
         try {
+            request.setCharacterEncoding("UTF-8");
+
+            paramsDTO.setFirstName(request.getParameter("first-name"));
+            paramsDTO.setLastName(request.getParameter("last-name"));
+            paramsDTO.setPatronymic(request.getParameter("patronymic"));
             paramsDTO.setBirthday(createDate(request.getParameter("year"),
-                    request.getParameter("day"), request.getParameter("day")));
-        } catch (CustomException e) {
+                    request.getParameter("month"), request.getParameter("day")));
+        } catch (CustomException | UnsupportedEncodingException e) {
             throw new CustomException("Can't create search params DTO: ", e);
         }
         paramsDTO.setDateSearchParam(getDateSearchParam(request.getParameter("date-param")));
         paramsDTO.setSex(request.getParameter("sex"));
-        paramsDTO.setMaritalStatus(Integer.parseInt(request.getParameter("marital-status")));
+        paramsDTO.setMaritalStatus(Long.parseLong(request.getParameter("marital-status")));
         paramsDTO.setNationality(request.getParameter("nationality"));
         paramsDTO.setState(request.getParameter("state"));
         paramsDTO.setCity(request.getParameter("city"));
@@ -49,7 +51,7 @@ public class SearchParamsDTOBuilder {
         }
     }
 
-    private Date createDate(String year, String day, String month) throws CustomException {
+    private Date createDate(String year, String month, String day) throws CustomException {
         if (isCorrectDate(year, day, month)) {
             DateTime tempDate = new DateTime();
             try {
@@ -63,7 +65,7 @@ public class SearchParamsDTOBuilder {
         }
     }
 
-    private boolean isCorrectDate(String year, String day, String month) {
+    private boolean isCorrectDate(String year, String month, String day) {
         return !(StringUtils.isEmpty(year) || StringUtils.isEmpty(month) || StringUtils.isEmpty(day));
     }
 }

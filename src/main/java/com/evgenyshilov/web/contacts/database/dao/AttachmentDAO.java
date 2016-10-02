@@ -2,7 +2,7 @@ package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.StatementUtils;
+import com.evgenyshilov.web.contacts.help.utils.StatementUtils;
 
 import java.sql.*;
 import java.util.ArrayList;

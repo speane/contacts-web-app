@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.email;
 
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;

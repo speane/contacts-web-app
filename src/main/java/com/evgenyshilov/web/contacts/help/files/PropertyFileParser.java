@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.files;
 
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 

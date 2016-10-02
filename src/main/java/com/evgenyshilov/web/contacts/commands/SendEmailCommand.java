@@ -3,8 +3,8 @@ package com.evgenyshilov.web.contacts.commands;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.email.EmailSender;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.DBHelper;
-import com.evgenyshilov.web.contacts.help.EmailTemplateElementsFactory;
+import com.evgenyshilov.web.contacts.help.database.DBHelper;
+import com.evgenyshilov.web.contacts.help.email.EmailTemplateElementsFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.stringtemplate.v4.ST;
 

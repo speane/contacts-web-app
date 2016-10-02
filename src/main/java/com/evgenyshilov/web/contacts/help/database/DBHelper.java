@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.database;
 
 import com.evgenyshilov.web.contacts.database.dao.*;
 import com.evgenyshilov.web.contacts.database.model.*;

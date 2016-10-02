@@ -1,4 +1,4 @@
-package com.evgenyshilov.web.contacts.help;
+package com.evgenyshilov.web.contacts.help.files;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

@@ -5,11 +5,11 @@ import com.evgenyshilov.web.contacts.database.dao.ContactDAO;
 import com.evgenyshilov.web.contacts.database.dao.DAOFactory;
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
-import com.evgenyshilov.web.contacts.help.EmailTemplateElementsFactory;
-import com.evgenyshilov.web.contacts.help.EmailTemplateFactory;
-import com.evgenyshilov.web.contacts.help.RequestParser;
+import com.evgenyshilov.web.contacts.help.email.EmailTemplateElementsFactory;
+import com.evgenyshilov.web.contacts.help.email.EmailTemplateFactory;
+import com.evgenyshilov.web.contacts.help.utils.RequestParser;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
-import com.evgenyshilov.web.contacts.help.RussianEnglishTranslator;
+import com.evgenyshilov.web.contacts.help.utils.RussianEnglishTranslator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
