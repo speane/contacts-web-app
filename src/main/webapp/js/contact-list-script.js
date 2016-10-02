@@ -76,3 +76,14 @@ window.onclick = function(event) {
         hideModalForm(messageModalWindow);
     }
 };
+
+document.addEventListener("DOMContentLoaded", function() {
+    var actionMessage = document.getElementById('action-message').value;
+    if (!isEmpty(actionMessage)) {
+        showInfoMessage(actionMessage);
+    }
+});
+
+function isEmpty(str) {
+    return (!str || 0 === str.length);
+}

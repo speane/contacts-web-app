@@ -1,6 +1,5 @@
 package com.evgenyshilov.web.contacts.commands;
 
-import com.evgenyshilov.web.contacts.exceptions.CommandNotFoundException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 
 import java.io.FileInputStream;
@@ -38,10 +37,10 @@ public class CommandFactory {
         }
     }
 
-    public Command create(String URI) throws CommandNotFoundException, CustomException {
+    public Command create(String URI) throws CustomException {
         Class<? extends Command> commandClass = commands.get(URI);
         if (commandClass == null) {
-            throw new CommandNotFoundException();
+            return null;
         }
         try {
             return commandClass.newInstance();

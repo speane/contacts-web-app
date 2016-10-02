@@ -27,12 +27,21 @@ public class SendEmailCommand implements Command {
             ArrayList<Contact> recipients;
             recipients = getRecipientsIdsFromRequest(request);
             sendEmails(recipients, emailTemplate, emailSubject);
+            setActionMessage(request, recipients);
             response.sendRedirect(REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute send email command: ", e);
         }
 
         return null;
+    }
+
+    private void setActionMessage(HttpServletRequest request, ArrayList<Contact> recipients) {
+        String message = "Сообщения контактам: ";
+        for (Contact contact : recipients) {
+            message += String.format("'%s %s (%s)' \n", contact.getLastName(), contact.getFirstName(), contact.getEmail());
+        }
+        request.getSession().setAttribute("action-message", message);
     }
 
     private ArrayList<Contact> getRecipientsIdsFromRequest(HttpServletRequest request) throws CustomException {

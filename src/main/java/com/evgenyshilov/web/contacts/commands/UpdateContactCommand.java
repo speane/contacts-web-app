@@ -34,12 +34,18 @@ public class UpdateContactCommand implements Command {
             }
             dbHelper.updateContact(contactId, contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
-
+            setActionMessage(request, contact);
             response.sendRedirect(REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't update contact: ", e);
         }
         return null;
+    }
+
+    private void setActionMessage(HttpServletRequest request, Contact contact) {
+        String message = String.format("Данные контакта '%s %s' были изменены",
+                contact.getLastName(), contact.getFirstName());
+        request.getSession().setAttribute("action-message", message);
     }
 
     private void writeAttachmentsFromRequest(HttpServletRequest request, Contact contact) throws CustomException {

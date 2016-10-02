@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class CreateContactCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
-        String REDIRECT_URL = "/app/edit-contact?id=";
+        String REDIRECT_URL = "/app/contact-list";
         Contact contact = new Contact();
         request.setAttribute("contact", contact);
         ContactInputHandleCommand inputHandleCommand = new ContactInputHandleCommand();
@@ -31,8 +31,10 @@ public class CreateContactCommand implements Command {
             HashMap<Long, FileItem> attachmentItems =
                     (HashMap<Long, FileItem>) request.getAttribute("attachment-items");
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");
-            long contactId = createNewContact(contact, attachmentItems, photoItem);
-            response.sendRedirect(REDIRECT_URL + contactId);
+            createNewContact(contact, attachmentItems, photoItem);
+            request.getSession().setAttribute("action-message", String.format("Контакт '%s %s' был создан",
+                    contact.getLastName(), contact.getFirstName()));
+            response.sendRedirect(REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute create contact command: ", e);
         }
@@ -50,10 +52,7 @@ public class CreateContactCommand implements Command {
                 "images" + File.separator + "image";
         long contactId = 0;
         try {
-            String uniquePhotoPath = FileNamingUtils.getUniqueFilePath(photoPath);
-            File photoFile = new File(uniquePhotoPath);
-            photoFileItem.write(photoFile);
-            contact.setImageFileName(photoFile.getName());
+            contact.setImageFileName(savePhotoFile(photoFileItem, photoPath));
             contactId = dbHelper.insertContact(contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
             for (Attachment attachment : contact.getAttachments()) {
@@ -67,6 +66,18 @@ public class CreateContactCommand implements Command {
             throw new CustomException("Can't create new contact: ", e);
         }
     }
-
-
+    private String savePhotoFile(FileItem photoFileItem, String path) throws CustomException {
+        if (photoFileItem != null) {
+            String uniquePhotoPath = FileNamingUtils.getUniqueFilePath(path);
+            File photoFile = new File(uniquePhotoPath);
+            try {
+                photoFileItem.write(photoFile);
+                return photoFile.getName();
+            } catch (Exception e) {
+                throw new CustomException("Can't save photo file: ", e);
+            }
+        } else {
+            return null;
+        }
+    }
 }

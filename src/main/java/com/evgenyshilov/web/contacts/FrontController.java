@@ -2,7 +2,6 @@ package com.evgenyshilov.web.contacts;
 
 import com.evgenyshilov.web.contacts.commands.Command;
 import com.evgenyshilov.web.contacts.commands.CommandFactory;
-import com.evgenyshilov.web.contacts.exceptions.CommandNotFoundException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 
@@ -49,14 +48,15 @@ public class FrontController extends HttpServlet {
         String viewPageURL = null;
         try {
             Command command = getCommand(request);
-            viewPageURL = command.execute(request, response);
-        } catch (CustomException e) {
+            if (command != null) {
+                viewPageURL = command.execute(request, response);
+            } else {
+                viewPageURL = getNotFoundViewPage(response);
+            }
+        } catch (Exception e) {
             System.out.println(e);
             // TODO log exception
             // TODO exception manage
-        } catch (CommandNotFoundException e) {
-            // TODO log exception
-            viewPageURL = getNotFoundViewPage(response);
         }
         if (viewPageURL != null) {
             request.getRequestDispatcher(viewPageURL).forward(request, response);
@@ -71,7 +71,7 @@ public class FrontController extends HttpServlet {
         return NOT_FOUND_VIEW_PAGE;
     }
 
-    private Command getCommand(HttpServletRequest request) throws CustomException, CommandNotFoundException {
+    private Command getCommand(HttpServletRequest request) throws CustomException {
         String commandURI = request.getPathInfo();
         try {
             return commandFactory.create(commandURI);

@@ -105,6 +105,7 @@
                     </c:if>
                 </div>
             </section>
+            <input type="hidden" id="action-message" value="${not empty actionMessage ? actionMessage : ''}">
         </form>
         <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
         <link rel="stylesheet" type="text/css" href="/css/style.css">

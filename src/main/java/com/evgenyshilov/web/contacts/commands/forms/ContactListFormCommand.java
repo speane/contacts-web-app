@@ -8,6 +8,7 @@ import com.evgenyshilov.web.contacts.help.pagination.PaginationBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 /**
@@ -23,9 +24,20 @@ public class ContactListFormCommand implements Command {
         ArrayList<Contact> contacts = dbHelper.getContactsFromDAO();
         try {
             builder.setRequestPagination(request, contacts);
+            processActionMessage(request);
         } catch (CustomException e) {
             throw new CustomException("Can't show contact list form: ", e);
         }
         return VIEW_URL;
+    }
+
+    private void processActionMessage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String actionMessage = (String) session.getAttribute("action-message");
+        System.out.println(actionMessage);
+        if (actionMessage != null) {
+            session.removeAttribute("action-message");
+        }
+        request.setAttribute("actionMessage", actionMessage);
     }
 }
