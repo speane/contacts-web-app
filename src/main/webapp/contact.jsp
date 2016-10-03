@@ -24,7 +24,7 @@
 <body>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/grid-system.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
-    <form class="centered main" method="post" action="${submitAction}" id="contact-form" class="centered contact" enctype="multipart/form-data" >
+    <form class="centered main" method="post" action="${submitAction}" id="contact-form" enctype="multipart/form-data" >
         <header>
             <h2><c:out value="${title}" /></h2>
         </header>
