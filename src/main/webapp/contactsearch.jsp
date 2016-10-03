@@ -4,10 +4,10 @@
 <html>
 <head>
     <title>Поиск</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <form id="search-form" class="centered main" action="/app/search" method="post">
+    <form id="search-form" class="centered main" action="${pageContext.request.contextPath}/app/search" method="post">
         <header>
             <h2>Поиск контактов</h2>
         </header>
@@ -118,6 +118,6 @@
             <input type="button" class="centered block apply-button" id="find-contacts-button" value="Найти">
         </section>
     </form>
-    <script type="application/javascript" src="/js/search-contacts-script.js"></script>
+    <script type="application/javascript" src="${pageContext.request.contextPath}/js/search-contacts-script.js"></script>
 </body>
 </html>

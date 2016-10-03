@@ -1,3 +1,5 @@
+var dynamicPrefix = document.getElementById('dynamic-prefix').value;
+
 var messageModalWindow = document.getElementById('message-modal-window');
 var messageTextField = document.getElementById('message-info-field');
 var messageOkButton = document.getElementById('message-ok-button');
@@ -10,7 +12,7 @@ var editContactButton = document.getElementById("edit-checked-contact-button");
 
 deleteContactsButton.onclick = function() {
     if (isAnyContactSelected()) {
-        contactListForm.action = "/app/delete-contact";
+        contactListForm.action = dynamicPrefix + "/app/delete-contact";
         contactListForm.submit();
     }
     else {
@@ -20,7 +22,7 @@ deleteContactsButton.onclick = function() {
 
 editContactButton.onclick = function() {
     if (isAnyContactSelected()) {
-        contactListForm.action = "/app/edit-checked-contact";
+        contactListForm.action = dynamicPrefix + "/app/edit-checked-contact";
         contactListForm.submit();
     }
     else {
@@ -30,7 +32,7 @@ editContactButton.onclick = function() {
 
 sendEmailButton.onclick = function() {
     if (isAnyContactSelected()) {
-        contactListForm.action = "/app/send-email";
+        contactListForm.action = dynamicPrefix + "/app/send-email";
         contactListForm.submit();
     }
     else {

@@ -22,8 +22,8 @@
     <title><c:out value="${title}" /></title>
 </head>
 <body>
-    <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/grid-system.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
     <form class="centered main" method="post" action="${submitAction}" id="contact-form" class="centered contact" enctype="multipart/form-data" >
         <header>
             <h2><c:out value="${title}" /></h2>
@@ -310,6 +310,6 @@
             <input class="centered block save-button" type="button" id="save-contact-button" value="Сохранить">
         </section>
     </form>
-    <script src="/js/edit-contact-script.js"></script>
+    <script src="${pageContext.request.contextPath}/js/edit-contact-script.js"></script>
 </body>
 </html>

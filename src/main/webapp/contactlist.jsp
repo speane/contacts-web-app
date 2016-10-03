@@ -23,10 +23,10 @@
             <section>
                 <nav>
                     <div class="clearfix">
-                        <a class="nav-button" href="/app/contact-list">Все контакты</a>
-                        <a class="nav-button" href="/app/contact-search">Поиск</a>
+                        <a class="nav-button" href="${pageContext.request.contextPath}/app/contact-list">Все контакты</a>
+                        <a class="nav-button" href="${pageContext.request.contextPath}/app/contact-search">Поиск</a>
                         <input type="button" class="nav-button"  id="send-email-button" value="Отправить email">
-                        <a class="nav-button" id="add-contact-button" href="/app/add-contact">Добавить</a>
+                        <a class="nav-button" id="add-contact-button" href="${pageContext.request.contextPath}/app/add-contact">Добавить</a>
                         <input class="nav-button" type="button" id="delete-contact-button" value="Удалить" />
                         <input class="nav-button" type="button" id="edit-checked-contact-button" value="Редактировать" />
                     </div>
@@ -47,7 +47,7 @@
                                 </label>
                             </div>
                             <div class="cell-3">
-                                <a class="edit-contact" href="/app/edit-contact?id=${contact.id}">
+                                <a class="edit-contact" href="${pageContext.request.contextPath}/app/edit-contact?id=${contact.id}">
                                     <c:out value="${contact.firstName} ${contact.lastName}" />
                                 </a>
                             </div>
@@ -70,33 +70,33 @@
                             <ul class="pagination">
                                 <c:if test="${pagination.activePage > pagination.startPage}">
                                     <li>
-                                        <a href="/app/contact-list?page=${pagination.activePage - 1}">
+                                        <a href="${pageContext.request.contextPath}/app/contact-list?page=${pagination.activePage - 1}">
                                             Назад
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.activePage - 1}">
                                     <li>
-                                        <a href="/app/contact-list?page=${i}">
+                                        <a href="${pageContext.request.contextPath}/app/contact-list?page=${i}">
                                             <c:out value="${i}" />
                                         </a>
                                     </li>
                                 </c:forEach>
                                 <li>
-                                    <a class="active" href="/app/contact-list?page=${pagination.activePage}">
+                                    <a class="active" href="${pageContext.request.contextPath}/app/contact-list?page=${pagination.activePage}">
                                         <c:out value="${pagination.activePage}" />
                                     </a>
                                 </li>
                                 <c:forEach var="i" begin="${pagination.activePage + 1}" end="${pagination.endPage}">
                                     <li>
-                                        <a href="/app/contact-list?page=${i}">
+                                        <a href="${pageContext.request.contextPath}/app/contact-list?page=${i}">
                                             <c:out value="${i}" />
                                         </a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${pagination.activePage < pagination.endPage}">
                                     <li>
-                                        <a href="/app/contact-list?page=${pagination.activePage + 1}">
+                                        <a href="${pageContext.request.contextPath}/app/contact-list?page=${pagination.activePage + 1}">
                                             Вперед
                                         </a>
                                     </li>
@@ -106,10 +106,11 @@
                     </c:if>
                 </div>
             </section>
+            <input type="hidden" id="dynamic-prefix" value="${pageContext.request.contextPath}">
             <input type="hidden" id="action-message" value="${not empty actionMessage ? actionMessage : ''}">
         </form>
-        <link rel="stylesheet" type="text/css" href="/css/grid-system.css">
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/grid-system.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
         <script src="${pageContext.request.contextPath}/js/contact-list-script.js"></script>
     </body>
 </html>

@@ -5,10 +5,10 @@
 <head>
     <title>Отправка email</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <form id="send-email-form" class="centered main" method="post" action="/app/send-emails">
+    <form id="send-email-form" class="centered main" method="post" action="${pageContext.request.contextPath}/app/send-emails">
         <header>
             <h1>Отправка email</h1>
         </header>
@@ -65,6 +65,6 @@
             <input class="centered block apply-button" type="button" id="send-email-button" value="Отправить">
         </section>
     </form>
-    <script src="/js/send-email-script.js"></script>
+    <script src="${pageContext.request.contextPath}/js/send-email-script.js"></script>
 </body>
 </html>
