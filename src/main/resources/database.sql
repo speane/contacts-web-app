@@ -179,6 +179,11 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`phone` (
   AUTO_INCREMENT = 33
   DEFAULT CHARACTER SET = utf8;
 
+INSERT INTO `marital_status` (`id`,`name`) VALUES (1,'Женат/замужем');
+INSERT INTO `marital_status` (`id`,`name`) VALUES (2,'Не женат/не замужем');
+
+INSERT INTO `phone_type` (`id`,`name`) VALUES (1,'Мобильный');
+INSERT INTO `phone_type` (`id`,`name`) VALUES (2,'Домашний');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
