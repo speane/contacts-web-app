@@ -35,7 +35,7 @@ public class CreateContactCommand implements Command {
             HashMap<Long, FileItem> attachmentItems =
                     (HashMap<Long, FileItem>) request.getAttribute("attachment-items");
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");
-            createNewContact(request, contact, attachmentItems, photoItem);
+            createNewContact(contact, attachmentItems, photoItem);
 
             request.getSession().setAttribute("action-message", String.format("Контакт '%s %s' был создан",
                     contact.getLastName(), contact.getFirstName()));
@@ -48,13 +48,13 @@ public class CreateContactCommand implements Command {
         return null;
     }
 
-    private Long createNewContact(HttpServletRequest request, Contact contact, HashMap<Long, FileItem> attachmentItems,
+    private Long createNewContact(Contact contact, HashMap<Long, FileItem> attachmentItems,
                                   FileItem photoFileItem) throws CustomException {
         DBHelper dbHelper = new DBHelper();
         FileItemWriter fileItemWriter = new FileItemWriter();
-        String attachmentPath = request.getContextPath() + ApplicationConfig.getProperty("ROOT_PATH") + File.separator +
+        String attachmentPath = ApplicationConfig.getProperty("ROOT_PATH") + File.separator +
                 "attachments" + File.separator + "attachment_";
-        String photoPath = request.getContextPath() + ApplicationConfig.getProperty("ROOT_PATH") + File.separator +
+        String photoPath = ApplicationConfig.getProperty("ROOT_PATH") + File.separator +
                 "images" + File.separator + "image";
         long contactId = 0;
         try {
