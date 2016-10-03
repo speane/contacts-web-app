@@ -18,6 +18,8 @@ public class EncodingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
             servletRequest.setCharacterEncoding("UTF-8");
+            servletResponse.setContentType("text/html; charset=UTF-8");
+            servletResponse.setCharacterEncoding("UTF-8");
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception e) {
             LogHelper.error("Unable to set character encoding to a request: ", e);

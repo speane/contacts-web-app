@@ -30,7 +30,7 @@ public class EditCheckedContactCommand implements Command {
             redirectURL = "/app/contact-list";
         }
         try {
-            response.sendRedirect(redirectURL);
+            response.sendRedirect(request.getContextPath() + redirectURL);
         } catch (IOException e) {
             throw new CustomException("Can't redirect to url: ", e);
         }

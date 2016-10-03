@@ -38,7 +38,8 @@ public class CreateContactCommand implements Command {
             createNewContact(contact, attachmentItems, photoItem);
             request.getSession().setAttribute("action-message", String.format("Контакт '%s %s' был создан",
                     contact.getLastName(), contact.getFirstName()));
-            response.sendRedirect(REDIRECT_URL);
+
+            response.sendRedirect(request.getContextPath() + REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute create contact command: ", e);
         }

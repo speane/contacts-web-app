@@ -14,7 +14,6 @@ import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,7 +24,6 @@ public class EmailFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         String EMAIL_VIEW_PAGE = "/sendemail.jsp";
-        String CONTACT_LIST_URL = "/app/contact-list";
         ArrayList<Contact> recipients = null;
         try {
             recipients = getRecipients(request);
@@ -44,13 +42,7 @@ public class EmailFormCommand implements Command {
 
                 return EMAIL_VIEW_PAGE;
             } else {
-                LogHelper.info(String.format("Redirection to %s", CONTACT_LIST_URL));
-                try {
-                    response.sendRedirect(CONTACT_LIST_URL);
-                } catch (IOException e) {
-                    throw new CustomException("Can't redirect response: ", e);
-                }
-                return null;
+                throw new CustomException("No recipients found");
             }
         } catch (CustomException e) {
             throw new CustomException("Can't create email send form: ", e);

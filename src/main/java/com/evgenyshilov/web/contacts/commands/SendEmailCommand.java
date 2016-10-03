@@ -30,7 +30,7 @@ public class SendEmailCommand implements Command {
             recipients = getRecipientsIdsFromRequest(request);
             sendEmails(recipients, emailTemplate, emailSubject);
             setActionMessage(request, recipients);
-            response.sendRedirect(REDIRECT_URL);
+            response.sendRedirect(request.getContextPath() + REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't execute send email command: ", e);
         }

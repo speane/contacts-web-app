@@ -39,7 +39,7 @@ public class UpdateContactCommand implements Command {
             dbHelper.updateContact(contactId, contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
             setActionMessage(request, contact);
-            response.sendRedirect(REDIRECT_URL);
+            response.sendRedirect(request.getContextPath() + REDIRECT_URL);
         } catch (CustomException | IOException e) {
             throw new CustomException("Can't update contact: ", e);
         }
