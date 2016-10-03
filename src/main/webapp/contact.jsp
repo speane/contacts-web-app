@@ -5,13 +5,13 @@
 <c:choose>
     <c:when test="${empty contact}">
         <c:set var="title" value="Создание контакта" />
-        <c:set var="submitAction" value="/app/create-contact" />
-        <c:set var="contactImagePath" value="/images/default.png" />
+        <c:set var="submitAction" value="${pageContext.request.contextPath}/app/create-contact" />
+        <c:set var="contactImagePath" value="${pageContext.request.contextPath}/images/default.png" />
     </c:when>
     <c:otherwise>
         <c:set var="title" value="Редактирование контакта" />
-        <c:set var="submitAction" value="/app/update-contact?id=${contact.id}" />
-        <c:set var="contactImagePath" value="/images/${not empty contact.imageFileName ? contact.imageFileName : 'default.png'}" />
+        <c:set var="submitAction" value="${pageContext.request.contextPath}/app/update-contact?id=${contact.id}" />
+        <c:set var="contactImagePath" value="${pageContext.request.contextPath}/images/${not empty contact.imageFileName ? contact.imageFileName : 'default.png'}" />
     </c:otherwise>
 </c:choose>
 <!DOCTYPE html>
