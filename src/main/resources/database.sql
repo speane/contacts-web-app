@@ -1,14 +1,21 @@
-CREATE USER IF NOT EXISTS 'evgeny_shilov'@'localhost' IDENTIFIED BY '123456';
-
-GRANT ALL PRIVILEGES ON evgeny_shilov_contacts.* TO 'evgeny_shilov'@'localhost';
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
 -- -----------------------------------------------------
--- Schema contacts_test
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema evgeny_shilov_contacts
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema evgeny_shilov_contacts
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `evgeny_shilov_contacts` DEFAULT CHARACTER SET utf8 ;
+
+GRANT ALL PRIVILEGES ON evgeny_shilov_contacts.* TO 'evgeny_shilov'@'localhost' IDENTIFIED BY '123456';
+
 USE `evgeny_shilov_contacts` ;
 
 -- -----------------------------------------------------
@@ -19,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`city` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 15
   DEFAULT CHARACTER SET = utf8;
 
 
@@ -31,11 +38,8 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`marital_status` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 3
   DEFAULT CHARACTER SET = utf8;
-
-INSERT INTO `marital_status` (`id`,`name`) VALUES (1,'Женат/замужем');
-INSERT INTO `marital_status` (`id`,`name`) VALUES (2,'Не женат/не замужем');
 
 
 -- -----------------------------------------------------
@@ -46,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`nationality` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 12
   DEFAULT CHARACTER SET = utf8;
 
 
@@ -58,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`state` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 11
   DEFAULT CHARACTER SET = utf8;
 
 
@@ -89,28 +93,28 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`contact` (
   INDEX `marital_status_idx` (`marital_status_id` ASC),
   INDEX `state_idx` (`state_id` ASC),
   INDEX `city_idx` (`city_id` ASC),
-  CONSTRAINT `city_fk`
+  CONSTRAINT `city`
   FOREIGN KEY (`city_id`)
-  REFERENCES `contacts_test`.`city` (`id`)
+  REFERENCES `cevgeny_shilov_contacts`.`city` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `marital_status_fk`
+  CONSTRAINT `marital_status`
   FOREIGN KEY (`marital_status_id`)
-  REFERENCES `contacts_test`.`marital_status` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`marital_status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `nationality_id_fk`
+  CONSTRAINT `nationality_id`
   FOREIGN KEY (`nationality_id`)
-  REFERENCES `contacts_test`.`nationality` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`nationality` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `state_fk`
+  CONSTRAINT `state`
   FOREIGN KEY (`state_id`)
-  REFERENCES `contacts_test`.`state` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`state` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 62
   DEFAULT CHARACTER SET = utf8;
 
 
@@ -125,13 +129,13 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`attachment` (
   `contact_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `attachment_contact_idx` (`contact_id` ASC),
-  CONSTRAINT `attachment_contact_fk`
+  CONSTRAINT `attachment_contact`
   FOREIGN KEY (`contact_id`)
-  REFERENCES `contacts_test`.`contact` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`contact` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 41
   DEFAULT CHARACTER SET = utf8;
 
 
@@ -143,11 +147,8 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`phone_type` (
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 3
   DEFAULT CHARACTER SET = utf8;
-
-INSERT INTO `phone_type` (`id`,`name`) VALUES (1,'Мобильный');
-INSERT INTO `phone_type` (`id`,`name`) VALUES (2,'Домашний');
 
 
 -- -----------------------------------------------------
@@ -166,16 +167,16 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`phone` (
   INDEX `phone_type_idx` (`phone_type_id` ASC),
   CONSTRAINT `phone_contact`
   FOREIGN KEY (`contact_id`)
-  REFERENCES `contacts_test`.`contact` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`contact` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `phote_type_fk`
   FOREIGN KEY (`phone_type_id`)
-  REFERENCES `contacts_test`.`phone_type` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`phone_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
-  AUTO_INCREMENT = 1
+  AUTO_INCREMENT = 33
   DEFAULT CHARACTER SET = utf8;
 
 
