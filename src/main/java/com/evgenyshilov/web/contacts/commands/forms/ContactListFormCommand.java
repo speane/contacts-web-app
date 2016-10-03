@@ -10,6 +10,7 @@ import com.evgenyshilov.web.contacts.help.pagination.PaginationBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,17 @@ public class ContactListFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CustomException {
         LogHelper.info("Contact list page request");
+
+        System.out.println(response.getCharacterEncoding());
+        System.out.println(request.getCharacterEncoding());
+        System.out.println("Привет");
+
+        try {
+            System.out.println(new String("Привет".getBytes("windows-1251"), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         String VIEW_URL = "/contactlist.jsp";
         DBHelper dbHelper = new DBHelper();
         PaginationBuilder builder = new PaginationBuilder();

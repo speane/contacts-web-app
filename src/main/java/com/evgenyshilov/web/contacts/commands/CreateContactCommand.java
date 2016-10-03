@@ -36,6 +36,7 @@ public class CreateContactCommand implements Command {
                     (HashMap<Long, FileItem>) request.getAttribute("attachment-items");
             FileItem photoItem = (FileItem) request.getAttribute("photo-item");
             createNewContact(contact, attachmentItems, photoItem);
+
             request.getSession().setAttribute("action-message", String.format("Контакт '%s %s' был создан",
                     contact.getLastName(), contact.getFirstName()));
 
