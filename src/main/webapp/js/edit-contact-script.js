@@ -138,16 +138,16 @@
     function checkPhoneFields() {
         var errorMessages = [];
         var error;
-        if ((error = checkNumberField(countryCodeField, 'Код страны пуст',
-                'Код страны может содержать только цифры')) != '') {
+        if ((error = checkNumberField(5, countryCodeField, 'Код страны пуст',
+                'Код страны может содержать только цифры', 'Код страны не может быть длиннее 5 цифр')) != '') {
             errorMessages.push(error);
         }
-        if ((error = checkNumberField(operatorCodeField, 'Код оператора пуст',
-                'Код оператора может содержать только цифры')) != '') {
+        if ((error = checkNumberField(5, operatorCodeField, 'Код оператора пуст',
+                'Код оператора может содержать только цифры', 'Код оператора не может быть длиннее 5 цифр')) != '') {
             errorMessages.push(error);
         }
-        if ((error = checkNumberField(numberField, 'Номер телефона не указан',
-                'Номер телефона может содержать только цифры')) != '') {
+        if ((error = checkNumberField(10, numberField, 'Номер телефона не указан',
+                'Номер телефона может содержать только цифры', 'Номер телефона не может быть длинее 10 цифр')) != '') {
             errorMessages.push(error);
         }
         if ((error = checkCommentary(phoneCommentary)) != '') {
@@ -156,13 +156,16 @@
         return errorMessages;
     }
 
-    function checkNumberField(field, emptyErrorMessage, notANumberErrorMessage) {
+    function checkNumberField(maxLength, field, emptyErrorMessage, notANumberErrorMessage, tooLongMessage) {
         var fieldValue = field.value;
         if (isEmpty(fieldValue)) {
             return emptyErrorMessage;
         }
         if (!isNumber(fieldValue)) {
             return notANumberErrorMessage;
+        }
+        if (fieldValue.length > maxLength) {
+            return tooLongMessage;
         }
         return '';
     }
