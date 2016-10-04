@@ -24,6 +24,8 @@ public class YearFieldHandler implements FieldHandler {
                 } catch (NumberFormatException e) {
                     throw new CustomException("Can't handle year field: ", e);
                 }
+            } else {
+                contact.setBirthday(null);
             }
         }
     }

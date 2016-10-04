@@ -22,6 +22,8 @@ public class MonthFieldHandler implements FieldHandler {
                             contact.setBirthday(new Date(0));
                         }
                         contact.setBirthday(setDateMonth(contact.getBirthday(), month));
+                    } else {
+                        contact.setBirthday(null);
                     }
                 } catch (NumberFormatException e) {
                     throw new CustomException("Can't handle month field: ", e);

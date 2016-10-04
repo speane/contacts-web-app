@@ -21,6 +21,8 @@ public class DayFieldHandler implements FieldHandler {
                         contact.setBirthday(new Date(0));
                     }
                     contact.setBirthday(setDateDay(contact.getBirthday(), day));
+                } else {
+                    contact.setBirthday(null);
                 }
             } catch (NumberFormatException e) {
                 throw new CustomException("Can't handle day field: ", e);
