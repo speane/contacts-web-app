@@ -29,6 +29,7 @@
             <h2><c:out value="${title}" /></h2>
         </header>
         <section>
+            <a class="back-button" href="${pageContext.request.contextPath}/app/contact-list">К списку контактов</a>
             <div id="input-message-window" class="modal">
                 <div class="modal-content">
                     <div id="input-messages">

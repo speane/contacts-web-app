@@ -319,3 +319,26 @@ label span {
 .date-param {
     float: left;
 }
+
+.back-button {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    width: 230px;
+    display: block;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    background-color: #e6cb6b;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.back-button:hover {
+    background-color: #e6bc53;
+}

@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+    <a   class="back-button" href="${pageContext.request.contextPath}/app/contact-list">К списку контактов</a>
     <form id="send-email-form" class="centered main" method="post" action="${pageContext.request.contextPath}/app/send-emails">
         <header>
             <h1>Отправка email</h1>

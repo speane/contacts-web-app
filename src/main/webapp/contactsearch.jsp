@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+    <a class="back-button" href="${pageContext.request.contextPath}/app/contact-list">К списку контактов</a>
     <form id="search-form" class="centered main" action="${pageContext.request.contextPath}/app/search" method="post">
         <header>
             <h2>Поиск контактов</h2>
