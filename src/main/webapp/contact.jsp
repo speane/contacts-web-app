@@ -43,6 +43,7 @@
                 <div class="centered" id="contact-photo-select-area">
                     <img id="contact-photo-image" src="${contactImagePath}">
                     <input class="hidden" type="file" id="uploaded-contact-photo">
+                    <input class="hidden" type="text" id="default-photo-src" value="${pageContext.request.contextPath}/images/default.png">
                 </div>
                 <div id="select-photo-modal" class="modal">
                     <div id="photo-select-form" class="modal-content">
@@ -52,6 +53,7 @@
                         <input class="centered block" type="file" id="photo-file-input" accept="image/jpeg,image/png,image/gif">
                         <div id="apply-buttons">
                             <input class="centered block apply-button" type="button" id="save-photo-button" value="Сохранить">
+                            <input class="centered block apply-button remove" type="button" id="remove-photo-button" value="Убрать фото">
                             <input class="centered block apply-button" type="button" id="cancel-photo-select-button" value="Отменить">
                         </div>
                     </div>

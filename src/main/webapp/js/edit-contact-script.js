@@ -612,8 +612,10 @@
         hideModalForm(attachmentEditModal);
     };
 
+    var defaultPhotoSrc = document.getElementById('default-photo-src').value;
     var photoFileInput = document.getElementById('photo-file-input');
     var savePhotoButton = document.getElementById('save-photo-button');
+    var removePhotoButton = document.getElementById('remove-photo-button');
     var contactPhotoImage = document.getElementById('contact-photo-image');
     var contactPhotoSelectArea = document.getElementById('contact-photo-select-area');
     var selectPhotoModal = document.getElementById('select-photo-modal');
@@ -621,6 +623,11 @@
     var uploadedContactPhotoFileInput = document.getElementById('uploaded-contact-photo');
     var photoSelectForm = document.getElementById('photo-select-form');
     var applyButtons = document.getElementById('apply-buttons');
+
+    removePhotoButton.onclick = function() {
+        uploadedContactPhotoFileInput.value = '';
+        contactPhotoImage.src = defaultPhotoSrc;
+    };
 
     contactPhotoSelectArea.onclick = function () {
         photoFileInput.value = '';
