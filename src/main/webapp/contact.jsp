@@ -281,8 +281,10 @@
                     <div class="cell-2">
                         Дата загрузки
                     </div>
-                    <div class="cell-6">
+                    <div class="cell-5">
                         Комментарий
+                    </div>
+                    <div class="cell-1">
                     </div>
                 </div>
                 <div id="attachment-list">
@@ -300,8 +302,13 @@
                                 <div id="attachment-upload-date-${attachment.id}" class="cell-2">
                                     <c:out value="${attachment.uploadDate}" />
                                 </div>
-                                <div id="attachment-commentary-${attachment.id}" class="cell-6">
+                                <div id="attachment-commentary-${attachment.id}" class="cell-5">
                                     <c:out value="${attachment.commentary}" />
+                                </div>
+                                <div id="attachment-download-${attachment.id}" class="cell-1">
+                                    <a class="download" href="${pageContext.request.contextPath}/download?id=${attachment.id}">
+                                        Скачать
+                                    </a>
                                 </div>
                             </div>
                         </c:forEach>

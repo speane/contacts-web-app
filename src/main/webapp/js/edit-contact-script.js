@@ -79,7 +79,7 @@
         createdPhones[phone.id] = phone;
 
         var newPhone = document.createElement("div");
-        newPhone.className = "row";
+        newPhone.className = "row created";
         newPhone.id = "created-phone-" + phone.id;
 
         var checkCell = document.createElement("div");
@@ -497,7 +497,7 @@
 
     function addAttachmentToList(attachment) {
         var attachmentRow = document.createElement('div');
-        attachmentRow.className = 'row';
+        attachmentRow.className = 'row created';
         attachmentRow.id = 'created-attachment-' + attachment.id;
 
         var downloadAttachmentCell = document.createElement('div');
@@ -506,7 +506,8 @@
         var downloadLink = document.createElement('a');
         setAttachmentUrl(downloadLink, attachmentFileInput);
         downloadLink.download = attachment.filename;
-        downloadLink.innerHTML = 'download';
+        downloadLink.className = "download";
+        downloadLink.innerHTML = 'Скачать';
 
         downloadAttachmentCell.appendChild(downloadLink);
 
@@ -541,11 +542,11 @@
 
 
         attachmentRow.appendChild(attachmentFileInput);
-        attachmentRow.appendChild(downloadAttachmentCell);
         attachmentRow.appendChild(attachmentCheckBoxCell);
         attachmentRow.appendChild(attachmentFileNameCell);
         attachmentRow.appendChild(attachmentUploadDateCell);
         attachmentRow.appendChild(attachmentCommentaryCell);
+        attachmentRow.appendChild(downloadAttachmentCell);
         attachmentRow.appendChild(attachmentFileInput);
 
         attachmentList.appendChild(attachmentRow);

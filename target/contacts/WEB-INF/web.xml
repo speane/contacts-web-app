@@ -24,7 +24,15 @@
         <servlet-name>FrontController</servlet-name>
         <servlet-class>com.evgenyshilov.web.contacts.FrontController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>com.evgenyshilov.web.contacts.DownloadFileServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern></url-pattern>
