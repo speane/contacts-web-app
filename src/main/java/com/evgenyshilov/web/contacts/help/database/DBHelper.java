@@ -270,4 +270,22 @@ public class DBHelper {
             }
         }
     }
+
+    public Attachment getAttachmentFromDao(long id) throws CustomException {
+        AttachmentDAO attachmentDAO = null;
+        try {
+            attachmentDAO = (AttachmentDAO) DAOFactory.getDAO(Attachment.class);
+            return attachmentDAO.get(id);
+        } catch (CustomException e) {
+            throw new CustomException("Cannot get attachment from dao: ", e);
+        } finally {
+            try {
+                if (attachmentDAO != null) {
+                    attachmentDAO.close();
+                }
+            } catch (SQLException e) {
+                LogHelper.error("Cannot close attachment dao: ", e);
+            }
+        }
+    }
 }
