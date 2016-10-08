@@ -24,6 +24,11 @@
         <servlet-name>FrontController</servlet-name>
         <servlet-class>com.evgenyshilov.web.contacts.FrontController</servlet-class>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/app/*</url-pattern>

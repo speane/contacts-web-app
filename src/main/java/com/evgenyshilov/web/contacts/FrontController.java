@@ -5,6 +5,7 @@ import com.evgenyshilov.web.contacts.commands.CommandFactory;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -75,7 +76,13 @@ public class FrontController extends HttpServlet {
     }
 
     private Command getCommand(HttpServletRequest request) throws CustomException {
-        String commandURI = request.getPathInfo();
+        String commandURI;
+        System.out.println(request.getServletPath());
+        if (isRootPath(request.getServletPath())) {
+            commandURI = ApplicationConfig.getProperty("ROOT_COMMAND_URI");
+        } else {
+            commandURI = request.getPathInfo();
+        }
         try {
             return commandFactory.create(commandURI);
         } catch (CustomException e) {
@@ -83,4 +90,7 @@ public class FrontController extends HttpServlet {
         }
     }
 
+    private boolean isRootPath(String path) {
+        return StringUtils.isEmpty(path);
+    }
 }
