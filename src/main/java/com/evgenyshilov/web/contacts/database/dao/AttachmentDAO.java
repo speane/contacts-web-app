@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.database.dao;
 
 import com.evgenyshilov.web.contacts.database.model.Attachment;
+import com.evgenyshilov.web.contacts.database.model.builders.AttachmentBuilder;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.help.utils.StatementUtils;
@@ -23,8 +24,25 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
     }
 
     @Override
-    public Attachment get(Long key) {
-        return null;
+    public Attachment get(Long key) throws CustomException {
+        String query = String.format("SELECT id, filename, commentary, upload_date, contact_id " +
+                "FROM attachment WHERE id = %d", key);
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            return resultSet.next() ? AttachmentBuilder.createAttachmentFromResultSet(resultSet) : null;
+        } catch (SQLException e) {
+            throw new CustomException("Cannot get attachment from database: ", e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                LogHelper.error("Cannot close get attachment statement: ", e);
+            }
+        }
     }
 
     @Override
