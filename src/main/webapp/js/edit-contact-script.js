@@ -473,7 +473,7 @@
         lastAttachmentId++;
         var attachment = {
             id: lastAttachmentId,
-            filename: attachmentFileNameField.value.trim(),
+            filename: getAttachmentFilename(attachmentFileNameField.value.trim(), attachmentFileInput),
             commentary: attachmentCommentaryField.value.trim(),
             uploadDate: getDateString()
         };
@@ -482,10 +482,33 @@
         createAttachmentFileInput();
     }
 
+    function getAttachmentFilename(filename, fileinput) {
+        if (filename.lastIndexOf('.') < 1) {
+            return filename + '.' + getFileInputExtension(fileinput);
+        }
+        else {
+            return filename;
+        }
+    }
+
+    function getFileInputExtension(fileinput) {
+        return fileinput.value.trim().split('.').pop();
+    }
+
     function addAttachmentToList(attachment) {
         var attachmentRow = document.createElement('div');
         attachmentRow.className = 'row';
         attachmentRow.id = 'created-attachment-' + attachment.id;
+
+        var downloadAttachmentCell = document.createElement('div');
+        downloadAttachmentCell.className = 'cell-1';
+
+        var downloadLink = document.createElement('a');
+        setAttachmentUrl(downloadLink, attachmentFileInput);
+        downloadLink.download = attachment.filename;
+        downloadLink.innerHTML = 'download';
+
+        downloadAttachmentCell.appendChild(downloadLink);
 
         var attachmentCheckBoxCell = document.createElement('div');
         attachmentCheckBoxCell.className = 'cell-1';
@@ -508,15 +531,17 @@
         attachmentUploadDateCell.innerHTML = attachment.uploadDate;
 
         var attachmentCommentaryCell = document.createElement('div');
-        attachmentCommentaryCell.className = 'cell-6';
+        attachmentCommentaryCell.className = 'cell-5';
         attachmentCommentaryCell.id = 'created-attachment-commentary-' + attachment.id;
         attachmentCommentaryCell.innerHTML = attachment.commentary;
 
         attachmentFileInput.id = 'created-attachment-file-input-' + attachment.id;
         attachmentFileInput.name = 'attachment-' + attachment.id;
         attachmentFileInput.style.display = 'none';
-        attachmentRow.appendChild(attachmentFileInput);
 
+
+        attachmentRow.appendChild(attachmentFileInput);
+        attachmentRow.appendChild(downloadAttachmentCell);
         attachmentRow.appendChild(attachmentCheckBoxCell);
         attachmentRow.appendChild(attachmentFileNameCell);
         attachmentRow.appendChild(attachmentUploadDateCell);
@@ -524,6 +549,15 @@
         attachmentRow.appendChild(attachmentFileInput);
 
         attachmentList.appendChild(attachmentRow);
+    }
+
+    function setAttachmentUrl(link, fileInput) {
+        var fileReader = new FileReader();
+        var url;
+        fileReader.onload = function () {
+            link.href = this.result;
+        };
+        fileReader.readAsDataURL(fileInput.files[0]);
     }
 
     function createAttachmentFileInput() {
