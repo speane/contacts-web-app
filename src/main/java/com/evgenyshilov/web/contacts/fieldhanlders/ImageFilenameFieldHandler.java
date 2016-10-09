@@ -9,9 +9,6 @@ import com.evgenyshilov.web.contacts.exceptions.CustomException;
 public class ImageFilenameFieldHandler implements FieldHandler {
     @Override
     public void handleField(Contact contact, String value) throws CustomException {
-        if (contact != null) {
-            contact.setImageFileName(value);
-            System.out.println("image: " + value);
-        }
+        contact.setImageFileName(value);
     }
 }

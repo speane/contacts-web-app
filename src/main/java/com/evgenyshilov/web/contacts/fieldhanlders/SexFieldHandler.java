@@ -11,12 +11,10 @@ public class SexFieldHandler implements FieldHandler {
     public void handleField(Contact contact, String value) {
         String MALE_VALUE = "m";
         String FEMALE_VALUE = "f";
-        if (contact != null) {
-            if (StringUtils.equals(value, MALE_VALUE) || StringUtils.equals(value, FEMALE_VALUE)) {
-                contact.setSex(value);
-            } else {
-                contact.setSex(null);
-            }
+        if (StringUtils.equals(value, MALE_VALUE) || StringUtils.equals(value, FEMALE_VALUE)) {
+            contact.setSex(value);
+        } else {
+            contact.setSex(null);
         }
     }
 }

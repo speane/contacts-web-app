@@ -13,20 +13,18 @@ import java.sql.Date;
 public class DayFieldHandler implements FieldHandler {
     @Override
     public void handleField(Contact contact, String value) throws CustomException {
-        if (contact != null) {
-            try {
-                if (!StringUtils.isEmpty(value)) {
-                    int day = Integer.parseInt(value);
-                    if (contact.getBirthday() == null) {
-                        contact.setBirthday(new Date(0));
-                    }
-                    contact.setBirthday(setDateDay(contact.getBirthday(), day));
-                } else {
-                    contact.setBirthday(null);
+        try {
+            if (!StringUtils.isEmpty(value)) {
+                int day = Integer.parseInt(value);
+                if (contact.getBirthday() == null) {
+                    contact.setBirthday(new Date(0));
                 }
-            } catch (NumberFormatException e) {
-                throw new CustomException("Can't handle day field: ", e);
+                contact.setBirthday(setDateDay(contact.getBirthday(), day));
+            } else {
+                contact.setBirthday(null);
             }
+        } catch (NumberFormatException e) {
+            throw new CustomException("Can't handle day field: ", e);
         }
     }
 

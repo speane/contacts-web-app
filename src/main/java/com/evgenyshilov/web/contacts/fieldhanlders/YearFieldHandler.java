@@ -13,20 +13,18 @@ import java.sql.Date;
 public class YearFieldHandler implements FieldHandler {
     @Override
     public void handleField(Contact contact, String value) throws CustomException {
-        if (contact != null) {
-            if (!StringUtils.isEmpty(value)) {
-                try {
-                    int year = Integer.parseInt(value);
-                    if (contact.getBirthday() == null) {
-                        contact.setBirthday(new Date(0));
-                    }
-                    contact.setBirthday(setDateYear(contact.getBirthday(), year));
-                } catch (NumberFormatException e) {
-                    throw new CustomException("Can't handle year field: ", e);
+        if (!StringUtils.isEmpty(value)) {
+            try {
+                int year = Integer.parseInt(value);
+                if (contact.getBirthday() == null) {
+                    contact.setBirthday(new Date(0));
                 }
-            } else {
-                contact.setBirthday(null);
+                contact.setBirthday(setDateYear(contact.getBirthday(), year));
+            } catch (NumberFormatException e) {
+                throw new CustomException("Can't handle year field: ", e);
             }
+        } else {
+            contact.setBirthday(null);
         }
     }
 

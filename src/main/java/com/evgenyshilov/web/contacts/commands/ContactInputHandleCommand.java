@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.commands;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.exceptions.BadInputException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import com.evgenyshilov.web.contacts.fieldhanlders.FieldHandler;
 import com.evgenyshilov.web.contacts.fieldhanlders.factory.FieldHandlerFactory;
@@ -85,7 +86,7 @@ public class ContactInputHandleCommand implements Command {
             try {
                 fieldValue = item.getString("UTF-8");
                 handler.handleField(contact, fieldValue);
-            } catch (UnsupportedEncodingException e) {
+            } catch (UnsupportedEncodingException | BadInputException e) {
                 throw new CustomException("Can't process form field item: ", e);
             }
         }

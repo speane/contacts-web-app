@@ -13,21 +13,19 @@ import java.sql.Date;
 public class MonthFieldHandler implements FieldHandler {
     @Override
     public void handleField(Contact contact, String value) throws CustomException {
-        if (contact != null) {
-            if (!StringUtils.isEmpty(value)) {
-                try {
-                    int month = Integer.parseInt(value);
-                    if (month != 0) {
-                        if (contact.getBirthday() == null) {
-                            contact.setBirthday(new Date(0));
-                        }
-                        contact.setBirthday(setDateMonth(contact.getBirthday(), month));
-                    } else {
-                        contact.setBirthday(null);
+        if (!StringUtils.isEmpty(value)) {
+            try {
+                int month = Integer.parseInt(value);
+                if (month != 0) {
+                    if (contact.getBirthday() == null) {
+                        contact.setBirthday(new Date(0));
                     }
-                } catch (NumberFormatException e) {
-                    throw new CustomException("Can't handle month field: ", e);
+                    contact.setBirthday(setDateMonth(contact.getBirthday(), month));
+                } else {
+                    contact.setBirthday(null);
                 }
+            } catch (NumberFormatException e) {
+                throw new CustomException("Can't handle month field: ", e);
             }
         }
     }
