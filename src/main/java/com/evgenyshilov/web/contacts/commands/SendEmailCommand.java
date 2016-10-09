@@ -58,7 +58,8 @@ public class SendEmailCommand implements Command {
         if (recipients.size() > 0) {
             message = "Сообщения контактам: ";
             for (Contact contact : recipients) {
-                message += String.format("'%s %s (%s)' \n", contact.getLastName(), contact.getFirstName(), contact.getEmail());
+                message += String.format("'%s %s (%s)' \n", contact.getLastName(),
+                        contact.getFirstName(), contact.getEmail());
             }
             message += " были отправлены";
         } else {
