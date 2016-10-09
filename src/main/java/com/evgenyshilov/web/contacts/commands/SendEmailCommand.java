@@ -54,11 +54,16 @@ public class SendEmailCommand implements Command {
     }
 
     private void setActionMessage(HttpServletRequest request, ArrayList<Contact> recipients) {
-        String message = "Сообщения контактам: ";
-        for (Contact contact : recipients) {
-            message += String.format("'%s %s (%s)' \n", contact.getLastName(), contact.getFirstName(), contact.getEmail());
+        String message;
+        if (recipients.size() > 0) {
+            message = "Сообщения контактам: ";
+            for (Contact contact : recipients) {
+                message += String.format("'%s %s (%s)' \n", contact.getLastName(), contact.getFirstName(), contact.getEmail());
+            }
+            message += " были отправлены";
+        } else {
+            message = "Сообщения не отправлены, так как у выбранных контактов не указан email";
         }
-        message += " были отправлены";
         request.getSession().setAttribute("action-message", message);
     }
 
