@@ -18,6 +18,8 @@ public class CityFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("City field is invalid");
             }
+        } else {
+            contact.setCity(null);
         }
     }
 }

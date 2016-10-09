@@ -19,6 +19,8 @@ public class EmailFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Email is not valid");
             }
+        } else {
+            contact.setEmail(null);
         }
     }
 }

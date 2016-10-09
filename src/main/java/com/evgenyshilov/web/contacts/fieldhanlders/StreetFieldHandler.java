@@ -18,6 +18,8 @@ public class StreetFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Street value is not valid");
             }
+        } else {
+            contact.setStreet(null);
         }
     }
 }

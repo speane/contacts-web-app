@@ -19,6 +19,8 @@ public class JobFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Job value is not valid");
             }
+        } else {
+            contact.setJob(null);
         }
     }
 }

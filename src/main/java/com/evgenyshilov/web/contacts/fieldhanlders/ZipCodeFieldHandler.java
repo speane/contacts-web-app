@@ -18,6 +18,8 @@ public class ZipCodeFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Zipcode value is not valid");
             }
+        } else {
+            contact.setZipCode(null);
         }
     }
 }

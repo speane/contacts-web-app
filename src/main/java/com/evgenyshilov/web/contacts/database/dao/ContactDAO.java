@@ -135,6 +135,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = createPreparedContactStatement(query, value);
+            System.out.println(preparedStatement);
             preparedStatement.setLong(18, key);
             preparedStatement.executeUpdate();
         } catch (CustomException | SQLException e) {

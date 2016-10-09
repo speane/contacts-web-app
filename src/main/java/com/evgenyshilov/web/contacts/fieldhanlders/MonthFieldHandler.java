@@ -1,6 +1,7 @@
 package com.evgenyshilov.web.contacts.fieldhanlders;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
+import com.evgenyshilov.web.contacts.exceptions.BadInputException;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -12,7 +13,7 @@ import java.sql.Date;
  */
 public class MonthFieldHandler implements FieldHandler {
     @Override
-    public void handleField(Contact contact, String value) throws CustomException {
+    public void handleField(Contact contact, String value) throws CustomException, BadInputException {
         if (!StringUtils.isEmpty(value)) {
             try {
                 int month = Integer.parseInt(value);
@@ -27,6 +28,8 @@ public class MonthFieldHandler implements FieldHandler {
             } catch (NumberFormatException e) {
                 throw new CustomException("Can't handle month field: ", e);
             }
+        } else {
+            throw new BadInputException("Empty month input");
         }
     }
 

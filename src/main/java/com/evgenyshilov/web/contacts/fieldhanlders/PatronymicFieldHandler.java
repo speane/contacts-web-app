@@ -19,6 +19,8 @@ public class PatronymicFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Patronymic value is not valid");
             }
+        } else {
+            contact.setPatronymic(null);
         }
     }
 }

@@ -18,6 +18,8 @@ public class WebsiteFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Website value is not valid");
             }
+        } else {
+            contact.setWebsite(null);
         }
     }
 }

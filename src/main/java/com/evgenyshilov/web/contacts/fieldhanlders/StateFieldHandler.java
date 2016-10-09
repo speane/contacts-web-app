@@ -18,6 +18,8 @@ public class StateFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("State value is not valid");
             }
+        } else {
+            contact.setState(null);
         }
     }
 }

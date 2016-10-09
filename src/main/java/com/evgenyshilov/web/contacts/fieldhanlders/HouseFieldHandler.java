@@ -19,6 +19,8 @@ public class HouseFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("House value is not valid");
             }
+        } else {
+            contact.setHouse(null);
         }
     }
 }

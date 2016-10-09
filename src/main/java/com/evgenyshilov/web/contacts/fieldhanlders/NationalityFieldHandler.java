@@ -18,6 +18,8 @@ public class NationalityFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Nationality value is not valid");
             }
+        } else {
+            contact.setNationality(null);
         }
     }
 }

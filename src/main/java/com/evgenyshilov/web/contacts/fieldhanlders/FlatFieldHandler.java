@@ -19,6 +19,8 @@ public class FlatFieldHandler implements FieldHandler {
             } else {
                 throw new BadInputException("Flat value is not valid");
             }
+        } else {
+            contact.setFlat(null);
         }
     }
 }
