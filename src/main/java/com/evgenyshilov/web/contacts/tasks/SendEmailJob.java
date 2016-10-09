@@ -37,11 +37,13 @@ public class SendEmailJob implements Job {
         ArrayList<Contact> todayBirthdayContacts = new ArrayList<>();
         try {
             for (Contact contact : helper.getContactsFromDAO()) {
-                DateTime birthDay = new DateTime(contact.getBirthday().getTime());
-                DateTime today = DateTime.now();
-                if (birthDay.getMonthOfYear() == today.getMonthOfYear() &&
-                        birthDay.getDayOfMonth() == today.getDayOfMonth()) {
-                    todayBirthdayContacts.add(contact);
+                if (contact.getBirthday() != null) {
+                    DateTime birthDay = new DateTime(contact.getBirthday().getTime());
+                    DateTime today = DateTime.now();
+                    if (birthDay.getMonthOfYear() == today.getMonthOfYear() &&
+                            birthDay.getDayOfMonth() == today.getDayOfMonth()) {
+                        todayBirthdayContacts.add(contact);
+                    }
                 }
             }
         } catch (CustomException e) {
