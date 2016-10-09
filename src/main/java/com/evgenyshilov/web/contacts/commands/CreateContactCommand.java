@@ -9,6 +9,7 @@ import com.evgenyshilov.web.contacts.help.files.FileItemWriter;
 import com.evgenyshilov.web.contacts.help.files.FileNamingUtils;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +59,11 @@ public class CreateContactCommand implements Command {
                 "images" + File.separator + "image";
         long contactId = 0;
         try {
-            contact.setImageFileName(savePhotoFile(photoFileItem, photoPath));
+            if (!isDefaultImage(contact.getImageFileName())) {
+                contact.setImageFileName(savePhotoFile(photoFileItem, photoPath));
+            } else {
+                contact.setImageFileName(null);
+            }
             contactId = dbHelper.insertContact(contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
             for (Attachment attachment : contact.getAttachments()) {
@@ -72,6 +77,11 @@ public class CreateContactCommand implements Command {
             throw new CustomException("Can't create new contact: ", e);
         }
     }
+
+    private boolean isDefaultImage(String image) {
+        return StringUtils.equals(image, "DEFAULT");
+    }
+
     private String savePhotoFile(FileItem photoFileItem, String path) throws CustomException {
         if (photoFileItem != null) {
             String uniquePhotoPath = FileNamingUtils.getUniqueFilePath(path);

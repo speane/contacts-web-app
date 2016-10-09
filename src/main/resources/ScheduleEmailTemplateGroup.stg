@@ -1,7 +1,11 @@
-Birthday(first_name, last_name, patronymic) ::= <<
+startLine() ::= <<
+Сегодня день рождения празднуют:
+>>
+
+tempContact(first_name, last_name, patronymic) ::= <<
 <first_name> <last_name>
 >>
 
-NoBirthday() ::= <<
+noBirthday() ::= <<
 Сегодня никто не празднует день рождения
 >>

@@ -8,6 +8,7 @@ import com.evgenyshilov.web.contacts.help.database.DBHelper;
 import com.evgenyshilov.web.contacts.help.files.FileNamingUtils;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,16 @@ public class UpdateContactCommand implements Command {
 
             LogHelper.info(String.format("Request to update contact with id: %s and params: %s", contactId, contact));
 
+            System.out.println(contact.getImageFileName());
+
             writeAttachmentsFromRequest(request, contact);
-            String imageFileName = writeContactPhotoFileFromRequest(request);
-            if (imageFileName != null) {
-                contact.setImageFileName(imageFileName);
+            if (!isDefaultImage(contact.getImageFileName())) {
+                String imageFileName = writeContactPhotoFileFromRequest(request);
+                if (imageFileName != null) {
+                    contact.setImageFileName(imageFileName);
+                }
+            } else {
+                contact.setImageFileName(null);
             }
             dbHelper.updateContact(contactId, contact);
             dbHelper.insertContactPhones(contact.getPhones(), contactId);
@@ -44,6 +51,10 @@ public class UpdateContactCommand implements Command {
             throw new CustomException("Can't update contact: ", e);
         }
         return null;
+    }
+
+    private boolean isDefaultImage(String image) {
+        return StringUtils.equals(image, "DEFAULT");
     }
 
     private void setActionMessage(HttpServletRequest request, Contact contact) {

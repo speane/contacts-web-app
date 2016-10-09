@@ -43,6 +43,7 @@
                 <div class="centered" id="contact-photo-select-area">
                     <img id="contact-photo-image" src="${contactImagePath}">
                     <input class="hidden" type="file" id="uploaded-contact-photo">
+                    <input type="hidden" id="image-filename" name="image-filename">
                     <input class="hidden" type="text" id="default-photo-src" value="${pageContext.request.contextPath}/images/default.png">
                 </div>
                 <div id="select-photo-modal" class="modal">

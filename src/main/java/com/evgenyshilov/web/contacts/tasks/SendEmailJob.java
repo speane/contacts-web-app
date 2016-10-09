@@ -52,32 +52,52 @@ public class SendEmailJob implements Job {
         return todayBirthdayContacts;
     }
 
-    private void sendEmail(ArrayList<Contact> contactsWithBirthday) throws PropertyNotFoundException, CustomException {
-        EmailSender sender = new EmailSender();
-        EmailTemplateElementsFactory elementsFactory = new EmailTemplateElementsFactory();
-        ST template = getTemplate(contactsWithBirthday);
-        String email = ApplicationConfig.getProperty("SCHEDULE_EMAIL_ADDRESS");
-        String mailText;
-        if (!contactsWithBirthday.isEmpty()) {
-            mailText = "Сегодня день рождения у: \n";
-            for (Contact contact : contactsWithBirthday) {
-                mailText += elementsFactory.buildTemplateWithContactFields(template, contact) + "\n";
-            }
-        } else {
-            mailText = template.render();
-        }
+    private void sendEmail(ArrayList<Contact> contactsWithBirthday) throws CustomException {
         try {
-            String SUBJECT = "Birthdays";
+            String EMAIL_ADDRESS = ApplicationConfig.getProperty("SCHEDULE_EMAIL_ADDRESS");
+            String SUBJECT = ApplicationConfig.getProperty("SCHEDULE_EMAIL_SUBJECT");
+            String mailText = getMailText(contactsWithBirthday);
 
-            LogHelper.info(String.format("Send email on schedule Subject: %s Text: %s", SUBJECT, mailText));
+            sendBirthdayEmail(mailText, EMAIL_ADDRESS, SUBJECT);
+        } catch (CustomException e) {
+            throw new CustomException("Cannot send email: ", e);
+        }
+    }
 
-            sender.sendEmail(email, mailText, SUBJECT);
+    private void sendBirthdayEmail(String mailText,
+                                   String address, String subject) throws CustomException {
+        EmailSender sender = new EmailSender();
+        try {
+            LogHelper.info(String.format("Send email on schedule Subject: %s Text: %s", subject, mailText));
+
+            sender.sendEmail(address, mailText, subject);
         } catch (CustomException e) {
             throw new CustomException("Can't send email: ", e);
         }
     }
 
-    private ST getTemplate(ArrayList<Contact> contactsWithBirthday) throws PropertyNotFoundException {
+    private String getMailText(ArrayList<Contact> contactsWithBirthday) throws CustomException {
+        EmailTemplateElementsFactory elementsFactory = new EmailTemplateElementsFactory();
+
+        String mailText;
+        ST template;
+        try {
+            if (!contactsWithBirthday.isEmpty()) {
+                mailText = getBirthdayTemplate("startLine").render() + "\n";
+                for (Contact contact : contactsWithBirthday) {
+                    template = getBirthdayTemplate("tempContact");
+                    mailText += elementsFactory.buildTemplateWithContactFields(template, contact) + "\n";
+                }
+            } else {
+                mailText = getBirthdayTemplate("noBirthday").render();
+            }
+            return mailText;
+        } catch (PropertyNotFoundException e) {
+            throw new CustomException("Cannot generate mail text: ", e);
+        }
+    }
+
+    private ST getBirthdayTemplate(String name) throws PropertyNotFoundException {
         String ST_GROUP_FILENAME = ApplicationConfig.getProperty("SCHEDULE_TEMPLATE_GROUP_FILENAME");
         STGroup stGroup;
         if (!StringUtils.isEmpty(ST_GROUP_FILENAME)) {
@@ -85,7 +105,6 @@ public class SendEmailJob implements Job {
         } else {
             throw new PropertyNotFoundException("Can't find schedule template file path property");
         }
-        return contactsWithBirthday.isEmpty() ? stGroup.getInstanceOf("NoBirthday")
-                : stGroup.getInstanceOf("Birthday");
+        return stGroup.getInstanceOf(name);
     }
 }

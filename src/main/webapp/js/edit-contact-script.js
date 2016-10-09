@@ -623,14 +623,23 @@
     var uploadedContactPhotoFileInput = document.getElementById('uploaded-contact-photo');
     var photoSelectForm = document.getElementById('photo-select-form');
     var applyButtons = document.getElementById('apply-buttons');
+    var imageFilename = document.getElementById('image-filename');
 
     removePhotoButton.onclick = function() {
-        uploadedContactPhotoFileInput.value = '';
+        uploadedContactPhotoFileInput = clearFileInput(uploadedContactPhotoFileInput);
+        imageFilename.value = 'DEFAULT';
         contactPhotoImage.src = defaultPhotoSrc;
+        hideModalForm(selectPhotoModal);
     };
 
+    function clearFileInput(fileinput) {
+        var parentNode = fileinput.parentNode;
+        var clone = fileinput.cloneNode(true);
+        parentNode.replaceChild(clone, fileinput);
+        return clone;
+    }
+
     contactPhotoSelectArea.onclick = function () {
-        photoFileInput.value = '';
         showModalForm(selectPhotoModal);
     };
 
@@ -656,6 +665,7 @@
                 uploadedContactPhotoFileInput = photoFileInput;
                 photoFileInput = createPhotoFileInput();
                 photoSelectForm.insertBefore(photoFileInput, applyButtons);
+                imageFilename.value = '';
                 hideModalForm(selectPhotoModal);
             }
         }

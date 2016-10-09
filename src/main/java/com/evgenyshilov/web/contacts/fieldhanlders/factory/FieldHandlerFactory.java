@@ -30,6 +30,7 @@ public class FieldHandlerFactory {
         fieldHandlerMap.put("house", new HouseFieldHandler());
         fieldHandlerMap.put("flat", new FlatFieldHandler());
         fieldHandlerMap.put("zipcode", new ZipCodeFieldHandler());
+        fieldHandlerMap.put("image-filename", new ImageFilenameFieldHandler());
         fieldHandlerMap.put("created-phones", new CreatedPhonesFieldHandler());
         fieldHandlerMap.put("created-attachments", new CreatedAttachmentsFieldHandler());
         fieldHandlerMap.put("removed-phones", new DeletePhonesFieldHandler());
