@@ -438,8 +438,10 @@
         if ((error = checkCommentary(attachmentCommentaryField)) != '') {
             errorMessages.push(error);
         }
-        if ((error = checkAttachmentFile()) != '') {
-            errorMessages.push(error);
+        if (!editAttachment) {
+            if ((error = checkAttachmentFile()) != '') {
+                errorMessages.push(error);
+            }
         }
         return errorMessages;
     }
@@ -580,9 +582,11 @@
     }
 
     function updateAttachment() {
+        attachmentPrefix = editCreatedAttachment ? 'created-attachment-' : 'attachment-';
         var attachment = {
             id: editAttachmentId,
-            filename: attachmentFileNameField.value.trim(),
+            filename: setFilenameExtension(attachmentFileNameField.value.trim(),
+                document.getElementById(attachmentPrefix + 'filename-' + editAttachmentId).innerHTML.trim()),
             commentary: attachmentCommentaryField.value.trim(),
             uploadDate: getDateString()
         };
@@ -597,6 +601,18 @@
         }
         attachment.uploadDate = document.getElementById(attachmentPrefix + 'upload-date-' + attachment.id).innerHTML.trim();
         updateAttachmentRow(attachmentPrefix, attachment);
+    }
+
+    function setFilenameExtension(newFilename, oldFilename) {
+        if (isEmpty(getFilenameExtension(newFilename))) {
+            return newFilename + '.' + getFilenameExtension(oldFilename);
+        }
+        return newFilename;
+    }
+
+    function getFilenameExtension(filename) {
+        var filenameParts = filename.split('.');
+        return (filenameParts.length > 1) ? filenameParts.pop() : '';
     }
 
     function updateAttachmentRow(attachmentPrefix, attachment) {

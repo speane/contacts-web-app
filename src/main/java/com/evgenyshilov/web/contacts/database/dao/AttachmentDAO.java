@@ -52,6 +52,7 @@ public class AttachmentDAO extends BaseDAO<Long, Attachment> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
+            StatementUtils.setStatementStringValue(statement, 1, attachment.getFilename());
             StatementUtils.setStatementStringValue(statement, 2, attachment.getCommentary());
             StatementUtils.setStatementLongValue(statement, 3, key);
             statement.executeUpdate();
