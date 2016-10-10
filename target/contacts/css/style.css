@@ -8,6 +8,8 @@ body {
 
 input, textarea, select, button {
 
+    padding: 2px;
+
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -23,7 +25,7 @@ input, textarea, select, button {
     text-decoration: none;
     display: inline-block;
     box-sizing: border-box;
-    background-color: #16a085;
+    background-color: #264348;
     font-size: 14px;
     margin: 4px 2px;
     cursor: pointer;
@@ -69,7 +71,7 @@ nav {
 }
 
 .pagination a:link, .pagination a:visited {
-    background-color: #59ABE3;
+    background-color: #1c3327;
     padding: 5px;
 }
 
@@ -78,12 +80,12 @@ nav {
 }
 
 .pagination a:hover {
-    background-color: #86E2D5;
+    background-color: #425f4d;
 }
 
 .pagination a.active {
-    background-color: #FDE3A7;
-    color: #F89406;
+    background-color: #75813d;
+    color: #e6e5e7;
 }
 
 .pagination a.active:hover {
@@ -111,7 +113,7 @@ header {
 
 a.edit-contact {
     text-decoration: none;
-    color: #E26A6A;
+    color: #8895e2;
 }
 
 div#contact-photo-select-area {
@@ -181,8 +183,8 @@ div#contact-photo-select-area img {
 
 .action-button {
     float: right;
-    margin: 10px;
-    width: 130px;
+    margin: 3px;
+    width: 115px;
     border: none;
     color: white;
     border-radius: 5px;
@@ -195,7 +197,7 @@ div#contact-photo-select-area img {
 }
 
 input.remove {
-    background-color: #c0773a;
+    background-color: #c08981;
 }
 
 input.remove:hover {
@@ -203,7 +205,7 @@ input.remove:hover {
 }
 
 input.add {
-    background-color: #4ccca4;
+    background-color: #79cc95;
 }
 
 input.add:hover {
@@ -211,7 +213,7 @@ input.add:hover {
 }
 
 input.edit {
-    background-color: #42595e;
+    background-color: #647e7b;
 }
 
 input.edit:hover {
@@ -245,7 +247,7 @@ img {
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;
-    background-color: #16a085;
+    background-color: #7b7b81;
     font-size: 14px;
     cursor: pointer;
 }
@@ -276,7 +278,7 @@ label span {
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;
-    background-color: #90c9e6;
+    background-color: #1c3327;
     font-size: 14px;
     cursor: pointer;
 }
@@ -325,8 +327,8 @@ label span {
 
 .back-button {
     position: fixed;
-    left: 20px;
-    top: 20px;
+    left: 50px;
+    top: 50px;
     width: 230px;
     display: block;
     border: none;
@@ -336,7 +338,7 @@ label span {
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;
-    background-color: #e6cb6b;
+    background-color: #79cc95;
     font-size: 14px;
     cursor: pointer;
 }
