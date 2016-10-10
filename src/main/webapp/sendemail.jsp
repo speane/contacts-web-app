@@ -6,6 +6,7 @@
     <title>Отправка email</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
     <a   class="back-button" href="${pageContext.request.contextPath}/app/contact-list">К списку контактов</a>

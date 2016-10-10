@@ -1,9 +1,17 @@
 * {
-    /*border: solid 1px black;*/
+    font-family: 'Ubuntu', sans-serif;
 }
 
 body {
     background-color: #34495e;
+}
+
+input, textarea, select, button {
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
 }
 
 .nav-button {
@@ -20,7 +28,6 @@ body {
     margin: 4px 2px;
     cursor: pointer;
     width: 150px;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .nav-button:hover {
@@ -28,7 +35,7 @@ body {
 }
 
 nav {
-    width: 90%;
+    width: 80%;
     margin: auto;
 }
 
@@ -86,12 +93,12 @@ nav {
 
 
 form.main {
-    margin-top: 50px;
+    margin-top: 20px;
     border-radius: 15px;
     width: 1200px;
     background-color: white;
     padding: 40px;
-    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 16px;
 
     -webkit-box-shadow: 6px 10px 53px 1px rgba(0,0,0,0.75);
     -moz-box-shadow: 6px 10px 53px 1px rgba(0,0,0,0.75);
@@ -164,7 +171,6 @@ div#contact-photo-select-area img {
 .input-field {
     float: right;
     width: 300px;
-    font-family: "Lucida Console", Monaco, monospace;
     font-style: oblique;
 }
 
@@ -186,7 +192,6 @@ div#contact-photo-select-area img {
     box-sizing: border-box;
     font-size: 14px;
     cursor: pointer;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 input.remove {
@@ -243,7 +248,6 @@ img {
     background-color: #16a085;
     font-size: 14px;
     cursor: pointer;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .apply-button:hover {
@@ -275,7 +279,6 @@ label span {
     background-color: #90c9e6;
     font-size: 14px;
     cursor: pointer;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .save-button:hover {
@@ -336,7 +339,6 @@ label span {
     background-color: #e6cb6b;
     font-size: 14px;
     cursor: pointer;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 .back-button:hover {
