@@ -272,6 +272,7 @@
         inputMessages.appendChild(errorMessage);
         messageWindow.style.zIndex = 5;
         showModalForm(messageWindow);
+        okMessageWindowButton.focus();
     }
 
     editPhoneButton.onclick = function () {
@@ -502,16 +503,6 @@
         attachmentRow.className = 'row created';
         attachmentRow.id = 'created-attachment-' + attachment.id;
 
-        var downloadAttachmentCell = document.createElement('div');
-        downloadAttachmentCell.className = 'cell-1';
-
-        var downloadLink = document.createElement('a');
-        setAttachmentUrl(downloadLink, attachmentFileInput);
-        downloadLink.download = attachment.filename;
-        downloadLink.className = "download";
-        downloadLink.innerHTML = 'Скачать';
-
-        downloadAttachmentCell.appendChild(downloadLink);
 
         var attachmentCheckBoxCell = document.createElement('div');
         attachmentCheckBoxCell.className = 'cell-1';
@@ -548,7 +539,6 @@
         attachmentRow.appendChild(attachmentFileNameCell);
         attachmentRow.appendChild(attachmentUploadDateCell);
         attachmentRow.appendChild(attachmentCommentaryCell);
-        attachmentRow.appendChild(downloadAttachmentCell);
         attachmentRow.appendChild(attachmentFileInput);
 
         attachmentList.appendChild(attachmentRow);
@@ -693,6 +683,7 @@
             inputMessages.appendChild(errorMessage);
             messageWindow.style.zIndex = 5;
             showModalForm(messageWindow);
+            okMessageWindowButton.focus();
         }
     };
 
