@@ -67,6 +67,7 @@ function hideModalForm(modal) {
 function showInfoMessage(message) {
     messageTextField.innerHTML = message;
     showModalForm(messageModalWindow);
+    messageOkButton.focus();
 }
 
 messageOkButton.onclick = function() {
