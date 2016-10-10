@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `evgeny_shilov_contacts`.`contact` (
   INDEX `city_idx` (`city_id` ASC),
   CONSTRAINT `city`
   FOREIGN KEY (`city_id`)
-  REFERENCES `cevgeny_shilov_contacts`.`city` (`id`)
+  REFERENCES `evgeny_shilov_contacts`.`city` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `marital_status`

@@ -77,7 +77,6 @@ public class FrontController extends HttpServlet {
 
     private Command getCommand(HttpServletRequest request) throws CustomException {
         String commandURI;
-        System.out.println(request.getServletPath());
         if (isRootPath(request.getServletPath())) {
             commandURI = ApplicationConfig.getProperty("ROOT_COMMAND_URI");
         } else {
