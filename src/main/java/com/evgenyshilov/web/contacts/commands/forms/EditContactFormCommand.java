@@ -23,7 +23,12 @@ public class EditContactFormCommand implements Command {
         int contactId;
         DBHelper dbHelper = new DBHelper();
         try {
-            contactId = getContactId(request);
+            try {
+                contactId = getContactId(request);
+            } catch (ContactIdNotSpecifiedException | CustomException e) {
+                LogHelper.error("Cannot get contact id: ", e);
+                contactId = 0;
+            }
 
             LogHelper.info(String.format("Edit contact with id = %d request", contactId));
 
@@ -32,8 +37,8 @@ public class EditContactFormCommand implements Command {
             request.setAttribute("maritalStatuses", dbHelper.getMaritalStatuses());
             request.setAttribute("months", new MonthListBuilder().getMonthList());
             request.setAttribute("phoneTypes", dbHelper.getPhoneTypes());
-        } catch (CustomException | ContactIdNotSpecifiedException e) {
-            throw new CustomException("Can't create contact form: ", e);
+        } catch (CustomException e) {
+            throw new CustomException("Cannot execute edit contact command: ", e);
         }
         return VIEW_URL;
     }
