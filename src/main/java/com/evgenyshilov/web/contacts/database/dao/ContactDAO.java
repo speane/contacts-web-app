@@ -437,7 +437,7 @@ public class ContactDAO extends BaseDAO<Long, Contact> {
         query += createSearchStringPart("patronymic", params.getPatronymic());
         query += createSearchDatePart("birthday", params.getBirthday(), params.getDateSearchParam());
         query += createSearchSexPart(params.getSex());
-        query += createSearchIdPart("marital_status.name", params.getMaritalStatus());
+        query += createSearchIdPart("marital_status.id", params.getMaritalStatus());
         query += createSearchStringPart("nationality.name", params.getNationality());
         query += createSearchStringPart("state.name", params.getState());
         query += createSearchStringPart("city.name", params.getCity());

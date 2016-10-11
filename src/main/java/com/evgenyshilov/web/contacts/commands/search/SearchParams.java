@@ -137,7 +137,7 @@ public class SearchParams {
     public String toString() {
         return String.format("first_name: %s last_name: %s patronymic: %s birthday: %s date_search_param: %s " +
                 "sex: %s marital_status: %s nationality: %s state: %s city: %s street: %s house: %s flat: %s " +
-                "zipcode: %s", firstName, lastName, patronymic, birthday == null ? birthday : "", dateSearchParam.toString(),
-                maritalStatus, nationality, sex, state, city, street, house, flat, zipcode);
+                "zipcode: %s", firstName, lastName, patronymic, birthday != null ? birthday : "", dateSearchParam.toString(),
+                sex, maritalStatus, nationality, state, city, street, house, flat, zipcode);
     }
 }
