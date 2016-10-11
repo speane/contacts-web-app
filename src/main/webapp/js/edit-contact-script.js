@@ -964,7 +964,7 @@
                 return 'Website содержит недопустимые символы';
             }
             var DOT_INDEX = website.indexOf('.');
-            if ((DOT_INDEX == -1) || (DOT_INDEX < 2) || (DOT_INDEX >= website.length)) {
+            if ((DOT_INDEX == -1) || (DOT_INDEX < 2) || (DOT_INDEX >= (website.length - 1))) {
                 return 'Website имеет некорректный формат';
             }
         }
@@ -983,7 +983,7 @@
                 return 'Email содержит недопустимые символы';
             }
             var AT_INDEX = email.indexOf('@');
-            if ((AT_INDEX == -1) || (AT_INDEX < 2) || (AT_INDEX >= email.length)) {
+            if ((AT_INDEX == -1) || (AT_INDEX < 2) || (AT_INDEX >= (email.length - 1))) {
                 return 'Email имеет некорректный формат';
             }
         }

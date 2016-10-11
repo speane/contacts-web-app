@@ -2,7 +2,9 @@ package com.evgenyshilov.web.contacts.help.pagination;
 
 import com.evgenyshilov.web.contacts.database.model.Contact;
 import com.evgenyshilov.web.contacts.exceptions.CustomException;
+import com.evgenyshilov.web.contacts.help.LogHelper;
 import com.evgenyshilov.web.contacts.resources.ApplicationConfig;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -12,15 +14,14 @@ import java.util.ArrayList;
  */
 public class PaginationBuilder {
     public void setRequestPagination(HttpServletRequest request, ArrayList<Contact> contacts) throws CustomException {
-        String PAGE_NUMBER_PARAMETER_NAME = "page";
         String ALL_CONTACTS_ATTRIBUTE_NAME = "contacts";
         String PAGINATION_ATTRIBUTE_NAME = "pagination";
         int CONTACTS_PER_PAGE;
         try {
             CONTACTS_PER_PAGE = getContactsPerPage();
             int totalContacts = contacts.size();
-            String pageString = request.getParameter(PAGE_NUMBER_PARAMETER_NAME);
-            int activePage = (pageString != null) ? Integer.parseInt(pageString) : 1;
+
+            int activePage = getPageNumber(request);
 
             PaginationDTO paginationDTO = new PaginationFactory().createPagination(totalContacts,
                     CONTACTS_PER_PAGE, activePage);
@@ -35,6 +36,17 @@ public class PaginationBuilder {
             request.setAttribute(ALL_CONTACTS_ATTRIBUTE_NAME, contacts.subList(startIndex, endIndex));
         } catch (CustomException e) {
             throw new CustomException("Can't create pagination: ", e);
+        }
+    }
+
+    private int getPageNumber(HttpServletRequest request) {
+        String PAGE_NUMBER_PARAMETER_NAME = "page";
+        String pageString = request.getParameter(PAGE_NUMBER_PARAMETER_NAME);
+        try {
+            return !StringUtils.isEmpty(pageString) ? Integer.parseInt(pageString) : 1;
+        } catch (NumberFormatException e) {
+            LogHelper.error("Incorrect page number: ", e);
+            return 1;
         }
     }
 
